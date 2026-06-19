@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>北海道 8 天 7 夜行程 ｜ 2026/11/21–11/28</title>
+<style>
+  :root{
+    --sapporo:#c0392b; --hakodate:#2980b9; --noboribetsu:#8e44ad; --otaru:#16a085;
+    --ink:#1f2d3d; --sub:#5a6b7b; --line:#dbe4ec; --bg:#eef4fa; --card:#fff;
+    --accent:#2c6cb0; --transit:#0d6e8c; --transitbg:#e7f5fa;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang TC","Hiragino Sans",sans-serif;
+    color:var(--ink);background:var(--bg);line-height:1.65;-webkit-text-size-adjust:100%}
+  .wrap{max-width:880px;margin:0 auto;padding:0 16px 64px}
+
+  /* Header */
+  header{background:linear-gradient(160deg,#1c3d5c,#2c6cb0 70%,#3d8fd1);
+    color:#fff;padding:40px 16px 32px;text-align:center;position:relative;overflow:hidden}
+  header .snow{position:absolute;inset:0;opacity:.25;font-size:22px;pointer-events:none}
+  header h1{font-size:26px;letter-spacing:1px;position:relative}
+  header .sub{font-size:15px;opacity:.92;margin-top:8px;position:relative}
+  header .meta{font-size:13px;opacity:.8;margin-top:6px;position:relative}
+
+  /* Nav timeline */
+  nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);
+    backdrop-filter:blur(6px);border-bottom:1px solid var(--line);
+    overflow-x:auto;white-space:nowrap;padding:8px 10px;-webkit-overflow-scrolling:touch}
+  nav a{display:inline-block;text-decoration:none;color:var(--sub);
+    font-size:13px;padding:6px 11px;margin:2px;border-radius:18px;border:1px solid var(--line)}
+  nav a b{color:var(--ink)}
+  nav a:hover{background:var(--bg)}
+
+  /* Overview table */
+  .section-title{font-size:18px;margin:30px 0 14px;padding-left:10px;border-left:4px solid var(--accent)}
+  .ov{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden;
+    box-shadow:0 1px 4px rgba(0,0,0,.06);font-size:13.5px}
+  .ov th{background:#2c6cb0;color:#fff;padding:9px 8px;font-weight:600}
+  .ov td{padding:9px 8px;border-top:1px solid var(--line);vertical-align:top}
+  .ov tr:nth-child(even){background:#f7fafd}
+  .pill{display:inline-block;color:#fff;border-radius:6px;padding:1px 7px;font-size:12px;font-weight:600}
+
+  /* Day cards */
+  .day{background:var(--card);border-radius:14px;margin:16px 0;box-shadow:0 1px 6px rgba(0,0,0,.07);
+    overflow:hidden;border-top:5px solid var(--accent)}
+  .day-head{padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:12px;user-select:none}
+  .day-head .num{flex:0 0 auto;width:46px;height:46px;border-radius:12px;color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;line-height:1.1;text-align:center}
+  .day-head .ttl{flex:1}
+  .day-head .ttl .d{font-size:16px;font-weight:700}
+  .day-head .ttl .r{font-size:13px;color:var(--sub);margin-top:2px}
+  .day-head .chev{flex:0 0 auto;color:var(--sub);font-size:13px;transition:transform .25s}
+  .day.open .chev{transform:rotate(180deg)}
+  .day-body{display:none;padding:0 18px 18px}
+  .day.open .day-body{display:block}
+
+  .stay{display:inline-block;background:#fff4e0;color:#9a6700;border:1px solid #f0dcae;
+    border-radius:8px;padding:3px 10px;font-size:12.5px;margin:4px 0 12px}
+
+  .blk{margin:14px 0 4px;font-size:14px;font-weight:700;color:var(--accent);display:flex;align-items:center;gap:6px}
+  ul.steps{list-style:none;margin:6px 0 6px}
+  ul.steps li{position:relative;padding:4px 0 4px 22px;font-size:14px}
+  ul.steps li:before{content:"";position:absolute;left:6px;top:12px;width:7px;height:7px;
+    border-radius:50%;background:var(--accent)}
+  .time{color:var(--accent);font-weight:600;font-variant-numeric:tabular-nums}
+
+  /* Transit box */
+  .transit{background:var(--transitbg);border:1px solid #bfe3ee;border-radius:12px;padding:12px 14px;margin:12px 0}
+  .transit .th{font-weight:700;color:var(--transit);font-size:14px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+  .leg{background:#fff;border-radius:9px;padding:10px 12px;margin:8px 0;border:1px solid #d6ebf2}
+  .leg .route{font-weight:700;font-size:14px}
+  .leg .means{font-size:13px;color:var(--transit);margin-top:3px}
+  .leg .info{font-size:12.5px;color:var(--sub);margin-top:3px}
+  .leg .info b{color:var(--ink)}
+  .warn{color:#b9770b;font-weight:600}
+
+  .links{margin-top:7px}
+  .links a{display:inline-block;text-decoration:none;font-size:12px;
+    padding:3px 9px;margin:3px 5px 0 0;border-radius:14px;border:1px solid var(--line);color:var(--accent);background:#fff}
+  .links a.map{border-color:#cfe3cf;color:#2e7d32;background:#f3faf3}
+  .links a:hover{filter:brightness(.97)}
+
+  .note{background:#fff8e6;border-left:3px solid #f0c14b;padding:8px 12px;font-size:13px;margin:10px 0;border-radius:0 8px 8px 0}
+
+  /* footer sections */
+  .logic{background:var(--card);border-radius:12px;padding:16px 18px;box-shadow:0 1px 4px rgba(0,0,0,.06);font-size:14px}
+  .logic li{margin:8px 0 8px 18px}
+  .todo{background:#fff;border:1px dashed #c9b06a;border-radius:12px;padding:16px 18px;font-size:13.5px}
+  .todo li{margin:7px 0 7px 18px;color:#7a6320}
+  footer{text-align:center;color:var(--sub);font-size:12px;margin-top:30px}
+</style>
+</head>
+<body>
+<header>
+  <div class="snow">❄&nbsp;&nbsp;&nbsp;&nbsp;❄&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;❅&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;❄&nbsp;&nbsp;&nbsp;&nbsp;❅&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;❄&nbsp;&nbsp;&nbsp;❅</div>
+  <h1>❄ 北海道 8 天 7 夜 ❄</h1>
+  <div class="sub">札幌・函館・大沼公園・洞爺湖・登別・小樽</div>
+  <div class="meta">2026 / 11 / 21（六）～ 11 / 28（六）｜以 JR・巴士・接駁為主</div>
+</header>
+
+<nav id="nav"></nav>
+
+<div class="wrap">
+
+  <h2 class="section-title">行程總表</h2>
+  <table class="ov">
+    <thead><tr><th>日期</th><th>天數</th><th>移動</th><th>住宿</th><th>主軸</th></tr></thead>
+    <tbody id="ovbody"></tbody>
+  </table>
+
+  <h2 class="section-title">每日詳細行程</h2>
+  <div id="days"></div>
+
+  <h2 class="section-title">行程邏輯總結</h2>
+  <div class="logic"><ul>
+    <li><b>第一天住札幌：</b>抵達後不長途移動，晚上看札幌聖誕市集或白色燈飾。</li>
+    <li><b>第二天直奔最遠的函館：</b>先把最遠點處理掉，後面一路往回玩。</li>
+    <li><b>Day 4 洞爺湖只看下午景：</b>不為晨景多住一晚，也不等 17:00 燈光隧道，傍晚直接進登別。</li>
+    <li><b>登別 adex inn 連住兩晚：</b>省預算、少搬行李，又能泡第一滝本館大浴場。</li>
+    <li><b>小樽放最後兩晚：</b>增加遇到雪與冬季點燈的機率，最後一天也能直接搭 JR 去新千歲機場。</li>
+  </ul></div>
+
+  <h2 class="section-title">⚠️ 後續待確認清單</h2>
+  <div class="todo"><ul>
+    <li>2026 札幌慕尼黑聖誕市集正式開幕日與營業時間。</li>
+    <li>登別 adex inn 兩晚價格，以及訂房方案是否可使用第一滝本館大浴場。</li>
+    <li>Day 4 大沼公園 → 洞爺 → 登別的 JR／巴士實際班次（建議出發前 1～2 週再查定）。</li>
+    <li>小樽青之運河 2026 正式日期與點燈時間。</li>
+    <li>11/28 小樽 → 新千歲機場 JR 實際班次，建議抓 12:20 前抵達機場。</li>
+  </ul></div>
+
+  <footer>本行程為草稿版本，車資與班次為查詢當下資料，實際以官方公告為準。<br>製作日 2026/06/19｜祝旅途愉快 ❄</footer>
+</div>
+
+<script>
+const cityColor={札幌:'var(--sapporo)',函館:'var(--hakodate)',登別:'var(--noboribetsu)',小樽:'var(--otaru)','—':'#7f8c8d'};
+const gmap=q=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);
+
+const overview=[
+ ['11/21 週六','Day 1','桃園 → 新千歲 → 札幌','札幌','抵達、札幌晚餐、聖誕市集','札幌'],
+ ['11/22 週日','Day 2','札幌 → 函館','函館','前往最遠點、函館山夜景','函館'],
+ ['11/23 週一','Day 3','函館市區','函館','朝市、五稜郭、金森倉庫、元町','函館'],
+ ['11/24 週二','Day 4','函館 → 大沼 → 洞爺湖 → 登別','登別 adex inn','大沼、洞爺下午景、晚上進登別','登別'],
+ ['11/25 週三','Day 5','登別','登別 adex inn','地獄谷、溫泉街、第一滝本館','登別'],
+ ['11/26 週四','Day 6','登別 → 小樽','小樽','小樽運河、堺町通、青之運河','小樽'],
+ ['11/27 週五','Day 7','小樽','小樽','整天慢遊、甜點、壽司、夜景','小樽'],
+ ['11/28 週六','Day 8','小樽 → 新千歲 → 桃園','—','上午前往機場，15:20 回程','—'],
+];
+
+const days=[
+{n:'Day 1',date:'11/21 週六',city:'札幌',title:'桃園 → 新千歲機場 → 札幌',stay:'札幌市區（建議札幌站／大通／薄野周邊）',
+ transit:[
+  {route:'桃園機場 → 新千歲機場',means:'✈ 直飛航班',info:'09:30 桃園起飛 → <b>14:30</b> 抵達新千歲'},
+  {route:'新千歲機場 → 札幌站',means:'🚆 JR 快速 Airport（快速エアポート）',info:'約 <b>37 分</b>｜車資 <b>¥1,230</b>（指定席 U-Seat +¥840）｜日間每小時約 6 班',
+   links:[['時刻表查詢','https://www.jorudan.co.jp/'],['JR北海道','https://www.jrhokkaido.co.jp/network/index.html']]},
+ ],
+ steps:['抵達新千歲機場，入境、領行李','搭 JR 到札幌站，飯店 Check-in','晚餐後前往 <span class="time">大通公園／札幌電視塔／聖誕市集</span>'],
+ note:'若聖誕市集尚未開幕，改看大通公園燈飾、電視塔夜景、狸小路或薄野散步。',
+ spots:['新千歳空港','札幌駅','大通公園 札幌','さっぽろテレビ塔','狸小路商店街','すすきの']
+},
+{n:'Day 2',date:'11/22 週日',city:'函館',title:'札幌 → 函館',stay:'函館站附近（Day 4 搭 JR 離開時行李移動較順）',
+ transit:[
+  {route:'札幌 → 函館（新函館北斗）',means:'🚆 JR 特急北斗（Hokuto）',info:'約 <b>3.5～4 小時</b>｜建議早上出發、中午前後抵達｜<span class="warn">車資較高，可考慮 JR PASS</span>',
+   links:[['時刻表查詢','https://www.jorudan.co.jp/'],['JR北海道','https://www.jrhokkaido.co.jp/network/index.html']]},
+ ],
+ steps:['札幌飯店退房，搭 JR 前往函館','抵達後寄放行李或 Check-in','<span class="time">金森紅磚倉庫、元町、八幡坂、教會群</span>','傍晚搭<b>函館山纜車</b>看夜景','晚餐：海鮮、壽司、鹽味拉麵'],
+ spots:['函館駅','金森赤レンガ倉庫','八幡坂','元町教会群 函館','函館山ロープウェイ']
+},
+{n:'Day 3',date:'11/23 週一',city:'函館',title:'函館整天',stay:'函館',
+ transit:[
+  {route:'函館市區移動',means:'🚋 函館市電（路面電車）＋步行',info:'市區以市電、步行為主，必要時計程車｜市電一日券 <b>¥600</b>',
+   links:[['函館市電','https://www.hakobus.co.jp/tram']]},
+ ],
+ steps:['函館朝市早餐','<span class="time">五稜郭公園、五稜郭塔</span>','午餐後搭函館市電移動','金森紅磚倉庫、Bay Area 補逛','元町、八幡坂、舊函館區公會堂','若 Day 2 天氣不佳，這晚補函館山夜景'],
+ spots:['函館朝市','五稜郭タワー','五稜郭公園','函館ベイエリア','旧函館区公会堂']
+},
+{n:'Day 4',date:'11/24 週二',city:'登別',title:'函館 → 大沼公園 → 洞爺湖 → 登別',stay:'登別 adex inn',
+ transit:[
+  {route:'函館 → 大沼公園',means:'🚆 JR（特急約30分 / 普通約50分）',info:'特急 <b>約30分・¥1,800</b>｜普通 <b>約50分・¥680</b>｜08:30 出發為佳'},
+  {route:'大沼公園 → 洞爺站',means:'🚆 JR 特急北斗',info:'約 <b>1.5 小時</b>上下，依班次而定'},
+  {route:'洞爺站 → 洞爺湖溫泉區',means:'🚌 道南巴士',info:'約 <b>16～18 分</b>｜車資 <b>¥400</b>｜運行約 07:00–18:50',
+   links:[['道南巴士 洞爺','https://www.donanbus.co.jp/map/toyako_toyakoonsen/']]},
+  {route:'洞爺湖 → 登別溫泉區',means:'🚌 / 🚆 巴士＋JR 轉乘',info:'<span class="warn">⚠️ 整段抓 1.5～2 小時較安全；2026 班次出發前再查定</span>',
+   links:[['班次查詢 Jorudan','https://www.jorudan.co.jp/']]},
+ ],
+ steps:['<span class="time">08:00–08:30</span> 函館飯店退房','<span class="time">09:00–11:00</span> 大沼公園散步（停 1.5–2h）','<span class="time">13:00–15:30</span> 洞爺湖下午景：湖畔、午餐、有珠山／昭和新山擇一','<span class="time">15:30–16:00</span> 離開洞爺湖，<b>不等燈光隧道</b>','<span class="time">16:00–18:00</span> 前往登別溫泉區','晚上 adex inn Check-in、晚餐、泡湯、逛溫泉街'],
+ note:'若天氣不好或班次不順，洞爺簡化為湖畔散步＋午餐／咖啡＋溫泉街短停。',
+ spots:['大沼公園','洞爺湖温泉','有珠山ロープウェイ','昭和新山','登別温泉','adex inn 登別']
+},
+{n:'Day 5',date:'11/25 週三',city:'登別',title:'登別整天',stay:'登別 adex inn（連住第二晚）',
+ transit:[
+  {route:'登別溫泉區內',means:'🚶 步行為主',info:'地獄谷、溫泉街、大湯沼皆可步行；<span class="warn">11月底可能結冰，大湯沼／天然足湯不要硬走</span>'},
+ ],
+ steps:['<b>上午：</b>地獄谷、登別溫泉街、鬼像拍照、閻魔堂散步','<b>下午：</b>大湯沼、天然足湯（視天氣與步道狀況）','備案：登別熊牧場、伊達時代村（不列必去）','<b>晚上：</b>溫泉街散步、地獄谷夜間鬼火之路','回 adex inn／第一滝本館泡湯'],
+ note:'訂房時務必確認方案是否可使用「第一滝本館」大浴場。',
+ spots:['登別地獄谷','大湯沼','登別温泉街','閻魔堂 登別','のぼりべつクマ牧場','第一滝本館']
+},
+{n:'Day 6',date:'11/26 週四',city:'小樽',title:'登別 → 小樽',stay:'小樽（建議小樽站或運河附近）',
+ transit:[
+  {route:'登別溫泉 → 登別站',means:'🚌 道南巴士',info:'約 <b>12～15 分</b>｜車資 <b>¥450</b>',
+   links:[['道南巴士 登別','https://www.donanbus.co.jp/map/noboribetsu_ashiyu2/']]},
+  {route:'登別站 → 札幌 → 小樽',means:'🚆 JR 特急＋轉乘',info:'<span class="warn">⚠️ 整體抓 2.5～3 小時較安全</span>｜札幌轉小樽為快速 Airport 或普通',
+   links:[['班次查詢 Jorudan','https://www.jorudan.co.jp/']]},
+ ],
+ steps:['adex inn 退房，搭巴士到登別站','JR 前往札幌，再轉小樽','小樽飯店寄放行李或 Check-in','<span class="time">堺町通、北一硝子、音樂盒堂</span>','LeTAO、六花亭、北菓樓','傍晚小樽運河，晚上看<b>青之運河</b>'],
+ spots:['登別駅','小樽駅','堺町通り','北一硝子','小樽オルゴール堂','小樽運河']
+},
+{n:'Day 7',date:'11/27 週五',city:'小樽',title:'小樽整天慢遊',stay:'小樽',
+ transit:[
+  {route:'小樽市區',means:'🚶 步行為主',info:'運河、堺町通、舊手宮線皆步行可達；範圍不大'},
+ ],
+ steps:['<b>上午：</b>小樽運河白天版、淺草橋街園、舊手宮線散步','綜合博物館（對鐵道有興趣可排）','<b>中午：</b>三角市場海鮮丼、小樽壽司通','<b>下午：</b>堺町通補逛、北一硝子、音樂盒堂、甜點本店巡禮','<b>傍晚～晚上：</b>青之運河、可考慮運河遊船，夜間散步回飯店'],
+ spots:['小樽運河','旧手宮線','三角市場 小樽','小樽寿司屋通り','小樽市総合博物館','ルタオ本店']
+},
+{n:'Day 8',date:'11/28 週六',city:'—',title:'小樽 → 新千歲機場 → 桃園',stay:'—（返程日）',
+ transit:[
+  {route:'小樽 → 新千歲機場',means:'🚆 JR 快速 Airport（部分班次直達）',info:'約 <b>75～90 分</b>｜車資 <b>¥1,910</b>（U-Seat +¥840）｜<span class="warn">建議 12:20 前抵達機場</span>',
+   links:[['時刻表查詢','https://www.jorudan.co.jp/'],['JR北海道','https://www.jrhokkaido.co.jp/network/index.html']]},
+  {route:'新千歲機場 → 桃園',means:'✈ 回程航班',info:'<b>15:20</b> 新千歲起飛回台灣'},
+ ],
+ steps:['<span class="time">10:30–11:00</span> 離開小樽','<span class="time">12:00–12:20</span> 抵達新千歲機場','機場午餐、買伴手禮、辦登機','<span class="time">15:20</span> 起飛回台灣'],
+ spots:['小樽駅','新千歳空港']
+},
+];
+
+// build nav
+document.getElementById('nav').innerHTML=days.map((d,i)=>
+ `<a href="#d${i}"><b>${d.n}</b> ${d.date.slice(0,5)}</a>`).join('');
+
+// build overview
+document.getElementById('ovbody').innerHTML=overview.map(r=>{
+ const c=cityColor[r[5]]||'#777';
+ return `<tr><td>${r[0]}</td><td><b>${r[1]}</b></td><td>${r[2]}</td>
+   <td><span class="pill" style="background:${c}">${r[3]}</span></td><td>${r[4]}</td></tr>`;
+}).join('');
+
+// build days
+document.getElementById('days').innerHTML=days.map((d,i)=>{
+ const c=cityColor[d.city]||'#2c6cb0';
+ const transit=d.transit.map(t=>`
+   <div class="leg">
+     <div class="route">${t.route}</div>
+     <div class="means">${t.means}</div>
+     <div class="info">${t.info}</div>
+     ${t.links?'<div class="links">'+t.links.map(l=>`<a href="${l[1]}" target="_blank" rel="noopener">${l[0]} ↗</a>`).join('')+'</div>':''}
+   </div>`).join('');
+ const steps=d.steps.map(s=>`<li>${s}</li>`).join('');
+ const spots=d.spots.map(s=>`<a class="map" href="${gmap(s)}" target="_blank" rel="noopener">📍 ${s}</a>`).join('');
+ const note=d.note?`<div class="note">💡 ${d.note}</div>`:'';
+ return `
+ <div class="day ${i===0?'open':''}" id="d${i}" style="border-top-color:${c}">
+   <div class="day-head" onclick="this.parentNode.classList.toggle('open')">
+     <div class="num" style="background:${c}">${d.n.replace(' ','')}</div>
+     <div class="ttl"><div class="d">${d.date}</div><div class="r">${d.title}</div></div>
+     <div class="chev">▼</div>
+   </div>
+   <div class="day-body">
+     <span class="stay">🏨 住宿：${d.stay}</span>
+     <div class="transit">
+       <div class="th">🚆 交通方式</div>
+       ${transit}
+     </div>
+     <div class="blk">📋 行程順序</div>
+     <ul class="steps">${steps}</ul>
+     ${note}
+     <div class="blk">🗺️ 景點地圖（點擊開啟 Google Maps）</div>
+     <div class="links">${spots}</div>
+   </div>
+ </div>`;
+}).join('');
+
+// smooth-scroll + auto-open on nav click
+document.getElementById('nav').addEventListener('click',e=>{
+ const a=e.target.closest('a'); if(!a)return;
+ const el=document.querySelector(a.getAttribute('href'));
+ if(el){el.classList.add('open');}
+});
+</script>
+</body>
+</html>

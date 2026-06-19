@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>北海道 8 天 7 夜 ｜ 旅遊小幫手</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script>
+tailwind.config={theme:{extend:{
+  colors:{
+    paper:'#f6f4ef', card:'#fffdf9', ink:'#3a3631', sub:'#8a8378',
+    line:'#e6e1d8', accent:'#5b7a6b', accent2:'#a8866a', alert:'#c2624f', snow:'#e9eef0'
+  },
+  boxShadow:{ soft:'0 2px 14px rgba(80,72,60,.07)' }
+}}}
+</script>
+<style>
+  html,body{background:#f6f4ef;-webkit-text-size-adjust:100%;overscroll-behavior-y:none}
+  /* 統一新細明體（手機無此字型時退回明體 serif）；排除 FontAwesome 圖示避免變空框 */
+  *:not([class*="fa-"]){font-family:"新細明體","PMingLiU","Songti TC","Songti SC",serif!important}
+  i[class*="fa-"]{font-family:"Font Awesome 6 Free","Font Awesome 6 Brands"!important}
+  body{color:#3a3631}
+  *{-webkit-tap-highlight-color:transparent}
+  .tabpane{display:none} .tabpane.active{display:block;animation:fade .3s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .tl::before{content:'';position:absolute;left:17px;top:8px;bottom:0;width:2px;background:#e6e1d8}
+  .navbtn.active{color:#5b7a6b}
+  .navbtn.active .ic{background:#5b7a6b;color:#fff}
+  ::-webkit-scrollbar{width:0;height:0}
+  .dash{border-top:1.5px dashed #ddd6c9}
+</style>
+</head>
+<body class="pb-24 max-w-md mx-auto relative">
+
+<!-- ===== Header ===== -->
+<header class="sticky top-0 z-30 bg-paper/95 backdrop-blur border-b border-line px-5 pt-4 pb-3">
+  <div class="flex items-center justify-between">
+    <div>
+      <div class="text-xl font-bold tracking-wide">北海道 <span class="text-accent">8</span> 天 <span class="text-accent">7</span> 夜</div>
+      <div class="text-xs text-sub mt-0.5">2026 / 11 / 21 – 11 / 28 ｜ 札幌・函館・登別・小樽</div>
+    </div>
+    <div class="text-snow text-4xl">❄</div>
+  </div>
+</header>
+
+<main class="px-4 pt-4">
+
+<!-- ============ OVERVIEW ============ -->
+<section id="overview" class="tabpane active">
+  <!-- Flights -->
+  <div class="space-y-3 mb-4">
+    <div class="bg-card rounded-2xl shadow-soft p-4 border border-line">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-sm font-bold"><i class="fa-solid fa-plane-departure text-accent text-lg mr-1"></i> 去程 · 11/21 六</span>
+        <span class="text-[11px] text-sub">EVA BR116</span>
+      </div>
+      <div class="flex items-center justify-between">
+        <div class="text-center"><div class="text-2xl font-bold">09:30</div><div class="text-[11px] text-sub">桃園 T2</div></div>
+        <div class="flex-1 px-2 text-center text-[11px] text-sub">— 3h35m ✈ —</div>
+        <div class="text-center"><div class="text-2xl font-bold">14:05</div><div class="text-[11px] text-sub">新千歲</div></div>
+      </div>
+    </div>
+    <div class="bg-card rounded-2xl shadow-soft p-4 border border-line">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-sm font-bold"><i class="fa-solid fa-plane-arrival text-accent text-lg mr-1"></i> 回程 · 11/28 六</span>
+        <span class="text-[11px] text-sub">EVA BR115</span>
+      </div>
+      <div class="flex items-center justify-between">
+        <div class="text-center"><div class="text-2xl font-bold">15:20</div><div class="text-[11px] text-sub">新千歲</div></div>
+        <div class="flex-1 px-2 text-center text-[11px] text-sub">— 4h45m ✈ —</div>
+        <div class="text-center"><div class="text-2xl font-bold">19:05</div><div class="text-[11px] text-sub">桃園 T2</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-card rounded-2xl shadow-soft p-3 border border-line mb-4">
+    <div class="text-xs text-sub mb-2"><i class="fa-solid fa-hotel text-accent text-base"></i> 住宿</div>
+    <div id="hotels" class="space-y-1.5 text-[13px]"></div>
+  </div>
+  <div class="bg-card rounded-2xl shadow-soft p-3 border border-line">
+    <div class="text-xs text-sub mb-1"><i class="fa-solid fa-route text-accent text-base"></i> 行程速覽（點擊看當天）</div>
+    <div id="ovglance"></div>
+  </div>
+</section>
+
+<!-- ============ PLAN ============ -->
+<section id="plan" class="tabpane">
+  <!-- Day selector -->
+  <div id="daytabs" class="flex gap-2 overflow-x-auto pb-2 mb-3"></div>
+  <div id="daycontent"></div>
+</section>
+
+<!-- ============ GUIDE ============ -->
+<section id="guide" class="tabpane">
+  <h2 class="text-2xl font-bold mb-1">深度導覽</h2>
+  <p class="text-xs text-sub mb-4">重點景點的歷史背景與冷知識</p>
+  <div id="guidelist" class="space-y-5"></div>
+  <div id="seasonspots" class="mt-8"></div>
+</section>
+
+<!-- ============ LISTS ============ -->
+<section id="lists" class="tabpane">
+  <h2 class="text-2xl font-bold mb-3">清單</h2>
+  <div class="bg-card rounded-2xl shadow-soft p-4 border border-line mb-4">
+    <div class="text-sm font-bold mb-3"><i class="fa-solid fa-suitcase-rolling text-accent text-lg"></i> 行前準備 Checklist</div>
+    <div id="checklist" class="space-y-1"></div>
+    <div class="flex gap-2 mt-3">
+      <input id="newCheck" placeholder="新增項目…" class="flex-1 bg-paper rounded-xl px-3 py-2 border border-line text-sm">
+      <button onclick="addCheck()" class="bg-accent text-white rounded-xl px-4 text-sm"><i class="fa-solid fa-plus"></i></button>
+    </div>
+  </div>
+  <div class="bg-card rounded-2xl shadow-soft p-4 border border-line">
+    <div class="text-sm font-bold mb-2"><i class="fa-solid fa-note-sticky text-accent2 text-lg"></i> 個人備忘錄</div>
+    <p class="text-[11px] text-sub mb-2">貼上網址會自動變成可點擊連結</p>
+    <textarea id="memo" rows="5" placeholder="自由輸入… 例如訂房連結、店家網址"
+      class="w-full bg-paper rounded-xl px-3 py-2 border border-line text-sm mb-2"></textarea>
+    <button onclick="saveMemo()" class="bg-accent text-white rounded-xl px-4 py-2 text-sm font-bold"><i class="fa-solid fa-floppy-disk"></i> 儲存</button>
+    <div id="memoView" class="mt-3 text-[13px] leading-relaxed space-y-2"></div>
+  </div>
+</section>
+
+<!-- ============ INFO ============ -->
+<section id="info" class="tabpane">
+  <h2 class="text-2xl font-bold mb-3">實用資訊</h2>
+  <div class="bg-card rounded-2xl shadow-soft p-4 border border-line mb-4">
+    <div class="text-sm font-bold mb-2"><i class="fa-solid fa-cloud-sun text-accent text-lg"></i> 天氣預報</div>
+    <div class="space-y-2 text-[13px]">
+      <a href="https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=016000" target="_blank" class="flex items-center justify-between bg-paper rounded-xl px-3 py-2 border border-line">日本氣象廳・北海道 <i class="fa-solid fa-arrow-up-right-from-square text-sub"></i></a>
+      <a href="https://weather.com/zh-TW/weather/today/l/Sapporo+Hokkaido+Japan" target="_blank" class="flex items-center justify-between bg-paper rounded-xl px-3 py-2 border border-line">札幌即時天氣（中文）<i class="fa-solid fa-arrow-up-right-from-square text-sub"></i></a>
+    </div>
+  </div>
+  <div class="bg-card rounded-2xl shadow-soft p-4 border border-line mb-4">
+    <div class="text-sm font-bold mb-2"><i class="fa-solid fa-phone-volume text-alert text-lg"></i> 緊急聯絡</div>
+    <div class="grid grid-cols-2 gap-2 text-[13px]">
+      <a href="tel:110" class="bg-paper rounded-xl px-3 py-3 border border-line"><div class="text-sub text-[11px]">警察</div><div class="font-bold text-lg">110</div></a>
+      <a href="tel:119" class="bg-paper rounded-xl px-3 py-3 border border-line"><div class="text-sub text-[11px]">火警/救護</div><div class="font-bold text-lg">119</div></a>
+      <a href="tel:+81112222930" class="col-span-2 bg-paper rounded-xl px-3 py-3 border border-line"><div class="text-sub text-[11px]">台北駐日經濟文化代表處・札幌分處</div><div class="font-bold">+81-11-222-2930</div></a>
+      <a href="tel:+81333807917" class="col-span-2 bg-paper rounded-xl px-3 py-3 border border-line"><div class="text-sub text-[11px]">旅外國人急難救助（24h）</div><div class="font-bold">+81-3-3280-7917 ／ 台灣撥 0800-085-095</div></a>
+    </div>
+  </div>
+  <div class="bg-card rounded-2xl shadow-soft p-4 border border-line">
+    <div class="text-sm font-bold mb-2"><i class="fa-solid fa-circle-info text-accent2 text-lg"></i> 旅遊注意事項</div>
+    <ul class="text-[12.5px] text-ink space-y-2 leading-relaxed">
+      <li><i class="fa-solid fa-ban text-alert mr-1"></i><b>入境違禁品：</b>新鮮水果、肉類及肉製品（含貢丸、肉鬆）嚴禁帶入日本，違者重罰。</li>
+      <li><i class="fa-solid fa-snowflake text-accent mr-1"></i><b>冬季防滑：</b>11 月底札幌已積雪結冰，務必穿防滑雪靴；大湯沼、步道結冰勿硬走。</li>
+      <li><i class="fa-solid fa-yen-sign text-accent mr-1"></i><b>現金：</b>溫泉旅館、小店多收現金，建議備足日幣零錢。</li>
+      <li><i class="fa-solid fa-plug text-accent mr-1"></i><b>電壓：</b>日本 100V，插座為兩孔扁平，台灣電器多可直接用。</li>
+      <li><i class="fa-solid fa-trash-can text-accent mr-1"></i><b>垃圾：</b>街上垃圾桶少，請隨身帶回飯店或便利商店丟。</li>
+      <li><i class="fa-solid fa-hot-tub-person text-accent mr-1"></i><b>溫泉禮儀：</b>入浴前先沖洗身體，毛巾勿放入池中，有刺青可能受限。</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<!-- ===== Bottom Nav ===== -->
+<nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-card/95 backdrop-blur border-t border-line flex justify-around py-2 z-40">
+  <button data-tab="overview" class="navbtn active flex flex-col items-center gap-1 text-[11px] text-sub w-1/5"><span class="ic w-11 h-11 rounded-full flex items-center justify-center transition text-xl"><i class="fa-solid fa-plane"></i></span>總覽</button>
+  <button data-tab="plan"   class="navbtn flex flex-col items-center gap-1 text-[11px] text-sub w-1/5"><span class="ic w-11 h-11 rounded-full flex items-center justify-center transition text-xl"><i class="fa-solid fa-route"></i></span>行程</button>
+  <button data-tab="guide"  class="navbtn flex flex-col items-center gap-1 text-[11px] text-sub w-1/5"><span class="ic w-11 h-11 rounded-full flex items-center justify-center transition text-xl"><i class="fa-solid fa-book-open"></i></span>導覽</button>
+  <button data-tab="lists"  class="navbtn flex flex-col items-center gap-1 text-[11px] text-sub w-1/5"><span class="ic w-11 h-11 rounded-full flex items-center justify-center transition text-xl"><i class="fa-solid fa-list-check"></i></span>清單</button>
+  <button data-tab="info"   class="navbtn flex flex-col items-center gap-1 text-[11px] text-sub w-1/5"><span class="ic w-11 h-11 rounded-full flex items-center justify-center transition text-xl"><i class="fa-solid fa-circle-info"></i></span>資訊</button>
+</nav>
+
+<script>
+const G = q => 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);
+// 預填起訖站的大眾運輸路線查詢（含當下班次）
+const DIR = (from,to) => 'https://www.google.com/maps/dir/?api=1&travelmode=transit&origin='+encodeURIComponent(from)+'&destination='+encodeURIComponent(to);
+
+const HOTELS = [
+  ['Day 1','札幌市區','札幌站／大通／薄野周邊'],
+  ['Day 2–3','函館','函館站附近'],
+  ['Day 4–5','登別 adex inn','登別溫泉區（連住兩晚）'],
+  ['Day 6–7','小樽','小樽站或運河附近'],
+];
+
+/* itinerary：每日 segments
+   spot 物件：{type:'spot'|'meal'|'go'|'flight', t, name, stay, note, map}
+   move 物件：{type:'move', t, route, opts:[{means,time,fare,note,link}]} */
+const DAYS = [
+{key:'D1',date:'11/21 六',city:'札幌',title:'抵達・札幌聖誕市集',
+ seg:[
+  {type:'flight',t:'09:30',name:'BR116 桃園 T2 起飛',note:'14:05 抵達新千歲機場，入境、領行李'},
+  {type:'move',t:'14:30',route:'新千歲機場 → 札幌站',from:'新千歳空港駅',to:'札幌駅',opts:[
+    {means:'JR 快速 Airport（推薦）',time:'約 37 分',fare:'¥1,230',note:'日間每小時約 6 班；U-Seat 指定席 +¥840',link:'https://www.jorudan.co.jp/'},
+    {means:'機場聯絡巴士',time:'約 70–80 分',fare:'¥1,100',note:'可直達主要飯店，行李多時方便'},
+  ]},
+  {type:'spot',t:'16:00',name:'飯店 Check-in',stay:'—',map:'札幌駅',note:'放行李、稍作休息'},
+  {type:'meal',t:'18:00',name:'札幌晚餐',map:'すすきの グルメ',note:'味噌拉麵／成吉思汗烤羊／螃蟹'},
+  {type:'spot',t:'19:30',name:'大通公園・札幌電視塔・聖誕市集',stay:'1.5 hr',map:'大通公園 札幌',note:'德國慕尼黑聖誕市集（2026 日期待官方公告）'},
+ ],alert:'若聖誕市集尚未開幕，改看大通公園燈飾、電視塔夜景、狸小路或薄野散步。'},
+
+{key:'D2',date:'11/22 日',city:'函館',title:'前往最遠點・函館山夜景',
+ seg:[
+  {type:'go',t:'08:30',name:'札幌飯店退房',note:'先攻最遠點，之後一路往回玩'},
+  {type:'move',t:'09:00',route:'札幌 → 函館（新函館北斗→函館）',from:'札幌駅',to:'函館駅',opts:[
+    {means:'JR 特急北斗（推薦）',time:'約 3.5–4 小時',fare:'約 ¥9,440（指定席）',note:'建議早上出發、中午前後抵達；可用 JR PASS 省錢',link:'https://www.jorudan.co.jp/'},
+    {means:'國內線飛機',time:'飛行約 40 分',fare:'視票價',note:'CTS→HKD，含進出市區未必較快'},
+  ]},
+  {type:'spot',t:'13:30',name:'函館 Check-in／寄放行李',stay:'—',map:'函館駅'},
+  {type:'spot',t:'14:30',name:'金森紅磚倉庫・Bay Area',stay:'1.5 hr',map:'金森赤レンガ倉庫'},
+  {type:'spot',t:'16:00',name:'元町・八幡坂・教會群',stay:'1 hr',map:'八幡坂'},
+  {type:'spot',t:'17:30',name:'函館山纜車・夜景',stay:'1.5 hr',map:'函館山ロープウェイ',note:'世界三大夜景，日落後30分藍調時刻最美'},
+  {type:'meal',t:'19:30',name:'晚餐：海鮮／壽司／鹽味拉麵',map:'函館 塩ラーメン'},
+ ]},
+
+{key:'D3',date:'11/23 一',city:'函館',title:'函館市區一日',
+ seg:[
+  {type:'meal',t:'08:00',name:'函館朝市早餐',stay:'1 hr',map:'函館朝市',note:'海鮮丼、活烏賊'},
+  {type:'spot',t:'09:30',name:'五稜郭公園・五稜郭塔',stay:'1.5 hr',map:'五稜郭タワー'},
+  {type:'move',t:'12:00',route:'市區移動方式',from:'函館駅前',to:'五稜郭公園前',opts:[
+    {means:'函館市電（路面電車）',time:'隨站',fare:'單程 ¥210–260 ／ 一日券 ¥600',note:'主要景點皆沿線，最方便',link:'https://www.hakobus.co.jp/tram'},
+    {means:'步行＋必要時計程車',time:'—',fare:'起跳約 ¥580',note:'元町坡道區步行即可'},
+  ]},
+  {type:'spot',t:'13:30',name:'金森倉庫・Bay Area 補逛',stay:'1 hr',map:'函館ベイエリア'},
+  {type:'spot',t:'15:00',name:'元町・舊函館區公會堂',stay:'1.5 hr',map:'旧函館区公会堂'},
+ ],alert:'若 Day 2 天氣不好，這晚補拍函館山夜景。'},
+
+{key:'D4',date:'11/24 二',city:'登別',title:'函館 → 洞爺湖 → 登別',
+ seg:[
+  {type:'go',t:'09:00',name:'函館飯店退房',note:'今天只移動到登別，行程較從容'},
+  {type:'move',t:'09:30',route:'函館 → 洞爺站',from:'函館駅',to:'洞爺駅',opts:[
+    {means:'JR 特急北斗',time:'約 1.5–2 小時',fare:'約 ¥5,390（自由席）',note:'經長萬部往洞爺方向',link:'https://www.jorudan.co.jp/'},
+  ]},
+  {type:'move',t:'11:30',route:'洞爺站 → 洞爺湖溫泉區',from:'洞爺駅',to:'洞爺湖温泉',opts:[
+    {means:'道南巴士',time:'約 20 分',fare:'¥340',note:'1日約16班；部分飯店有免費接駁',link:'https://www.donanbus.co.jp/map/toyako_toyakoonsen/'},
+  ]},
+  {type:'spot',t:'12:00',name:'洞爺湖下午景',stay:'~2.5 hr',map:'洞爺湖温泉',note:'湖畔散步、午餐／咖啡、有珠山纜車或昭和新山擇一'},
+  {type:'go',t:'14:45',name:'洞爺湖溫泉巴士總站集合',note:'準備搭 15:00 直達巴士，不等燈光隧道'},
+  {type:'move',t:'15:00',route:'洞爺湖溫泉 → 登別溫泉（直達）',from:'洞爺湖温泉',to:'登別温泉',opts:[
+    {means:'🚌 高速いぶり号（直達・推薦）',time:'約 1h25m（15:00→16:25）',fare:'¥1,700',note:'溫泉到溫泉不轉車；1日2往復、全年營運；建議事先電話訂位',link:'https://www.donanbus.co.jp/map/noboribetsu_toyako/'},
+    {means:'JR 轉乘（備案）',time:'約 2h50m',fare:'¥3,120',note:'洞爺→東室蘭→登別站＋巴士，錯過直達才用',link:'https://www.jorudan.co.jp/'},
+  ]},
+  {type:'spot',t:'16:30',name:'adex inn Check-in・泡湯・溫泉街',stay:'—',map:'登別温泉'},
+ ],alert:'高速いぶり号 1日僅2班（洞爺湖溫泉發 9:00／15:00），務必趕上 15:00 那班；建議事先向道南巴士訂位。'},
+
+{key:'D5',date:'11/25 三',city:'登別',title:'登別溫泉一日',
+ seg:[
+  {type:'spot',t:'09:00',name:'地獄谷・鬼火之路',stay:'1.5 hr',map:'登別地獄谷',note:'噴氣孔、爆裂火口地貌'},
+  {type:'spot',t:'10:30',name:'溫泉街・鬼像・閻魔堂',stay:'1 hr',map:'登別温泉街'},
+  {type:'spot',t:'13:00',name:'大湯沼・天然足湯',stay:'1.5 hr',map:'大湯沼 登別',note:'視天氣與步道狀況，結冰勿硬走'},
+  {type:'spot',t:'15:00',name:'備案：熊牧場／伊達時代村',stay:'彈性',map:'のぼりべつクマ牧場',note:'不列必去，看體力與天氣'},
+  {type:'spot',t:'18:30',name:'地獄谷夜間鬼火之路・泡第一滝本館',stay:'—',map:'第一滝本館'},
+ ],alert:'訂房時務必確認方案是否可使用「第一滝本館」大浴場。11 月底可能結冰。'},
+
+{key:'D6',date:'11/26 四',city:'小樽',title:'登別 → 小樽',
+ seg:[
+  {type:'go',t:'09:00',name:'adex inn 退房',note:'整體抓 2.5–3 小時較安全'},
+  {type:'move',t:'09:20',route:'登別溫泉 → 登別站',from:'登別温泉',to:'登別駅',opts:[
+    {means:'道南巴士',time:'約 12–15 分',fare:'¥450',note:'班距約 30–60 分一班',link:'https://www.donanbus.co.jp/map/noboribetsu_ashiyu2/'},
+  ]},
+  {type:'move',t:'09:50',route:'登別站 → 札幌 → 小樽',from:'登別駅',to:'小樽駅',opts:[
+    {means:'JR 特急（登別→札幌）＋ 快速 Airport（札幌→小樽）',time:'共約 2.5–3 小時',fare:'約 ¥5,000–6,000',note:'札幌站轉乘',link:'https://www.jorudan.co.jp/'},
+  ]},
+  {type:'spot',t:'13:30',name:'小樽寄放行李／Check-in',stay:'—',map:'小樽駅'},
+  {type:'spot',t:'14:30',name:'堺町通・北一硝子・音樂盒堂',stay:'2 hr',map:'堺町通り'},
+  {type:'meal',t:'16:30',name:'LeTAO・六花亭・北菓樓 甜點巡禮',stay:'1 hr',map:'ルタオ本店'},
+  {type:'spot',t:'18:00',name:'小樽運河・青之運河',stay:'1.5 hr',map:'小樽運河',note:'冬季點燈倒映藍光（2026 日期待公告）'},
+ ]},
+
+{key:'D7',date:'11/27 五',city:'小樽',title:'小樽整天慢遊',
+ seg:[
+  {type:'spot',t:'09:30',name:'運河白天版・舊手宮線・淺草橋',stay:'1.5 hr',map:'旧手宮線'},
+  {type:'spot',t:'11:00',name:'小樽市綜合博物館（鐵道迷可選）',stay:'1 hr',map:'小樽市総合博物館'},
+  {type:'meal',t:'12:30',name:'三角市場海鮮丼／小樽壽司通',stay:'1 hr',map:'三角市場 小樽'},
+  {type:'spot',t:'14:00',name:'堺町通補逛・音樂盒堂・咖啡廳',stay:'2 hr',map:'小樽オルゴール堂'},
+  {type:'spot',t:'17:00',name:'青之運河・可考慮運河遊船',stay:'1.5 hr',map:'小樽運河 クルーズ'},
+ ]},
+
+{key:'D8',date:'11/28 六',city:'返程',title:'小樽 → 新千歲 → 桃園',
+ seg:[
+  {type:'go',t:'10:30',name:'離開小樽',note:'建議 12:20 前抵達機場'},
+  {type:'move',t:'10:45',route:'小樽 → 新千歲機場',from:'小樽駅',to:'新千歳空港駅',opts:[
+    {means:'JR 快速 Airport（部分直達）',time:'約 75–90 分',fare:'¥1,910',note:'U-Seat 指定席 +¥840；部分班次需札幌轉乘',link:'https://www.jorudan.co.jp/'},
+  ]},
+  {type:'spot',t:'12:20',name:'抵達機場・午餐・買伴手禮・辦登機',stay:'—',map:'新千歳空港'},
+  {type:'flight',t:'15:20',name:'BR115 新千歲起飛',note:'19:05 抵達桃園 T2'},
+ ],alert:'回程辦登機、行李託運請預留時間，建議起飛前 2 小時到。'},
+];
+
+const GUIDE = [
+ {name:'函館山夜景',sub:'世界三大夜景之一',osm:'https://www.openstreetmap.org/export/embed.html?bbox=140.700%2C41.755%2C140.730%2C41.775&layer=mapnik&marker=41.7644%2C140.7045',
+  body:'函館因兩側被海灣夾住、形成獨特的「扇形」地貌，入夜後街燈勾勒出彎曲海岸線，被譽為與香港、那不勒斯齊名的世界三大夜景。最佳觀景時間是日落後 30 分鐘的「藍調時刻」，天空尚有餘藍、街燈已亮。冷知識：日文有「百萬美元夜景」之說，據傳源於計算當晚點燈的電費。',map:'函館山ロープウェイ'},
+ {name:'五稜郭',sub:'日本首座西式星形要塞',osm:'https://www.openstreetmap.org/export/embed.html?bbox=140.745%2C41.793%2C140.765%2C41.803&layer=mapnik&marker=41.7976%2C140.7547',
+  body:'建於 1864 年，是日本最早仿歐洲稜堡式設計的星形城郭，五個尖角能消除射擊死角。這裡是日本「最後的內戰」戊辰戰爭・箱館戰爭的舞台，舊幕府軍在此最終投降。如今護城河環繞、春櫻冬雪皆美，登五稜郭塔可俯瞰完整星形。',map:'五稜郭公園'},
+ {name:'登別地獄谷',sub:'北海道第一溫泉的源頭',osm:'https://www.openstreetmap.org/export/embed.html?bbox=141.140%2C42.495%2C141.160%2C42.510&layer=mapnik&marker=42.5018%2C141.1486',
+  body:'約一萬年前火山爆發形成的爆裂火口遺跡，直徑約 450 公尺，地表不斷噴出硫磺蒸氣與滾燙泉水，每分鐘湧出約 3,000 公升溫泉，供應整個登別溫泉街。「地獄」之名來自其荒涼地貌與硫磺味，江戶時代被視為「鬼的居所」，因此溫泉街處處可見鬼像。',map:'登別地獄谷'},
+ {name:'小樽運河',sub:'大正浪漫的石造倉庫群',osm:'https://www.openstreetmap.org/export/embed.html?bbox=140.990%2C43.196%2C141.010%2C43.205&layer=mapnik&marker=43.1989%2C140.9966',
+  body:'1923 年完工，曾是北海道海運與金融重鎮的卸貨水道，沿岸石造倉庫見證小樽「北方華爾街」的繁華。隨海運沒落一度面臨填平危機，靠居民保存運動留下半側水道，改造成步道與煤氣燈。冬季「青之運河」與雪燈之路點燈時，水面倒映藍光，浪漫至極。',map:'小樽運河'},
+ {name:'洞爺湖',sub:'不結冰的火山口湖',osm:'https://www.openstreetmap.org/export/embed.html?bbox=140.800%2C42.560%2C140.870%2C42.610&layer=mapnik&marker=42.5936%2C140.8510',
+  body:'約 11 萬年前火山活動形成的圓形破火山口湖，因地熱影響即使嚴冬也幾乎不結冰。湖畔的有珠山與昭和新山是仍在活動的活火山，昭和新山更是 1943–45 年間從麥田中「長」出來的新山，全球罕見。2008 年 G8 高峰會曾在此舉辦。',map:'洞爺湖温泉'},
+];
+
+const DEFAULT_CHECK = ['護照（效期6個月以上）','機票／登機證（BR116/BR115）','日幣現金','信用卡','網卡／eSIM','防滑雪靴','保暖外套・發熱衣','行動電源','常備藥品','轉接插頭（日本可免）','飯店訂房確認單','JR PASS／車票'];
+
+/* ===== TAB SWITCH ===== */
+document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.tabpane').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.getElementById(b.dataset.tab).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+/* ===== PLAN ===== */
+document.getElementById('hotels').innerHTML = HOTELS.map(h=>
+ `<div class="flex items-start gap-2"><span class="text-sub font-bold text-[11px] mt-0.5 w-16 shrink-0">${h[0]}</span>
+  <span><b>${h[1]}</b><span class="text-sub"> ・${h[2]}</span></span></div>`).join('');
+
+const ICON={flight:['fa-plane','bg-accent'],meal:['fa-utensils','bg-accent'],
+  spot:['fa-location-dot','bg-accent'],go:['fa-person-walking-luggage','bg-accent'],move:['fa-train-subway','bg-sub']};
+let curDay=0;
+function renderDayTabs(){
+ document.getElementById('daytabs').innerHTML=DAYS.map((d,i)=>
+  `<button onclick="selDay(${i})" class="shrink-0 px-3 py-2 rounded-xl text-[12px] border ${i===curDay?'bg-accent text-white border-accent':'bg-card text-sub border-line'}">
+    <div class="font-bold text-sm">${d.key}</div><div class="text-[10px] ${i===curDay?'text-white/80':'text-sub'}">${d.date.slice(0,5)}</div></button>`).join('');
+}
+function selDay(i){curDay=i;renderDayTabs();renderDay();}
+/* 總覽速覽 → 點擊跳到行程分頁該天 */
+function goDay(i){selDay(i);document.querySelector('.navbtn[data-tab="plan"]').click();}
+function renderGlance(){
+ document.getElementById('ovglance').innerHTML=DAYS.map((d,i)=>`
+  <button onclick="goDay(${i})" class="w-full flex items-center gap-3 text-left py-2 border-b border-line last:border-0">
+    <span class="text-accent font-bold text-[13px] w-7 shrink-0">${d.key}</span>
+    <span class="text-[11px] text-sub w-11 shrink-0">${d.date.slice(0,5)}</span>
+    <span class="text-[13px] flex-1">${d.title}</span>
+    <i class="fa-solid fa-chevron-right text-sub text-[10px]"></i>
+  </button>`).join('');
+}
+
+function moveCard(s){
+ const opts=s.opts.map(o=>`
+   <div class="mt-2 first:mt-0">
+     <div class="flex items-center justify-between">
+       <span class="text-[13px] font-bold text-ink"><i class="fa-solid fa-circle text-[5px] text-accent align-middle mr-1"></i>${o.means}</span>
+       <span class="text-[12px] text-accent font-bold whitespace-nowrap ml-2">${o.time}</span>
+     </div>
+     <div class="text-[12px] text-sub mt-0.5">💴 ${o.fare}${o.note?'　·　'+o.note:''}</div>
+     ${o.link?`<a href="${o.link}" target="_blank" class="inline-block text-[11px] text-accent mt-1"><i class="fa-solid fa-arrow-up-right-from-square"></i> 查班次</a>`:''}
+   </div>`).join('<div class="dash my-2"></div>');
+ return `<div class="relative pl-11 pb-4">
+   <div class="absolute left-0 top-0 w-9 h-9 rounded-full flex items-center justify-center text-white text-base bg-sub"><i class="fa-solid fa-train-subway"></i></div>
+   <div class="bg-snow/40 border border-line rounded-2xl px-3 py-2.5 shadow-soft">
+     <div class="flex items-center gap-2 mb-1.5">
+       ${s.t?`<span class="text-[12px] font-bold text-ink bg-paper border border-line rounded-full px-2 py-0.5">${s.t}</span>`:''}
+       <span class="text-[13px] font-bold">🚉 ${s.route}</span>
+     </div>${opts}
+     ${s.from?`<a href="${DIR(s.from,s.to)}" target="_blank" class="flex items-center justify-center gap-1 text-[12px] text-white bg-accent rounded-lg py-1.5 mt-2.5 font-bold"><i class="fa-solid fa-route"></i> 查路線班次（${s.from}→${s.to}）</a>`:''}
+   </div></div>`;
+}
+function spotCard(s){
+ const ic=ICON[s.type]||ICON.spot;
+ const mapBtn=s.map?`<a href="${G(s.map)}" target="_blank" class="inline-flex items-center gap-1 text-[11px] text-accent bg-paper border border-line rounded-full px-2 py-0.5 mt-1.5"><i class="fa-solid fa-location-dot"></i> 地圖</a>`:'';
+ const stay=s.stay&&s.stay!=='—'?`<span class="text-[11px] text-sub bg-black/5 rounded-full px-2 py-0.5 whitespace-nowrap ml-2">停留 ${s.stay}</span>`:'';
+ return `<div class="relative pl-11 pb-4">
+   <div class="absolute left-0 top-0 w-9 h-9 rounded-full flex items-center justify-center text-white text-base ${ic[1]}"><i class="fa-solid ${ic[0]}"></i></div>
+   <div class="bg-card border border-line rounded-2xl px-3 py-2.5 shadow-soft">
+     <div class="flex items-start justify-between">
+       <div class="flex-1">
+         ${s.t?`<span class="text-[13px] font-bold text-accent mr-2">${s.t}</span>`:''}
+         <span class="text-[14px] font-bold">${s.name}</span>
+       </div>${stay}
+     </div>
+     ${s.note?`<div class="text-[12px] text-sub mt-1">${s.note}</div>`:''}
+     ${mapBtn}
+   </div></div>`;
+}
+function renderDay(){
+ const d=DAYS[curDay];
+ const rows=d.seg.map(s=>s.type==='move'?moveCard(s):spotCard(s)).join('');
+ const al=d.alert?`<div class="bg-alert/10 border border-alert/30 rounded-xl px-3 py-2 text-[12px] text-alert mb-3"><i class="fa-solid fa-circle-exclamation mr-1"></i>${d.alert}</div>`:'';
+ document.getElementById('daycontent').innerHTML=
+  `<div class="flex items-center gap-2 mb-3">
+     <span class="text-3xl font-bold">${d.key}</span>
+     <span class="flex-1 h-[2px] bg-ink/80"></span>
+     <span class="text-[12px] font-bold text-sub">${d.city}</span>
+   </div>
+   <div class="text-base font-bold mb-3">${d.title}</div>${al}
+   <div class="relative tl">${rows}</div>`;
+}
+
+/* ===== GUIDE ===== */
+document.getElementById('guidelist').innerHTML=GUIDE.map(g=>`
+ <article class="bg-card rounded-2xl shadow-soft border border-line overflow-hidden">
+   <div class="px-4 pt-4">
+     <h3 class="text-xl font-bold">${g.name}</h3>
+     <div class="text-[12px] text-accent mb-2">${g.sub}</div>
+     <p class="text-[13px] leading-relaxed text-ink mb-4">${g.body}</p>
+   </div>
+   <a href="${G(g.map)}" target="_blank" class="flex items-center gap-3 mx-4 mb-4 bg-snow/50 border border-line rounded-xl px-4 py-3">
+     <span class="w-9 h-9 rounded-full bg-accent text-white flex items-center justify-center shrink-0"><i class="fa-solid fa-location-dot"></i></span>
+     <span class="flex-1 min-w-0"><span class="block text-[13px] font-bold truncate">${g.map}</span><span class="text-[11px] text-sub">在 Google Maps 開啟導航</span></span>
+     <i class="fa-solid fa-arrow-up-right-from-square text-sub text-[11px]"></i>
+   </a>
+ </article>`).join('');
+
+/* ===== 11月底・各城市加碼景點 ===== */
+const SPOTS=[
+ {city:'札幌',note:'白色燈樹節 11/21 起點燈',items:[
+   {n:'大通公園 白色燈樹節',w:'11/21–12/25 點燈，約80萬顆 LED，16:30 後最美',map:'さっぽろホワイトイルミネーション 大通公園'},
+   {n:'JR Tower 展望室 T38',w:'160m 高室內展望，下雪天也能賞夜景',map:'JRタワー展望室 タワー・スリーエイト'},
+   {n:'白色戀人公園',w:'室內參觀＋庭園聖誕燈飾，避寒首選',map:'白い恋人パーク'},
+ ]},
+ {city:'函館',note:'日落早，夜景時間更長',items:[
+   {n:'湯之川溫泉 足湯',w:'市電可達，免費足湯暖手腳',map:'湯の川温泉 足湯'},
+   {n:'元町教會群（夜間點燈）',w:'坡道教會打燈，冬夜浪漫',map:'カトリック元町教会'},
+   {n:'金森紅磚倉庫',w:'室內購物美食＋海灣夜景，避寒好去處',map:'金森赤レンガ倉庫'},
+ ]},
+ {city:'登別',note:'下雪天的室內備案',items:[
+   {n:'登別尼克斯海洋公園',w:'室內水族館＋冬季點燈遊行，全天候',map:'登別マリンパークニクス'},
+   {n:'登別熊牧場',w:'纜車上山看棕熊，雪景纜車',map:'のぼりべつクマ牧場'},
+   {n:'大湯沼川 天然足湯',w:'林間溪流足湯，雪中泡腳（注意結冰）',map:'大湯沼川天然足湯'},
+ ]},
+ {city:'小樽',note:'小樽雪物語・青之運河 11 月起',items:[
+   {n:'青之運河（雪物語）',w:'11 月起萬顆藍 LED 點亮運河，日落後最美',map:'小樽運河'},
+   {n:'天狗山纜車夜景',w:'室內纜車登頂，北海道三大夜景之一',map:'天狗山ロープウェイ'},
+   {n:'小樽藝術村',w:'玻璃與彩繪玻璃美術館，室內溫暖',map:'小樽芸術村'},
+ ]},
+];
+document.getElementById('seasonspots').innerHTML=
+ `<h2 class="text-2xl font-bold mb-1">11月底・加碼景點</h2>
+  <p class="text-xs text-sub mb-4">對照各城市，挑幾個這時節適合的點（點擊開地圖）</p>`
+ + SPOTS.map(c=>`
+   <div class="mb-5">
+     <div class="flex items-center gap-2 mb-2">
+       <span class="bg-accent text-white text-[12px] rounded-full px-3 py-1">${c.city}</span>
+       <span class="text-[11px] text-sub">${c.note}</span>
+     </div>
+     <div class="space-y-2">
+       ${c.items.map(s=>`
+         <a href="${G(s.map)}" target="_blank" class="flex items-start gap-3 bg-card border border-line rounded-xl px-3 py-2.5 shadow-soft">
+           <span class="w-8 h-8 rounded-full bg-snow flex items-center justify-center text-accent shrink-0"><i class="fa-solid fa-location-dot"></i></span>
+           <span class="flex-1 min-w-0"><span class="block text-[14px] font-bold">${s.n}</span><span class="text-[12px] text-sub">${s.w}</span></span>
+           <i class="fa-solid fa-chevron-right text-sub text-[10px] mt-1.5"></i>
+         </a>`).join('')}
+     </div>
+   </div>`).join('');
+
+/* ===== localStorage 安全包裝（清單／備忘錄用；iOS file:// 或無痕會丟例外，改記憶體備援）===== */
+let _mem={};
+const _hasLS=(()=>{try{localStorage.setItem('__t','1');localStorage.removeItem('__t');return true;}catch(e){return false;}})();
+const LS=k=>{try{return JSON.parse((_hasLS?localStorage.getItem(k):_mem[k])||'null');}catch(e){return null;}};
+const SET=(k,v)=>{try{_hasLS?localStorage.setItem(k,JSON.stringify(v)):(_mem[k]=JSON.stringify(v));}catch(e){_mem[k]=JSON.stringify(v);}};
+
+/* ===== LISTS ===== */
+function getChecks(){return LS('checks')||DEFAULT_CHECK.map(t=>({t,done:false}));}
+function renderCheck(){
+ const c=getChecks();
+ document.getElementById('checklist').innerHTML=c.map((x,i)=>`
+  <label class="flex items-center gap-2 py-1.5 text-[13px]">
+    <input type="checkbox" ${x.done?'checked':''} onchange="toggleCheck(${i})" class="w-4 h-4 accent-[#5b7a6b]">
+    <span class="${x.done?'line-through text-sub':''}">${x.t}</span>
+    <button onclick="delCheck(${i})" class="ml-auto text-sub text-[11px]"><i class="fa-solid fa-xmark"></i></button>
+  </label>`).join('');
+}
+function toggleCheck(i){const c=getChecks();c[i].done=!c[i].done;SET('checks',c);renderCheck();}
+function delCheck(i){const c=getChecks();c.splice(i,1);SET('checks',c);renderCheck();}
+function addCheck(){const v=document.getElementById('newCheck').value.trim();if(!v)return;const c=getChecks();c.push({t:v,done:false});SET('checks',c);document.getElementById('newCheck').value='';renderCheck();}
+const memoEl=document.getElementById('memo');memoEl.value=LS('memo')||'';
+function saveMemo(){SET('memo',memoEl.value);renderMemo();}
+function renderMemo(){
+ const txt=LS('memo')||'';if(!txt){document.getElementById('memoView').innerHTML='';return;}
+ const html=txt.split('\n').map(line=>{
+  if(!line.trim())return '';
+  const m=line.match(/(https?:\/\/[^\s]+)/);
+  if(m){const url=m[1];const label=line.replace(url,'').trim()||'開啟連結';
+   return `<a href="${url}" target="_blank" class="flex items-center gap-2 bg-paper border border-line rounded-xl px-3 py-2 text-accent"><i class="fa-solid fa-link"></i> ${label} <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-auto"></i></a>`;}
+  return `<div>${line}</div>`;
+ }).join('');
+ document.getElementById('memoView').innerHTML=html;
+}
+
+/* ===== INIT ===== */
+renderDayTabs();renderDay();renderGlance();renderCheck();renderMemo();
+</script>
+</body>
+</html>
