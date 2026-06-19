@@ -28,6 +28,8 @@ tailwind.config={theme:{extend:{
   .rounded-2xl,.rounded-xl{border-radius:8px!important}
   .hero-img{aspect-ratio:4/3;object-fit:cover;object-position:center 42%}
   .hero-zoom{cursor:zoom-in}
+  .guide-photo{aspect-ratio:16/10;object-fit:cover;background:#e9eef0}
+  .guide-source{border-top:1px solid #e6e1d8}
   .lightbox{position:fixed;inset:0;z-index:60;display:none;background:rgba(30,28,25,.92);padding:calc(1rem + env(safe-area-inset-top)) 1rem calc(1rem + env(safe-area-inset-bottom));}
   .lightbox.open{display:flex;align-items:center;justify-content:center;animation:fade .18s ease}
   .lightbox img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;box-shadow:0 10px 40px rgba(0,0,0,.35)}
@@ -322,16 +324,16 @@ const DAYS = [
 ];
 
 const GUIDE = [
- {name:'函館山夜景',sub:'世界三大夜景之一',osm:'https://www.openstreetmap.org/export/embed.html?bbox=140.700%2C41.755%2C140.730%2C41.775&layer=mapnik&marker=41.7644%2C140.7045',
-  body:'函館因兩側被海灣夾住、形成獨特的「扇形」地貌，入夜後街燈勾勒出彎曲海岸線，被譽為與香港、那不勒斯齊名的世界三大夜景。最佳觀景時間是日落後 30 分鐘的「藍調時刻」，天空尚有餘藍、街燈已亮。冷知識：日文有「百萬美元夜景」之說，據傳源於計算當晚點燈的電費。',map:'函館山ロープウェイ'},
- {name:'五稜郭',sub:'日本首座西式星形要塞',osm:'https://www.openstreetmap.org/export/embed.html?bbox=140.745%2C41.793%2C140.765%2C41.803&layer=mapnik&marker=41.7976%2C140.7547',
-  body:'建於 1864 年，是日本最早仿歐洲稜堡式設計的星形城郭，五個尖角能消除射擊死角。這裡是日本「最後的內戰」戊辰戰爭・箱館戰爭的舞台，舊幕府軍在此最終投降。如今護城河環繞、春櫻冬雪皆美，登五稜郭塔可俯瞰完整星形。',map:'五稜郭公園'},
- {name:'登別地獄谷',sub:'北海道第一溫泉的源頭',osm:'https://www.openstreetmap.org/export/embed.html?bbox=141.140%2C42.495%2C141.160%2C42.510&layer=mapnik&marker=42.5018%2C141.1486',
-  body:'約一萬年前火山爆發形成的爆裂火口遺跡，直徑約 450 公尺，地表不斷噴出硫磺蒸氣與滾燙泉水，每分鐘湧出約 3,000 公升溫泉，供應整個登別溫泉街。「地獄」之名來自其荒涼地貌與硫磺味，江戶時代被視為「鬼的居所」，因此溫泉街處處可見鬼像。',map:'登別地獄谷'},
- {name:'小樽運河',sub:'大正浪漫的石造倉庫群',osm:'https://www.openstreetmap.org/export/embed.html?bbox=140.990%2C43.196%2C141.010%2C43.205&layer=mapnik&marker=43.1989%2C140.9966',
-  body:'1923 年完工，曾是北海道海運與金融重鎮的卸貨水道，沿岸石造倉庫見證小樽「北方華爾街」的繁華。隨海運沒落一度面臨填平危機，靠居民保存運動留下半側水道，改造成步道與煤氣燈。冬季「青之運河」與雪燈之路點燈時，水面倒映藍光，浪漫至極。',map:'小樽運河'},
- {name:'洞爺湖',sub:'不結冰的火山口湖',osm:'https://www.openstreetmap.org/export/embed.html?bbox=140.800%2C42.560%2C140.870%2C42.610&layer=mapnik&marker=42.5936%2C140.8510',
-  body:'約 11 萬年前火山活動形成的圓形破火山口湖，因地熱影響即使嚴冬也幾乎不結冰。湖畔的有珠山與昭和新山是仍在活動的活火山，昭和新山更是 1943–45 年間從麥田中「長」出來的新山，全球罕見。2008 年 G8 高峰會曾在此舉辦。',map:'洞爺湖温泉'},
+ {name:'函館山夜景',sub:'世界三大夜景之一',img:'assets/guide/hakodate-night.jpg',map:'函館山ロープウェイ',mapQuery:'Mt. Hakodate Ropeway, Hakodate, Hokkaido, Japan',source:'Wikimedia Commons / Lombroso / Public domain',
+  body:'函館因兩側被海灣夾住、形成獨特的「扇形」地貌，入夜後街燈勾勒出彎曲海岸線，被譽為與香港、那不勒斯齊名的世界三大夜景。最佳觀景時間是日落後 30 分鐘的「藍調時刻」，天空尚有餘藍、街燈已亮。冷知識：日文有「百萬美元夜景」之說，據傳源於計算當晚點燈的電費。'},
+ {name:'五稜郭',sub:'日本首座西式星形要塞',img:'assets/guide/goryokaku.jpg',map:'五稜郭タワー',mapQuery:'Goryokaku Tower, Hakodate, Hokkaido, Japan',source:'Wikimedia Commons / J o / CC BY-SA 2.5',
+  body:'建於 1864 年，是日本最早仿歐洲稜堡式設計的星形城郭，五個尖角能消除射擊死角。這裡是日本「最後的內戰」戊辰戰爭・箱館戰爭的舞台，舊幕府軍在此最終投降。如今護城河環繞、春櫻冬雪皆美，登五稜郭塔可俯瞰完整星形。'},
+ {name:'登別地獄谷',sub:'北海道第一溫泉的源頭',img:'assets/guide/jigokudani.jpg',map:'登別地獄谷',mapQuery:'Noboribetsu Jigokudani Valley, Noboribetsu, Hokkaido, Japan',source:'Wikimedia Commons / 663highland / CC BY-SA 3.0',
+  body:'約一萬年前火山爆發形成的爆裂火口遺跡，直徑約 450 公尺，地表不斷噴出硫磺蒸氣與滾燙泉水，每分鐘湧出約 3,000 公升溫泉，供應整個登別溫泉街。「地獄」之名來自其荒涼地貌與硫磺味，江戶時代被視為「鬼的居所」，因此溫泉街處處可見鬼像。'},
+ {name:'小樽運河',sub:'大正浪漫的石造倉庫群',img:'assets/guide/otaru-canal.jpg',map:'小樽運河',mapQuery:'Otaru Canal, Otaru, Hokkaido, Japan',source:'Wikimedia Commons / 663highland / CC BY 2.5',
+  body:'1923 年完工，曾是北海道海運與金融重鎮的卸貨水道，沿岸石造倉庫見證小樽「北方華爾街」的繁華。隨海運沒落一度面臨填平危機，靠居民保存運動留下半側水道，改造成步道與煤氣燈。冬季「青之運河」與雪燈之路點燈時，水面倒映藍光，浪漫至極。'},
+ {name:'洞爺湖',sub:'不結冰的火山口湖',img:'assets/guide/toya-lake.jpg',map:'洞爺湖温泉',mapQuery:'Lake Toya Onsen, Toyako, Hokkaido, Japan',source:'Wikimedia Commons / 663highland / CC BY-SA 3.0',
+  body:'約 11 萬年前火山活動形成的圓形破火山口湖，因地熱影響即使嚴冬也幾乎不結冰。湖畔的有珠山與昭和新山是仍在活動的活火山，昭和新山更是 1943–45 年間從麥田中「長」出來的新山，全球罕見。2008 年 G8 高峰會曾在此舉辦。'},
 ];
 
 const DEFAULT_CHECK = ['護照（效期6個月以上）','機票／登機證（BR116/BR115）','日幣現金','信用卡','網卡／eSIM','防滑雪靴','保暖外套・發熱衣','行動電源','常備藥品','轉接插頭（日本可免）','飯店訂房確認單','JR PASS／車票'];
@@ -436,16 +438,23 @@ function renderDay(){
 /* ===== GUIDE ===== */
 document.getElementById('guidelist').innerHTML=GUIDE.map(g=>`
  <article class="bg-card rounded-2xl shadow-soft border border-line overflow-hidden">
+   <img src="${g.img}" alt="${g.name} 實景照片" class="guide-photo w-full" loading="lazy">
    <div class="px-4 pt-4">
-     <h3 class="text-xl font-bold">${g.name}</h3>
-     <div class="text-[12px] text-accent mb-2">${g.sub}</div>
+     <div class="flex items-start justify-between gap-3">
+       <div>
+         <h3 class="text-xl font-bold">${g.name}</h3>
+         <div class="text-[12px] text-accent mb-2">${g.sub}</div>
+       </div>
+       <a href="${G(g.mapQuery)}" target="_blank" rel="noopener" class="w-10 h-10 rounded-full bg-accent text-white flex items-center justify-center shrink-0" aria-label="開啟 ${g.name} Google Maps"><i class="fa-solid fa-location-arrow"></i></a>
+     </div>
      <p class="text-[13px] leading-relaxed text-ink mb-4">${g.body}</p>
    </div>
-   <a href="${G(g.map)}" target="_blank" class="flex items-center gap-3 mx-4 mb-4 bg-snow/50 border border-line rounded-xl px-4 py-3">
+   <a href="${G(g.mapQuery)}" target="_blank" rel="noopener" class="flex items-center gap-3 mx-4 mb-3 bg-snow/50 border border-line rounded-xl px-4 py-3">
      <span class="w-9 h-9 rounded-full bg-accent text-white flex items-center justify-center shrink-0"><i class="fa-solid fa-location-dot"></i></span>
-     <span class="flex-1 min-w-0"><span class="block text-[13px] font-bold truncate">${g.map}</span><span class="text-[11px] text-sub">在 Google Maps 開啟導航</span></span>
+     <span class="flex-1 min-w-0"><span class="block text-[13px] font-bold truncate">${g.map}</span><span class="text-[11px] text-sub">在 Google Maps 開啟精準地點</span></span>
      <i class="fa-solid fa-arrow-up-right-from-square text-sub text-[11px]"></i>
    </a>
+   <div class="guide-source mx-4 pb-3 pt-2 text-[10px] text-sub leading-snug">照片：${g.source}</div>
  </article>`).join('');
 
 /* ===== 11月底・各城市加碼景點 ===== */
