@@ -27,6 +27,12 @@ tailwind.config={theme:{extend:{
   .bottom-nav{max-width:430px;padding-bottom:calc(.5rem + env(safe-area-inset-bottom))}
   .rounded-2xl,.rounded-xl{border-radius:8px!important}
   .hero-img{aspect-ratio:4/3;object-fit:cover;object-position:center 42%}
+  .hero-zoom{cursor:zoom-in}
+  .lightbox{position:fixed;inset:0;z-index:60;display:none;background:rgba(30,28,25,.92);padding:calc(1rem + env(safe-area-inset-top)) 1rem calc(1rem + env(safe-area-inset-bottom));}
+  .lightbox.open{display:flex;align-items:center;justify-content:center;animation:fade .18s ease}
+  .lightbox img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+  .lightbox-close{position:absolute;top:calc(.75rem + env(safe-area-inset-top));right:1rem;width:44px;height:44px;border-radius:999px;background:rgba(255,253,249,.94);color:#3a3631;display:flex;align-items:center;justify-content:center;font-size:20px}
+  body.modal-open{overflow:hidden;touch-action:none}
   .overview-stack{display:grid;gap:16px}
   .flight-grid{display:grid;gap:12px}
   @media (prefers-reduced-motion:reduce){
@@ -62,10 +68,17 @@ tailwind.config={theme:{extend:{
   <div class="overview-layout">
     <div class="overview-stack mb-4">
       <figure class="bg-card rounded-2xl shadow-soft border border-line overflow-hidden">
-        <img src="旅遊總覽.jpg" alt="北海道 8 天 7 夜旅遊總覽圖" class="hero-img w-full">
+        <button type="button" class="hero-zoom block w-full text-left" onclick="openLightbox()" aria-label="放大北海道 8 天 7 夜旅遊總覽圖">
+          <img src="旅遊總覽.jpg" alt="北海道 8 天 7 夜旅遊總覽圖" class="hero-img w-full">
+        </button>
         <figcaption class="px-4 py-3">
-          <div class="text-sm font-bold">札幌・函館・登別・小樽</div>
-          <div class="text-[12px] text-sub mt-0.5">8 天 7 夜冬季路線總覽</div>
+          <div class="flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm font-bold">札幌・函館・登別・小樽</div>
+              <div class="text-[12px] text-sub mt-0.5">8 天 7 夜冬季路線總覽</div>
+            </div>
+            <button type="button" onclick="openLightbox()" class="text-[12px] text-accent bg-paper border border-line rounded-full px-3 py-1 shrink-0" aria-label="放大總覽圖"><i class="fa-solid fa-expand"></i></button>
+          </div>
         </figcaption>
       </figure>
       <div class="bg-card rounded-2xl shadow-soft p-3 border border-line">
@@ -186,6 +199,11 @@ tailwind.config={theme:{extend:{
   <button data-tab="lists"  class="navbtn flex flex-col items-center gap-1 text-[11px] text-sub w-1/5"><span class="ic w-11 h-11 rounded-full flex items-center justify-center transition text-xl"><i class="fa-solid fa-list-check"></i></span>清單</button>
   <button data-tab="info"   class="navbtn flex flex-col items-center gap-1 text-[11px] text-sub w-1/5"><span class="ic w-11 h-11 rounded-full flex items-center justify-center transition text-xl"><i class="fa-solid fa-circle-info"></i></span>資訊</button>
 </nav>
+
+<div id="imageLightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="旅遊總覽圖放大預覽" onclick="closeLightbox(event)">
+  <button type="button" class="lightbox-close" onclick="closeLightbox(event)" aria-label="關閉圖片預覽"><i class="fa-solid fa-xmark"></i></button>
+  <img src="旅遊總覽.jpg" alt="北海道 8 天 7 夜旅遊總覽圖放大版">
+</div>
 
 <script>
 const G = q => 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);
@@ -319,6 +337,17 @@ const GUIDE = [
 const DEFAULT_CHECK = ['護照（效期6個月以上）','機票／登機證（BR116/BR115）','日幣現金','信用卡','網卡／eSIM','防滑雪靴','保暖外套・發熱衣','行動電源','常備藥品','轉接插頭（日本可免）','飯店訂房確認單','JR PASS／車票'];
 
 /* ===== TAB SWITCH ===== */
+function openLightbox(){
+ document.getElementById('imageLightbox').classList.add('open');
+ document.body.classList.add('modal-open');
+}
+function closeLightbox(e){
+ if(e && e.target.closest && e.target.closest('img'))return;
+ document.getElementById('imageLightbox').classList.remove('open');
+ document.body.classList.remove('modal-open');
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
+
 document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));
   document.querySelectorAll('.tabpane').forEach(x=>x.classList.remove('active'));
