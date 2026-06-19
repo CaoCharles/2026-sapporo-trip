@@ -9,6 +9,9 @@
 <link rel="icon" href="assets/app-icon-512.png" type="image/png" sizes="512x512">
 <link rel="shortcut icon" href="assets/favicon-32.png" type="image/png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script>
@@ -22,8 +25,8 @@ tailwind.config={theme:{extend:{
 </script>
 <style>
   html,body{background:#f6f4ef;-webkit-text-size-adjust:100%;overscroll-behavior-y:none}
-  /* 統一新細明體（手機無此字型時退回明體 serif）；排除 FontAwesome 圖示避免變空框 */
-  *:not([class*="fa-"]){font-family:"新細明體","PMingLiU","Songti TC","Songti SC",serif!important}
+  /* 手機沒有新細明體，優先使用網頁明體；排除 FontAwesome 圖示避免變空框 */
+  *:not([class*="fa-"]){font-family:"Noto Serif TC","新細明體","PMingLiU","Songti TC","Songti SC",serif!important}
   i[class*="fa-"]{font-family:"Font Awesome 6 Free","Font Awesome 6 Brands"!important}
   body{color:#3a3631}
   *{-webkit-tap-highlight-color:transparent}
