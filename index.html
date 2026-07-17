@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#dbe8f6">
 <title>北海道 8 天 7 夜 ｜ 旅遊小幫手</title>
-<link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
-<link rel="icon" href="assets/app-icon-512.png" type="image/png" sizes="512x512">
-<link rel="shortcut icon" href="assets/favicon-32.png" type="image/png">
-<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="icon" href="assets/favicon-32.png?v=2" type="image/png" sizes="32x32">
+<link rel="icon" href="assets/app-icon-512.png?v=2" type="image/png" sizes="512x512">
+<link rel="shortcut icon" href="assets/favicon-32.png?v=2" type="image/png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
@@ -36,7 +36,7 @@ tailwind.config={theme:{extend:{
   .app-main{padding-bottom:env(safe-area-inset-bottom)}
   .bottom-nav{max-width:430px;padding-bottom:calc(.5rem + env(safe-area-inset-bottom))}
   .rounded-2xl,.rounded-xl{border-radius:8px!important}
-  .hero-img{aspect-ratio:4/3;object-fit:cover;object-position:center 42%}
+  .hero-img{aspect-ratio:16/10;object-fit:cover;object-position:center top}
   .hero-zoom{cursor:zoom-in}
   .guide-photo{aspect-ratio:16/10;object-fit:cover;background:#e9eef0}
   .guide-source{border-top:1px solid #e6e1d8}
@@ -89,8 +89,9 @@ tailwind.config={theme:{extend:{
   <div class="overview-layout">
     <div class="overview-stack mb-4">
       <figure class="bg-card rounded-2xl shadow-soft border border-line overflow-hidden">
-        <button type="button" class="hero-zoom block w-full text-left" onclick="openLightbox()" aria-label="放大北海道 8 天 7 夜旅遊總覽圖">
+        <button type="button" class="hero-zoom relative block w-full text-left" onclick="openLightbox()" aria-label="放大北海道 8 天 7 夜旅遊總覽圖">
           <img src="旅遊總覽-v2.png" alt="北海道 8 天 7 夜旅遊總覽圖" class="hero-img w-full">
+          <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent pt-10 pb-2.5 px-3 text-white text-[11px] font-bold"><i class="fa-solid fa-expand mr-1"></i>點擊查看完整行程圖</span>
         </button>
         <figcaption class="px-4 py-3">
           <div class="flex items-center justify-between gap-3">
@@ -98,14 +99,10 @@ tailwind.config={theme:{extend:{
               <div class="text-sm font-bold">札幌・函館・登別・小樽</div>
               <div class="text-[12px] text-sub mt-0.5">8 天 7 夜冬季路線總覽</div>
             </div>
-            <button type="button" onclick="openLightbox()" class="text-[12px] text-accent bg-paper border border-line rounded-full px-3 py-1 shrink-0" aria-label="放大總覽圖"><i class="fa-solid fa-expand"></i></button>
+            <button type="button" onclick="openLightbox()" class="text-[11px] text-accent bg-paper border border-line rounded-full px-3 py-1.5 shrink-0" aria-label="放大總覽圖"><i class="fa-solid fa-expand mr-1"></i>查看完整圖</button>
           </div>
         </figcaption>
       </figure>
-      <div class="bg-card rounded-2xl shadow-soft p-3 border border-line">
-        <div class="text-xs text-sub mb-2"><i class="fa-solid fa-hotel text-accent text-base"></i> 住宿</div>
-        <div id="hotels" class="space-y-1.5 text-[13px]"></div>
-      </div>
     </div>
 
     <div class="overview-stack">
@@ -134,6 +131,14 @@ tailwind.config={theme:{extend:{
         <div class="text-xs text-sub mb-1"><i class="fa-solid fa-route text-accent text-base"></i> 行程速覽（點擊看當天）</div>
         <div id="ovglance"></div>
       </div>
+      <details class="group bg-card rounded-2xl shadow-soft border border-line overflow-hidden">
+        <summary class="list-none cursor-pointer px-3 py-3 flex items-center gap-2">
+          <i class="fa-solid fa-hotel text-accent text-base"></i>
+          <span class="flex-1"><span class="block text-xs font-bold">住宿一覽</span><span class="block text-[11px] text-sub mt-0.5">札幌 2・函館 3・登別 1・小樽 1 晚</span></span>
+          <span class="text-[10px] text-sub">查看全部</span><i class="fa-solid fa-chevron-down text-[10px] text-sub transition group-open:rotate-180"></i>
+        </summary>
+        <div id="hotels" class="space-y-1.5 text-[13px] px-3 pb-3 pt-1 border-t border-line"></div>
+      </details>
     </div>
   </div>
 </section>
