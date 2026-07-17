@@ -485,6 +485,25 @@ document.getElementById('hotels').innerHTML = HOTELS.map(h=>
 
 const ICON={flight:['fa-plane','bg-accent'],meal:['fa-utensils','bg-accent'],
   spot:['fa-location-dot','bg-accent'],go:['fa-person-walking-luggage','bg-accent'],move:['fa-train-subway','bg-sub']};
+const SPOT_STAYS={
+ '入住 the b sapporo':'辦理入住約 20 分','中島公園':'20–30 分','豐平館':'15–20 分','八窗庵':'10–15 分','大通公園':'約 30 分','慕尼黑聖誕市集':'60–90 分','狸小路商店街／薄野晚餐':'60–90 分',
+ '入住 Imagine Hotel & Resort Hakodate':'辦理入住約 20 分','飯店海景溫泉':'約 45 分','熱帶植物園':'45–60 分','湯倉神社':'20–30 分','湯之川散步':'約 30 分',
+ '函館自由市場早餐':'60–90 分','五稜郭公園（柯南）':'30–45 分','箱館奉行所外觀':'約 15 分','五稜郭塔（柯南）':'45–60 分','八幡坂（柯南）':'15–20 分','船魂神社':'15–20 分','元町公園':'20–30 分','舊函館區公會堂':'30–45 分','舊北海道廳函館支廳':'約 15 分','元町教堂群（柯南）':'30–45 分','金森紅磚倉庫（柯南）':'45–60 分','函館明治館':'30–45 分','函館山夜景（柯南）':'60–90 分',
+ '延續 11/23 未完成的函館景點':'彈性安排','保留咖啡廳與休息時間':'約 90 分','依天氣安排函館山夜景':'60–90 分','補看五稜郭塔白天景色或夜間點燈':'45–60 分',
+ '登別熊牧場':'約 2 小時','入住第一滝本館':'辦理入住約 20 分','地獄谷':'45–60 分','登別溫泉街散步':'30–45 分','晚餐與飯店泡湯':'彈性安排',
+ '睡晚一點':'彈性安排','飯店泡湯':'約 45 分','入住 Grids Premium Hotel Otaru':'辦理入住約 20 分','小樽運河夜景與運河點燈':'60–90 分','倉庫群散步與晚餐':'60–90 分',
+ '北海道大學':'60–90 分','札幌時計台':'20–30 分','北海道廳紅磚舍':'30–45 分','札幌場外市場－根室杉山水產':'60–90 分','入住 Hotel Forza Sapporo Station':'辦理入住約 20 分','Toriton':'候位＋用餐約 90 分','藻岩山夜景':'90–120 分'
+};
+const DAY_INFO=[
+ {pace:'步行較多・戶外為主',transport:'JR＋地鐵／步行',hotel:'the b sapporo'},
+ {pace:'移動日・溫泉慢遊',transport:'特急北斗＋市電',hotel:'Imagine Hotel & Resort Hakodate'},
+ {pace:'景點密集・彈性調整',transport:'市電＋步行',hotel:'Hotel Enoe Hakodate'},
+ {pace:'兩日彈性・保留休息',transport:'市電＋步行',hotel:'Hotel Enoe Hakodate'},
+ {pace:'戶外步道・注意積雪',transport:'特急北斗＋巴士',hotel:'第一滝本館'},
+ {pace:'上午放鬆・下午移動',transport:'JR（札幌轉車）',hotel:'Grids Premium Hotel Otaru'},
+ {pace:'市區景點・步行較多',transport:'JR＋地鐵／市電',hotel:'Hotel Forza Sapporo Station'},
+ {pace:'返程日・預留機場時間',transport:'JR Rapid Airport',hotel:'—'}
+];
 let curDay=0;
 function renderDayTabs(){
  document.getElementById('daytabs').innerHTML=DAYS.map((d,i)=>
@@ -524,21 +543,40 @@ function moveCard(s){
      ${s.from?`<a href="${DIR(s.from,s.to)}" target="_blank" class="flex items-center justify-center gap-1 text-[12px] text-white bg-accent rounded-lg py-1.5 mt-2.5 font-bold"><i class="fa-solid fa-route"></i> 查路線班次（${s.from}→${s.to}）</a>`:''}
    </div></div>`;
 }
-function spotCard(s){
+function planJapanese(s){return s.ja||s.map||'';}
+async function copyPlanName(index,button){
+ const text=planJapanese(DAYS[curDay].seg[index]);if(!text)return;
+ try{await navigator.clipboard.writeText(text);}catch(e){const area=document.createElement('textarea');area.value=text;area.style.position='fixed';area.style.opacity='0';document.body.appendChild(area);area.select();document.execCommand('copy');area.remove();}
+ const original=button.innerHTML;button.innerHTML='<i class="fa-solid fa-check"></i><span>已複製</span>';setTimeout(()=>button.innerHTML=original,1500);
+}
+function periodOf(t){
+ if(!t)return '';
+ const m=String(t).match(/(\d{1,2}):(\d{2})/);if(!m)return '';
+ const hour=Number(m[1])+Number(m[2])/60;
+ return hour<12?'上午':hour<17.5?'下午':'晚上';
+}
+function spotCard(s,index){
  const ic=ICON[s.type]||ICON.spot;
- const mapBtn=s.map?`<a href="${G(s.map)}" target="_blank" class="inline-flex items-center gap-1 text-[11px] text-accent bg-paper border border-line rounded-full px-2 py-0.5 mt-1.5"><i class="fa-solid fa-location-dot"></i> 地圖</a>`:'';
- const stay=s.stay&&s.stay!=='—'?`<span class="text-[11px] text-sub bg-black/5 rounded-full px-2 py-0.5 whitespace-nowrap ml-2">停留 ${s.stay}</span>`:'';
- return `<div class="relative pl-11 pb-4">
-   <div class="absolute left-0 top-0 w-9 h-9 rounded-full flex items-center justify-center text-white text-base ${ic[1]}"><i class="fa-solid ${ic[0]}"></i></div>
-   <div class="bg-card border border-line rounded-2xl px-3 py-2.5 shadow-soft">
+ const duration=s.stay||SPOT_STAYS[s.name];
+ const stay=duration&&duration!=='—'?`<span class="text-[10px] text-sub bg-black/5 rounded-full px-2 py-0.5 whitespace-nowrap ml-2">建議 ${duration}</span>`:'';
+ const ja=planJapanese(s),hasJapanese=/[\u3040-\u30ff\u3400-\u9fff]/.test(ja);
+ const walk=s.map?`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(s.map)}&travelmode=walking`:'';
+ const actions=s.map?`<div class="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-line">
+   ${hasJapanese?`<button type="button" onclick="speakJapaneseText('${ja.replaceAll("'","\\'")}',this)" class="inline-flex items-center gap-1 text-[10px] text-accent"><i class="fa-solid fa-volume-high"></i><span>播放</span></button><span class="text-line">·</span><button type="button" onclick="copyPlanName(${index},this)" class="inline-flex items-center gap-1 text-[10px] text-accent"><i class="fa-regular fa-copy"></i><span>複製</span></button><span class="text-line">·</span>`:''}
+   <a href="${G(s.map)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-[10px] text-accent"><i class="fa-solid fa-location-dot"></i>查看地點</a><span class="text-line">·</span><a href="${walk}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-[10px] text-accent"><i class="fa-solid fa-location-arrow"></i>步行導航</a>
+  </div>`:'';
+ return `<div class="relative pl-10 pb-3">
+   <div class="absolute left-0 top-0 w-8 h-8 rounded-full flex items-center justify-center text-white text-sm ${ic[1]}"><i class="fa-solid ${ic[0]}"></i></div>
+   <div class="bg-card border border-line rounded-2xl px-3 py-2 shadow-soft">
      <div class="flex items-start justify-between">
        <div class="flex-1">
-         ${s.t?`<span class="text-[13px] font-bold text-accent mr-2">${s.t}</span>`:''}
-         <span class="text-[14px] font-bold">${s.name}</span>
+         ${s.t?`<span class="text-[12px] font-bold text-accent mr-2">${s.t}</span>`:''}
+         <span class="text-[13px] font-bold">${s.name}</span>
        </div>${stay}
      </div>
+     ${hasJapanese&&ja!==s.name?`<div class="text-[10px] text-sub mt-0.5">${ja}</div>`:''}
      ${s.note?`<div class="text-[12px] text-sub mt-1">${s.note}</div>`:''}
-     ${mapBtn}
+     ${actions}
    </div></div>`;
 }
 function sideList(title, items, icon){
@@ -552,15 +590,22 @@ function sideList(title, items, icon){
 }
 function renderDay(){
  const d=DAYS[curDay];
- const rows=d.seg.map(s=>s.type==='move'?moveCard(s):spotCard(s)).join('');
+ let lastPeriod='';
+ const rows=d.seg.map((s,index)=>{
+  const period=periodOf(s.t),heading=period&&period!==lastPeriod?`<div class="pl-10 pb-2 pt-1 text-[11px] font-bold text-sub"><span class="bg-paper border border-line rounded-full px-2.5 py-1">${period}</span></div>`:'';
+  if(period)lastPeriod=period;
+  return heading+(s.type==='move'?moveCard(s):spotCard(s,index));
+ }).join('');
  const al=d.alert?`<div class="bg-alert/10 border border-alert/30 rounded-xl px-3 py-2 text-[12px] text-alert mb-3"><i class="fa-solid fa-circle-exclamation mr-1"></i>${d.alert}</div>`:'';
+ const info=DAY_INFO[curDay];
+ const summary=`<div class="grid grid-cols-2 gap-2 mb-3 text-[11px]"><div class="bg-snow/50 border border-line rounded-xl px-3 py-2"><span class="text-sub">行程節奏</span><b class="block mt-0.5">${info.pace}</b></div><div class="bg-snow/50 border border-line rounded-xl px-3 py-2"><span class="text-sub">主要交通</span><b class="block mt-0.5">${info.transport}</b></div><div class="col-span-2 bg-snow/50 border border-line rounded-xl px-3 py-2"><span class="text-sub">今晚住宿</span><b class="float-right">${info.hotel}</b></div></div>`;
  document.getElementById('daycontent').innerHTML=
   `<div class="flex items-center gap-2 mb-3">
      <span class="text-3xl font-bold">${d.key}</span>
      <span class="flex-1 h-[2px] bg-ink/80"></span>
      <span class="text-[12px] font-bold text-sub">${d.city}</span>
    </div>
-   <div class="text-base font-bold mb-3">${d.title}</div>${al}
+   <div class="text-base font-bold mb-3">${d.title}</div>${al}${summary}
    <div class="relative tl">${rows}</div>
    ${sideList('有時間可逛／備案',d.optional,'fa-clock')}
    ${sideList('餐飲',d.food,'fa-utensils')}
