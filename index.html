@@ -14,6 +14,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
 tailwind.config={theme:{extend:{
   colors:{
@@ -56,6 +58,15 @@ tailwind.config={theme:{extend:{
   .navbtn.active .ic{background:#5b7a6b;color:#fff}
   ::-webkit-scrollbar{width:0;height:0}
   .dash{border-top:1.5px dashed #ddd6c9}
+  .trip-map{height:340px;background:#eceae5}
+  .map-tiles{filter:grayscale(1) contrast(.88) brightness(1.08)}
+  .leaflet-container{font-family:"Noto Serif TC","Songti TC",serif!important;background:#eceae5}
+  .leaflet-control-attribution{font-size:8px!important;background:rgba(246,244,239,.84)!important;color:#8a8378!important}
+  .leaflet-control-attribution a{color:#5b7a6b!important}
+  .leaflet-bar a{color:#3a3631!important;background:#fffdf9!important;border-color:#e6e1d8!important}
+  .trip-marker{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(58,54,49,.22);border:3px solid #fffdf9}
+  .trip-marker.station{background:#3a3631;color:#fffdf9}
+  .trip-marker.spot{background:#5b7a6b;color:#fffdf9}
 </style>
 </head>
 <body class="app-shell mx-auto relative">
@@ -79,7 +90,7 @@ tailwind.config={theme:{extend:{
     <div class="overview-stack mb-4">
       <figure class="bg-card rounded-2xl shadow-soft border border-line overflow-hidden">
         <button type="button" class="hero-zoom block w-full text-left" onclick="openLightbox()" aria-label="放大北海道 8 天 7 夜旅遊總覽圖">
-          <img src="旅遊總覽.jpg" alt="北海道 8 天 7 夜旅遊總覽圖" class="hero-img w-full">
+          <img src="旅遊總覽-v2.png" alt="北海道 8 天 7 夜旅遊總覽圖" class="hero-img w-full">
         </button>
         <figcaption class="px-4 py-3">
           <div class="flex items-center justify-between gap-3">
@@ -102,24 +113,20 @@ tailwind.config={theme:{extend:{
       <div class="flight-grid">
         <div class="bg-card rounded-2xl shadow-soft p-4 border border-line">
           <div class="flex items-center justify-between mb-2">
-            <span class="text-sm font-bold"><i class="fa-solid fa-plane-departure text-accent text-lg mr-1"></i> 去程 · 11/21 六</span>
-            <span class="text-[11px] text-sub">EVA BR116</span>
+            <span class="text-sm font-bold"><i class="fa-solid fa-plane-arrival text-accent text-lg mr-1"></i> 抵達 · 11/21 六</span>
           </div>
-          <div class="flex items-center justify-between">
-            <div class="text-center"><div class="text-2xl font-bold">09:30</div><div class="text-[11px] text-sub">桃園 T2</div></div>
-            <div class="flex-1 px-2 text-center text-[11px] text-sub">— 3h35m ✈ —</div>
-            <div class="text-center"><div class="text-2xl font-bold">14:05</div><div class="text-[11px] text-sub">新千歲</div></div>
+          <div class="flex items-center gap-3">
+            <div class="text-2xl font-bold">14:05</div>
+            <div class="text-[12px] text-sub">抵達新千歲機場，搭 JR Rapid Airport 前往札幌市區</div>
           </div>
         </div>
         <div class="bg-card rounded-2xl shadow-soft p-4 border border-line">
           <div class="flex items-center justify-between mb-2">
-            <span class="text-sm font-bold"><i class="fa-solid fa-plane-arrival text-accent text-lg mr-1"></i> 回程 · 11/28 六</span>
-            <span class="text-[11px] text-sub">EVA BR115</span>
+            <span class="text-sm font-bold"><i class="fa-solid fa-plane-departure text-accent text-lg mr-1"></i> 回程 · 11/28 六</span>
           </div>
-          <div class="flex items-center justify-between">
-            <div class="text-center"><div class="text-2xl font-bold">15:20</div><div class="text-[11px] text-sub">新千歲</div></div>
-            <div class="flex-1 px-2 text-center text-[11px] text-sub">— 4h45m ✈ —</div>
-            <div class="text-center"><div class="text-2xl font-bold">19:05</div><div class="text-[11px] text-sub">桃園 T2</div></div>
+          <div class="flex items-center gap-3">
+            <div class="text-2xl font-bold">15:20</div>
+            <div class="text-[12px] text-sub">新千歲機場起飛；預留足夠時間前往機場與辦理登機</div>
           </div>
         </div>
       </div>
@@ -144,6 +151,23 @@ tailwind.config={theme:{extend:{
   <p class="text-xs text-sub mb-4">重點景點的歷史背景與冷知識</p>
   <div id="guidelist" class="space-y-5"></div>
   <div id="seasonspots" class="mt-8"></div>
+</section>
+
+<!-- ============ MAP ============ -->
+<section id="map" class="tabpane">
+  <h2 class="text-2xl font-bold mb-1">旅程地圖</h2>
+  <p class="text-xs text-sub mb-4">選擇日期與景點，查看最近車站的步行路線</p>
+  <div id="mapDayTabs" class="flex gap-2 overflow-x-auto pb-2 mb-3"></div>
+  <div class="bg-card rounded-2xl shadow-soft border border-line overflow-hidden mb-4">
+    <div class="px-4 py-3 flex items-end justify-between gap-3">
+      <div><div id="mapDayLabel" class="text-[11px] text-accent font-bold"></div><div id="mapCityLabel" class="text-xl font-bold"></div></div>
+      <div class="text-[10px] text-sub text-right">黑色＝車站<br>綠色＝景點</div>
+    </div>
+    <div id="tripMap" class="trip-map border-y border-line" role="img" aria-label="旅程步行地圖"></div>
+    <div id="mapRouteSummary" class="px-4 py-3 min-h-[72px]"></div>
+  </div>
+  <div class="text-xs text-sub font-bold mb-2"><i class="fa-solid fa-person-walking text-accent mr-1"></i>步行路線</div>
+  <div id="mapRouteList" class="space-y-2"></div>
 </section>
 
 <!-- ============ LISTS ============ -->
@@ -171,11 +195,15 @@ tailwind.config={theme:{extend:{
 <section id="info" class="tabpane">
   <h2 class="text-2xl font-bold mb-3">實用資訊</h2>
   <div class="bg-card rounded-2xl shadow-soft p-4 border border-line mb-4">
-    <div class="text-sm font-bold mb-2"><i class="fa-solid fa-cloud-sun text-accent text-lg"></i> 天氣預報</div>
-    <div class="space-y-2 text-[13px]">
-      <a href="https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=016000" target="_blank" class="flex items-center justify-between bg-paper rounded-xl px-3 py-2 border border-line">日本氣象廳・北海道 <i class="fa-solid fa-arrow-up-right-from-square text-sub"></i></a>
-      <a href="https://weather.com/zh-TW/weather/today/l/Sapporo+Hokkaido+Japan" target="_blank" class="flex items-center justify-between bg-paper rounded-xl px-3 py-2 border border-line">札幌即時天氣（中文）<i class="fa-solid fa-arrow-up-right-from-square text-sub"></i></a>
+    <div class="flex items-center justify-between mb-3">
+      <div class="text-sm font-bold"><i class="fa-solid fa-cloud-sun text-accent text-lg"></i> 即時天氣</div>
+      <button type="button" onclick="loadWeather()" class="w-8 h-8 rounded-full bg-paper border border-line text-accent" aria-label="重新整理即時天氣"><i id="weatherRefreshIcon" class="fa-solid fa-rotate-right"></i></button>
     </div>
+    <div id="weatherCities" class="grid grid-cols-4 gap-1.5 mb-3"></div>
+    <div id="weatherPanel" class="bg-paper rounded-xl px-4 py-4 border border-line min-h-[166px] flex items-center justify-center" aria-live="polite">
+      <div class="text-[12px] text-sub"><i class="fa-solid fa-spinner fa-spin mr-1"></i>讀取即時天氣…</div>
+    </div>
+    <div class="text-[10px] text-sub mt-2 text-right">資料來源：Open-Meteo・日本時間</div>
   </div>
   <div class="bg-card rounded-2xl shadow-soft p-4 border border-line mb-4">
     <div class="text-sm font-bold mb-2"><i class="fa-solid fa-phone-volume text-alert text-lg"></i> 緊急聯絡</div>
@@ -203,16 +231,17 @@ tailwind.config={theme:{extend:{
 
 <!-- ===== Bottom Nav ===== -->
 <nav class="bottom-nav fixed bottom-0 left-1/2 -translate-x-1/2 w-full bg-card/95 backdrop-blur border-t border-line flex justify-around pt-2 z-40">
-  <button data-tab="overview" class="navbtn active flex flex-col items-center gap-1 text-[11px] text-sub w-1/5"><span class="ic w-11 h-11 rounded-full flex items-center justify-center transition text-xl"><i class="fa-solid fa-plane"></i></span>總覽</button>
-  <button data-tab="plan"   class="navbtn flex flex-col items-center gap-1 text-[11px] text-sub w-1/5"><span class="ic w-11 h-11 rounded-full flex items-center justify-center transition text-xl"><i class="fa-solid fa-route"></i></span>行程</button>
-  <button data-tab="guide"  class="navbtn flex flex-col items-center gap-1 text-[11px] text-sub w-1/5"><span class="ic w-11 h-11 rounded-full flex items-center justify-center transition text-xl"><i class="fa-solid fa-book-open"></i></span>導覽</button>
-  <button data-tab="lists"  class="navbtn flex flex-col items-center gap-1 text-[11px] text-sub w-1/5"><span class="ic w-11 h-11 rounded-full flex items-center justify-center transition text-xl"><i class="fa-solid fa-list-check"></i></span>清單</button>
-  <button data-tab="info"   class="navbtn flex flex-col items-center gap-1 text-[11px] text-sub w-1/5"><span class="ic w-11 h-11 rounded-full flex items-center justify-center transition text-xl"><i class="fa-solid fa-circle-info"></i></span>資訊</button>
+  <button data-tab="overview" class="navbtn active flex flex-col items-center gap-1 text-[10px] text-sub w-1/6"><span class="ic w-10 h-10 rounded-full flex items-center justify-center transition text-lg"><i class="fa-solid fa-plane"></i></span>總覽</button>
+  <button data-tab="plan"   class="navbtn flex flex-col items-center gap-1 text-[10px] text-sub w-1/6"><span class="ic w-10 h-10 rounded-full flex items-center justify-center transition text-lg"><i class="fa-solid fa-route"></i></span>行程</button>
+  <button data-tab="guide"  class="navbtn flex flex-col items-center gap-1 text-[10px] text-sub w-1/6"><span class="ic w-10 h-10 rounded-full flex items-center justify-center transition text-lg"><i class="fa-solid fa-book-open"></i></span>導覽</button>
+  <button data-tab="map"    class="navbtn flex flex-col items-center gap-1 text-[10px] text-sub w-1/6"><span class="ic w-10 h-10 rounded-full flex items-center justify-center transition text-lg"><i class="fa-solid fa-map-location-dot"></i></span>地圖</button>
+  <button data-tab="lists"  class="navbtn flex flex-col items-center gap-1 text-[10px] text-sub w-1/6"><span class="ic w-10 h-10 rounded-full flex items-center justify-center transition text-lg"><i class="fa-solid fa-list-check"></i></span>清單</button>
+  <button data-tab="info"   class="navbtn flex flex-col items-center gap-1 text-[10px] text-sub w-1/6"><span class="ic w-10 h-10 rounded-full flex items-center justify-center transition text-lg"><i class="fa-solid fa-circle-info"></i></span>資訊</button>
 </nav>
 
 <div id="imageLightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="旅遊總覽圖放大預覽" onclick="closeLightbox(event)">
   <button type="button" class="lightbox-close" onclick="closeLightbox(event)" aria-label="關閉圖片預覽"><i class="fa-solid fa-xmark"></i></button>
-  <img src="旅遊總覽.jpg" alt="北海道 8 天 7 夜旅遊總覽圖放大版">
+  <img src="旅遊總覽-v2.png" alt="北海道 8 天 7 夜旅遊總覽圖放大版">
 </div>
 
 <script>
@@ -221,114 +250,111 @@ const G = q => 'https://www.google.com/maps/search/?api=1&query='+encodeURICompo
 const DIR = (from,to) => 'https://www.google.com/maps/dir/?api=1&travelmode=transit&origin='+encodeURIComponent(from)+'&destination='+encodeURIComponent(to);
 
 const HOTELS = [
-  ['Day 1','札幌市區','札幌站／大通／薄野周邊'],
-  ['Day 2–3','函館','函館站附近'],
-  ['Day 4–5','登別 adex inn','登別溫泉區（連住兩晚）'],
-  ['Day 6–7','小樽','小樽站或運河附近'],
+  ['Day 1','札幌','the b sapporo'],
+  ['Day 2','函館湯之川','Imagine Hotel & Resort Hakodate'],
+  ['Day 3–4','函館','Hotel Enoe Hakodate'],
+  ['Day 5','登別','第一滝本館'],
+  ['Day 6','小樽','Grids Premium Hotel Otaru'],
+  ['Day 7','札幌','Hotel Forza Sapporo Station'],
+  ['Day 8','—','無'],
 ];
 
 /* itinerary：每日 segments
    spot 物件：{type:'spot'|'meal'|'go'|'flight', t, name, stay, note, map}
    move 物件：{type:'move', t, route, opts:[{means,time,fare,note,link}]} */
 const DAYS = [
-{key:'D1',date:'11/21 六',city:'札幌',title:'抵達・札幌聖誕市集',
+{key:'D1',date:'11/21 六',city:'札幌',title:'主要逛中島公園、慕尼黑聖誕市集',
  seg:[
-  {type:'flight',t:'09:30',name:'BR116 桃園 T2 起飛',note:'14:05 抵達新千歲機場，入境、領行李'},
-  {type:'move',t:'14:30',route:'新千歲機場 → 札幌站',from:'新千歳空港駅',to:'札幌駅',opts:[
-    {means:'JR 快速 Airport（推薦）',time:'約 37 分',fare:'¥1,230',note:'日間每小時約 6 班；U-Seat 指定席 +¥840',link:'https://www.jorudan.co.jp/'},
-    {means:'機場聯絡巴士',time:'約 70–80 分',fare:'¥1,100',note:'可直達主要飯店，行李多時方便'},
-  ]},
-  {type:'spot',t:'16:00',name:'飯店 Check-in',stay:'—',map:'札幌駅',note:'放行李、稍作休息'},
-  {type:'meal',t:'18:00',name:'札幌晚餐',map:'すすきの グルメ',note:'味噌拉麵／成吉思汗烤羊／螃蟹'},
-  {type:'spot',t:'19:30',name:'大通公園・札幌電視塔・聖誕市集',stay:'1.5 hr',map:'大通公園 札幌',note:'德國慕尼黑聖誕市集（2026 日期待官方公告）'},
- ],alert:'若聖誕市集尚未開幕，改看大通公園燈飾、電視塔夜景、狸小路或薄野散步。'},
+  {type:'flight',t:'14:05',name:'抵達新千歲機場'},
+  {type:'move',t:'14:45',route:'新千歲機場 → 札幌市區',from:'新千歳空港駅',to:'札幌駅',opts:[{means:'JR Rapid Airport',time:'抵達後'}]},
+  {type:'spot',t:'15:45',name:'入住 the b sapporo',map:'the b sapporo'},
+  {type:'spot',t:'16:15',name:'中島公園',map:'中島公園'}, {type:'spot',t:'16:40',name:'豐平館',map:'豊平館'},
+  {type:'spot',t:'17:00',name:'八窗庵',map:'八窓庵'}, {type:'spot',t:'17:30',name:'大通公園',map:'大通公園'},
+  {type:'spot',t:'18:00',name:'慕尼黑聖誕市集',map:'ミュンヘン・クリスマス市'},
+  {type:'meal',t:'19:30',name:'狸小路商店街／薄野晚餐',map:'狸小路商店街'},
+ ],optional:[{name:'藻岩山夜景',note:'天氣晴朗、能見度良好且體力足夠時安排',map:'藻岩山'}],
+ alert:'第一天以散步與市中心行程為主，不要排得太趕。'},
 
-{key:'D2',date:'11/22 日',city:'函館',title:'前往最遠點・函館山夜景',
+{key:'D2',date:'11/22 日',city:'函館湯之川',title:'札幌 → 函館湯之川・泡湯慢遊',
  seg:[
-  {type:'go',t:'08:30',name:'札幌飯店退房',note:'先攻最遠點，之後一路往回玩'},
-  {type:'move',t:'09:00',route:'札幌 → 函館（新函館北斗→函館）',from:'札幌駅',to:'函館駅',opts:[
-    {means:'JR 特急北斗（推薦）',time:'約 3.5–4 小時',fare:'約 ¥9,440（指定席）',note:'建議早上出發、中午前後抵達；可用 JR PASS 省錢',link:'https://www.jorudan.co.jp/'},
-    {means:'國內線飛機',time:'飛行約 40 分',fare:'視票價',note:'CTS→HKD，含進出市區未必較快'},
-  ]},
-  {type:'spot',t:'13:30',name:'函館 Check-in／寄放行李',stay:'—',map:'函館駅'},
-  {type:'spot',t:'14:30',name:'金森紅磚倉庫・Bay Area',stay:'1.5 hr',map:'金森赤レンガ倉庫'},
-  {type:'spot',t:'16:00',name:'元町・八幡坂・教會群',stay:'1 hr',map:'八幡坂'},
-  {type:'spot',t:'17:30',name:'函館山纜車・夜景',stay:'1.5 hr',map:'函館山ロープウェイ',note:'世界三大夜景，日落後30分藍調時刻最美'},
-  {type:'meal',t:'19:30',name:'晚餐：海鮮／壽司／鹽味拉麵',map:'函館 塩ラーメン'},
- ]},
+  {type:'move',t:'約 09:30',route:'札幌 → 函館',from:'札幌駅',to:'函館駅',opts:[{means:'特急北斗號',time:'約 13:15 抵達函館'}]},
+  {type:'move',t:'13:30',route:'函館站 → 湯之川',from:'函館駅',to:'湯の川温泉',opts:[{means:'函館市電',time:'約 14:00–15:00 抵達飯店'}]},
+  {type:'spot',t:'14:30',name:'入住 Imagine Hotel & Resort Hakodate',map:'Imagine Hotel & Resort Hakodate'},
+  {type:'spot',t:'15:00',name:'飯店海景溫泉',map:'Imagine Hotel & Resort Hakodate'},
+  {type:'spot',t:'16:00',name:'熱帶植物園',note:'可能可以看到猴子泡溫泉',map:'函館市熱帯植物園'}, {type:'spot',t:'16:45',name:'湯倉神社',map:'湯倉神社'},
+  {type:'spot',t:'17:15',name:'湯之川散步',map:'湯の川温泉'},
+ ],food:[{name:'晚餐推薦：函館麵屋一文字',map:'函館麺や一文字'}, {name:'備選：RAIMON ZUSHI',map:'RAIMON ZUSHI'}],
+ alert:'當天以泡湯與湯之川周邊為主，不再折返函館市中心。'},
 
-{key:'D3',date:'11/23 一',city:'函館',title:'函館市區一日',
+{key:'D3',date:'11/23 一',city:'函館',title:'函館・兩日彈性安排（第 1 日）',
  seg:[
-  {type:'meal',t:'08:00',name:'函館朝市早餐',stay:'1 hr',map:'函館朝市',note:'海鮮丼、活烏賊'},
-  {type:'spot',t:'09:30',name:'五稜郭公園・五稜郭塔',stay:'1.5 hr',map:'五稜郭タワー'},
-  {type:'move',t:'12:00',route:'市區移動方式',from:'函館駅前',to:'五稜郭公園前',opts:[
-    {means:'函館市電（路面電車）',time:'隨站',fare:'單程 ¥210–260 ／ 一日券 ¥600',note:'主要景點皆沿線，最方便',link:'https://www.hakobus.co.jp/tram'},
-    {means:'步行＋必要時計程車',time:'—',fare:'起跳約 ¥580',note:'元町坡道區步行即可'},
-  ]},
-  {type:'spot',t:'13:30',name:'金森倉庫・Bay Area 補逛',stay:'1 hr',map:'函館ベイエリア'},
-  {type:'spot',t:'15:00',name:'元町・舊函館區公會堂',stay:'1.5 hr',map:'旧函館区公会堂'},
- ],alert:'若 Day 2 天氣不好，這晚補拍函館山夜景。'},
+  {type:'meal',t:'08:00',name:'函館自由市場早餐',note:'也可先逛函館朝市了解物價，再到自由市場用餐',map:'函館自由市場'},
+  {type:'move',t:'09:00',route:'函館市區移動',from:'函館駅',to:'五稜郭公園前',opts:[{means:'步行與函館市電',time:'函館站至五稜郭公園前約 15 分；至十字街約 10 分'}]},
+  {type:'spot',t:'09:30',name:'五稜郭公園（柯南）',map:'五稜郭公園'}, {type:'spot',t:'10:00',name:'箱館奉行所外觀',map:'箱館奉行所'},
+  {type:'spot',t:'10:30',name:'五稜郭塔（柯南）',note:'白天景色與夜間點燈皆可安排',map:'五稜郭タワー'},
+  {type:'spot',t:'12:30',name:'八幡坂（柯南）',map:'八幡坂'}, {type:'spot',t:'13:00',name:'船魂神社',map:'船魂神社'},
+  {type:'spot',t:'13:30',name:'元町公園',map:'元町公園'}, {type:'spot',t:'14:00',name:'舊函館區公會堂',note:'二樓看海景',map:'旧函館区公会堂'},
+  {type:'spot',t:'14:45',name:'舊北海道廳函館支廳',map:'旧北海道庁函館支庁庁舎'},
+  {type:'spot',t:'15:15',name:'元町教堂群（柯南）',note:'羅馬天主教堂、聖約翰教堂、俄羅斯東正教堂',map:'元町教会群'},
+  {type:'spot',t:'16:00',name:'金森紅磚倉庫（柯南）',map:'金森赤レンガ倉庫'}, {type:'spot',t:'16:45',name:'函館明治館',map:'函館明治館'},
+  {type:'spot',t:'17:30',name:'函館山夜景（柯南）',note:'從十字街站步行至纜車站約 10 分；依能見度決定 11/23 或 11/24 上山',map:'函館山ロープウェイ'},
+ ],optional:[{name:'船見公園盪鞦韆',map:'船見公園'}, {name:'山中大神社',map:'山中大神社'}, {name:'摩周丸紀念船',map:'摩周丸'}],
+ conan:[{name:'Lucky Pierrot 小丑漢堡',map:'ラッキーピエロ'}],
+ alert:'11/23 與 11/24 為同一組彈性規劃；當天未完成的景點順延至 11/24，不需要為了全部走完而趕行程。'},
 
-{key:'D4',date:'11/24 二',city:'登別',title:'函館 → 洞爺湖 → 登別',
+{key:'D4',date:'11/24 二',city:'函館',title:'函館・兩日彈性安排（第 2 日）',
  seg:[
-  {type:'go',t:'09:00',name:'函館飯店退房',note:'今天只移動到登別，行程較從容'},
-  {type:'move',t:'09:30',route:'函館 → 洞爺站',from:'函館駅',to:'洞爺駅',opts:[
-    {means:'JR 特急北斗',time:'約 1.5–2 小時',fare:'約 ¥5,390（自由席）',note:'經長萬部往洞爺方向',link:'https://www.jorudan.co.jp/'},
-  ]},
-  {type:'move',t:'11:30',route:'洞爺站 → 洞爺湖溫泉區',from:'洞爺駅',to:'洞爺湖温泉',opts:[
-    {means:'道南巴士',time:'約 20 分',fare:'¥340',note:'1日約16班；部分飯店有免費接駁',link:'https://www.donanbus.co.jp/map/toyako_toyakoonsen/'},
-  ]},
-  {type:'spot',t:'12:00',name:'洞爺湖下午景',stay:'~2.5 hr',map:'洞爺湖温泉',note:'湖畔散步、午餐／咖啡、有珠山纜車或昭和新山擇一'},
-  {type:'go',t:'14:45',name:'洞爺湖溫泉巴士總站集合',note:'準備搭 15:00 直達巴士，不等燈光隧道'},
-  {type:'move',t:'15:00',route:'洞爺湖溫泉 → 登別溫泉（直達）',from:'洞爺湖温泉',to:'登別温泉',opts:[
-    {means:'🚌 高速いぶり号（直達・推薦）',time:'約 1h25m（15:00→16:25）',fare:'¥1,700',note:'溫泉到溫泉不轉車；1日2往復、全年營運；建議事先電話訂位',link:'https://www.donanbus.co.jp/map/noboribetsu_toyako/'},
-    {means:'JR 轉乘（備案）',time:'約 2h50m',fare:'¥3,120',note:'洞爺→東室蘭→登別站＋巴士，錯過直達才用',link:'https://www.jorudan.co.jp/'},
-  ]},
-  {type:'spot',t:'16:30',name:'adex inn Check-in・泡湯・溫泉街',stay:'—',map:'登別温泉'},
- ],alert:'高速いぶり号 1日僅2班（洞爺湖溫泉發 9:00／15:00），務必趕上 15:00 那班；建議事先向道南巴士訂位。'},
+  {type:'move',t:'09:30',route:'函館市區移動',opts:[{means:'函館市電與步行',time:'各區交通時間沿用 11/23 資訊'}]},
+  {type:'spot',t:'10:00',name:'延續 11/23 未完成的函館景點'}, {type:'spot',t:'15:00',name:'保留咖啡廳與休息時間'},
+  {type:'spot',t:'16:30',name:'依天氣安排函館山夜景',map:'函館山ロープウェイ'}, {type:'spot',t:'18:30',name:'補看五稜郭塔白天景色或夜間點燈',map:'五稜郭タワー'},
+ ],optional:[{name:'摩周丸紀念船',map:'摩周丸'}, {name:'船見公園盪鞦韆',map:'船見公園'}, {name:'山中大神社',map:'山中大神社'}],
+ alert:'11/23 與 11/24 為同一組彈性規劃，依天氣與進度調整即可。'},
 
-{key:'D5',date:'11/25 三',city:'登別',title:'登別溫泉一日',
+{key:'D5',date:'11/25 三',city:'登別',title:'函館 → 登別溫泉',
  seg:[
-  {type:'spot',t:'09:00',name:'地獄谷・鬼火之路',stay:'1.5 hr',map:'登別地獄谷',note:'噴氣孔、爆裂火口地貌'},
-  {type:'spot',t:'10:30',name:'溫泉街・鬼像・閻魔堂',stay:'1 hr',map:'登別温泉街'},
-  {type:'spot',t:'13:00',name:'大湯沼・天然足湯',stay:'1.5 hr',map:'大湯沼 登別',note:'視天氣與步道狀況，結冰勿硬走'},
-  {type:'spot',t:'15:00',name:'備案：熊牧場／伊達時代村',stay:'彈性',map:'のぼりべつクマ牧場',note:'不列必去，看體力與天氣'},
-  {type:'spot',t:'18:30',name:'地獄谷夜間鬼火之路・泡第一滝本館',stay:'—',map:'第一滝本館'},
- ],alert:'訂房時務必確認方案是否可使用「第一滝本館」大浴場。11 月底可能結冰。'},
+  {type:'move',t:'08:30',route:'函館 → 登別',from:'函館駅',to:'登別駅',opts:[{means:'特急北斗號',time:'車程約 2.5 小時'}]},
+  {type:'move',t:'11:15',route:'登別站 → 登別溫泉',from:'登別駅',to:'登別温泉',opts:[{means:'道南巴士',time:'車程約 15 分'}]},
+  {type:'spot',t:'12:00',name:'登別熊牧場',note:'含纜車與參觀時間，建議預留約 2 小時',map:'のぼりべつクマ牧場'},
+  {type:'spot',t:'14:30',name:'入住第一滝本館',map:'第一滝本館'},
+  {type:'spot',t:'15:30',name:'地獄谷',stay:'約 45–60 分',note:'主要步道不長；若只走地獄谷展望台與周邊步道，不需要安排太久',map:'登別地獄谷'},
+  {type:'spot',t:'16:30',name:'登別溫泉街散步',note:'可順遊閻魔堂、鬼像與商店街，適合排在地獄谷之後',map:'登別温泉極楽通り'},
+  {type:'meal',t:'18:00',name:'晚餐與飯店泡湯',map:'第一滝本館'},
+ ],optional:[{name:'大湯沼、天然足湯',note:'距離較遠，視天候、積雪與體力安排',map:'大湯沼'}],
+ alert:'熊牧場排在今天的前提是搭較早的北斗號並控制函館退房時間；如此隔天可睡晚一點、充分泡湯後再前往小樽。'},
 
-{key:'D6',date:'11/26 四',city:'小樽',title:'登別 → 小樽',
+{key:'D6',date:'11/26 四',city:'小樽',title:'小樽・主要逛小樽運河、運河點燈',
  seg:[
-  {type:'go',t:'09:00',name:'adex inn 退房',note:'整體抓 2.5–3 小時較安全'},
-  {type:'move',t:'09:20',route:'登別溫泉 → 登別站',from:'登別温泉',to:'登別駅',opts:[
-    {means:'道南巴士',time:'約 12–15 分',fare:'¥450',note:'班距約 30–60 分一班',link:'https://www.donanbus.co.jp/map/noboribetsu_ashiyu2/'},
-  ]},
-  {type:'move',t:'09:50',route:'登別站 → 札幌 → 小樽',from:'登別駅',to:'小樽駅',opts:[
-    {means:'JR 特急（登別→札幌）＋ 快速 Airport（札幌→小樽）',time:'共約 2.5–3 小時',fare:'約 ¥5,000–6,000',note:'札幌站轉乘',link:'https://www.jorudan.co.jp/'},
-  ]},
-  {type:'spot',t:'13:30',name:'小樽寄放行李／Check-in',stay:'—',map:'小樽駅'},
-  {type:'spot',t:'14:30',name:'堺町通・北一硝子・音樂盒堂',stay:'2 hr',map:'堺町通り'},
-  {type:'meal',t:'16:30',name:'LeTAO・六花亭・北菓樓 甜點巡禮',stay:'1 hr',map:'ルタオ本店'},
-  {type:'spot',t:'18:00',name:'小樽運河・青之運河',stay:'1.5 hr',map:'小樽運河',note:'冬季點燈倒映藍光（2026 日期待公告）'},
- ]},
+  {type:'spot',t:'09:30',name:'睡晚一點'}, {type:'spot',t:'10:00',name:'飯店泡湯',map:'第一滝本館'},
+  {type:'move',t:'12:00',route:'登別 → 小樽',from:'登別駅',to:'小樽駅',opts:[{means:'JR（札幌轉車）',time:'約 3.5 小時'}]},
+  {type:'spot',t:'15:30',name:'入住 Grids Premium Hotel Otaru',map:'Grids Premium Hotel Otaru'},
+  {type:'spot',t:'17:00',name:'小樽運河夜景與運河點燈',map:'小樽運河'}, {type:'meal',t:'18:30',name:'倉庫群散步與晚餐',map:'小樽運河'},
+ ],optional:[
+  {name:'堺町通',map:'小樽堺町通り商店街'}, {name:'小樽音樂盒堂',map:'小樽オルゴール堂'},
+  {name:'北一硝子',map:'北一硝子三号館'}, {name:'舊手宮線',map:'旧国鉄手宮線'},
+  {name:'水天宮',map:'小樽水天宮'}, {name:'小樽文學館',map:'市立小樽文学館'}
+ ],alert:'下方景點先不排時間，當天依抵達時間、體力與點燈狀況決定逛到哪裡；天狗山纜車於此日期預計停駛。'},
 
-{key:'D7',date:'11/27 五',city:'小樽',title:'小樽整天慢遊',
+{key:'D7',date:'11/27 五',city:'札幌',title:'主要逛北海道大學和周邊景點',
  seg:[
-  {type:'spot',t:'09:30',name:'運河白天版・舊手宮線・淺草橋',stay:'1.5 hr',map:'旧手宮線'},
-  {type:'spot',t:'11:00',name:'小樽市綜合博物館（鐵道迷可選）',stay:'1 hr',map:'小樽市総合博物館'},
-  {type:'meal',t:'12:30',name:'三角市場海鮮丼／小樽壽司通',stay:'1 hr',map:'三角市場 小樽'},
-  {type:'spot',t:'14:00',name:'堺町通補逛・音樂盒堂・咖啡廳',stay:'2 hr',map:'小樽オルゴール堂'},
-  {type:'spot',t:'17:00',name:'青之運河・可考慮運河遊船',stay:'1.5 hr',map:'小樽運河 クルーズ'},
- ]},
+  {type:'move',t:'09:00',route:'小樽 → 札幌',from:'小樽駅',to:'札幌駅',opts:[{means:'JR',time:'車程約 40–50 分'}]},
+  {type:'move',t:'10:00',route:'札幌市區移動',opts:[{means:'地鐵、市電與步行',time:'市區移動'}]},
+  {type:'spot',t:'10:30',name:'北海道大學',map:'北海道大学'}, {type:'spot',t:'11:30',name:'札幌時計台',map:'札幌時計台'},
+  {type:'spot',t:'12:00',name:'北海道廳紅磚舍',map:'北海道庁旧本庁舎'}, {type:'spot',t:'13:00',name:'札幌場外市場－根室杉山水產',map:'札幌場外市場 根室杉山水産'},
+  {type:'spot',t:'15:00',name:'入住 Hotel Forza Sapporo Station',map:'Hotel Forza Sapporo Station'},
+  {type:'meal',t:'16:00',name:'Toriton',note:'先取號碼牌；推薦星鰻，利用等候時間安排附近景點',map:'回転寿しトリトン'},
+  {type:'spot',t:'18:00',name:'藻岩山夜景',note:'天氣好、能見度佳時前往；可利用免費接駁車',map:'藻岩山'}
+ ],optional:[{name:'圓山公園',map:'円山公園'}, {name:'圓山動物園',map:'札幌市円山動物園'}, {name:'北海道神宮',map:'北海道神宮'},
+  {name:'狸小路商店街',map:'狸小路商店街'}, {name:'薄野',map:'すすきの'}, {name:'二條市場',map:'二条市場'},
+  {name:'AOAO水族館',map:'AOAO SAPPORO'}, {name:'定山溪',map:'定山渓温泉'}, {name:'JR Tower展望室',map:'JRタワー展望室'},
+  {name:'札幌電視塔',map:'さっぽろテレビ塔'}, {name:'札幌伏見稻荷神社',map:'札幌伏見稲荷神社'}, {name:'北菓樓',map:'北菓楼'}],
+ alert:'圓山區景點標註為「有時間可逛」，不要全部塞進主要時間軸。'},
 
-{key:'D8',date:'11/28 六',city:'返程',title:'小樽 → 新千歲 → 桃園',
+{key:'D8',date:'11/28 六',city:'返程',title:'吃飽、早上附近晃晃，11 點前往機場',
  seg:[
-  {type:'go',t:'10:30',name:'離開小樽',note:'建議 12:20 前抵達機場'},
-  {type:'move',t:'10:45',route:'小樽 → 新千歲機場',from:'小樽駅',to:'新千歳空港駅',opts:[
-    {means:'JR 快速 Airport（部分直達）',time:'約 75–90 分',fare:'¥1,910',note:'U-Seat 指定席 +¥840；部分班次需札幌轉乘',link:'https://www.jorudan.co.jp/'},
-  ]},
-  {type:'spot',t:'12:20',name:'抵達機場・午餐・買伴手禮・辦登機',stay:'—',map:'新千歳空港'},
-  {type:'flight',t:'15:20',name:'BR115 新千歲起飛',note:'19:05 抵達桃園 T2'},
- ],alert:'回程辦登機、行李託運請預留時間，建議起飛前 2 小時到。'},
+  {type:'meal',name:'早餐吃飽，附近簡單晃晃'},
+  {type:'move',route:'札幌 → 新千歲機場',from:'札幌駅',to:'新千歳空港駅',opts:[{means:'建議 11:00 前往機場',time:'建議約 12:00–12:30 抵達機場'}]},
+  {type:'flight',name:'15:20 新千歲機場起飛'}
+ ],alert:'上午不排固定景點；吃完早餐後在飯店附近散步，並預留機場報到、安檢與午餐時間。'},
 ];
 
 const GUIDE = [
@@ -344,7 +370,7 @@ const GUIDE = [
   body:'約 11 萬年前火山活動形成的圓形破火山口湖，因地熱影響即使嚴冬也幾乎不結冰。湖畔的有珠山與昭和新山是仍在活動的活火山，昭和新山更是 1943–45 年間從麥田中「長」出來的新山，全球罕見。2008 年 G8 高峰會曾在此舉辦。'},
 ];
 
-const DEFAULT_CHECK = ['護照（效期6個月以上）','機票／登機證（BR116/BR115）','日幣現金','信用卡','網卡／eSIM','防滑雪靴','保暖外套・發熱衣','行動電源','常備藥品','轉接插頭（日本可免）','飯店訂房確認單','JR PASS／車票'];
+const DEFAULT_CHECK = ['護照（效期6個月以上）','機票／登機證','日幣現金','信用卡','網卡／eSIM','防滑雪靴','保暖外套・發熱衣','行動電源','常備藥品','轉接插頭（日本可免）','飯店訂房確認單','JR PASS／車票'];
 
 /* ===== TAB SWITCH ===== */
 function openLightbox(){
@@ -363,6 +389,7 @@ document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('.tabpane').forEach(x=>x.classList.remove('active'));
   b.classList.add('active');
   document.getElementById(b.dataset.tab).classList.add('active');
+  if(b.dataset.tab==='map')setTimeout(initTripMap,80);
   window.scrollTo({top:0,behavior:'smooth'});
 });
 
@@ -399,7 +426,7 @@ function moveCard(s){
        <span class="text-[13px] font-bold text-ink"><i class="fa-solid fa-circle text-[5px] text-accent align-middle mr-1"></i>${o.means}</span>
        <span class="text-[12px] text-accent font-bold whitespace-nowrap ml-2">${o.time}</span>
      </div>
-     <div class="text-[12px] text-sub mt-0.5">💴 ${o.fare}${o.note?'　·　'+o.note:''}</div>
+     ${(o.fare||o.note)?`<div class="text-[12px] text-sub mt-0.5">${o.fare?'💴 '+o.fare:''}${o.fare&&o.note?'　·　':''}${o.note||''}</div>`:''}
      ${o.link?`<a href="${o.link}" target="_blank" class="inline-block text-[11px] text-accent mt-1"><i class="fa-solid fa-arrow-up-right-from-square"></i> 查班次</a>`:''}
    </div>`).join('<div class="dash my-2"></div>');
  return `<div class="relative pl-11 pb-4">
@@ -429,6 +456,15 @@ function spotCard(s){
      ${mapBtn}
    </div></div>`;
 }
+function sideList(title, items, icon){
+ if(!items||!items.length)return '';
+ return `<div class="mt-2 mb-4 pl-11">
+   <div class="text-[12px] font-bold text-sub mb-2"><i class="fa-solid ${icon} text-accent mr-1"></i>${title}</div>
+   <div class="space-y-2">${items.map(s=>{
+     const mapBtn=s.map?`<a href="${G(s.map)}" target="_blank" class="inline-flex items-center gap-1 text-[11px] text-accent bg-paper border border-line rounded-full px-2 py-0.5 mt-1.5"><i class="fa-solid fa-location-dot"></i> 地圖</a>`:'';
+     return `<div class="bg-snow/40 border border-line rounded-2xl px-3 py-2.5"><div class="text-[13px] font-bold">${s.name}</div>${s.note?`<div class="text-[12px] text-sub mt-1">${s.note}</div>`:''}${mapBtn}</div>`;
+   }).join('')}</div></div>`;
+}
 function renderDay(){
  const d=DAYS[curDay];
  const rows=d.seg.map(s=>s.type==='move'?moveCard(s):spotCard(s)).join('');
@@ -440,7 +476,127 @@ function renderDay(){
      <span class="text-[12px] font-bold text-sub">${d.city}</span>
    </div>
    <div class="text-base font-bold mb-3">${d.title}</div>${al}
-   <div class="relative tl">${rows}</div>`;
+   <div class="relative tl">${rows}</div>
+   ${sideList('有時間可逛／備案',d.optional,'fa-clock')}
+   ${sideList('餐飲',d.food,'fa-utensils')}
+   ${sideList('柯南補充景點',d.conan,'fa-magnifying-glass')}`;
+}
+
+/* ===== TRIP MAP ===== */
+const MAP_DAYS=[
+ {key:'D1',date:'11/21',city:'札幌',routes:[
+  {station:'中島公園站',stationCoord:[43.0483303,141.3551210],spot:'中島公園',spotCoord:[43.0452856,141.3524454]},
+  {station:'大通站',stationCoord:[43.0602455,141.3521469],spot:'大通公園／聖誕市集',spotCoord:[43.0599018,141.3475101]},
+ ]},
+ {key:'D2',date:'11/22',city:'函館湯之川',routes:[
+  {station:'湯之川溫泉電停',stationCoord:[41.7800403,140.7851715],spot:'函館市熱帶植物園',spotCoord:[41.7741492,140.7893215]},
+  {station:'湯之川溫泉電停',stationCoord:[41.7800403,140.7851715],spot:'湯倉神社',spotCoord:[41.7820825,140.7910153]},
+ ]},
+ {key:'D3',date:'11/23',city:'函館',routes:[
+  {station:'五稜郭公園前電停',stationCoord:[41.7892382,140.7523010],spot:'五稜郭塔',spotCoord:[41.7945919,140.7539587]},
+  {station:'十字街電停',stationCoord:[41.7643446,140.7192811],spot:'函館山纜車山麓站',spotCoord:[41.7609207,140.7141770]},
+ ]},
+ {key:'D4',date:'11/24',city:'函館',routes:[
+  {station:'十字街電停',stationCoord:[41.7643446,140.7192811],spot:'金森紅磚倉庫',spotCoord:[41.7663069,140.7168435]},
+  {station:'末廣町電停',stationCoord:[41.76710,140.71415],spot:'舊函館區公會堂',spotCoord:[41.76525,140.71010]},
+ ]},
+ {key:'D5',date:'11/25',city:'登別',routes:[
+  {station:'登別溫泉巴士總站',stationCoord:[42.49255,141.14370],spot:'登別地獄谷',spotCoord:[42.4975716,141.1453349]},
+ ]},
+ {key:'D6',date:'11/26',city:'小樽',routes:[
+  {station:'小樽站',stationCoord:[43.1973436,140.9941512],spot:'小樽運河・淺草橋',spotCoord:[43.19855,141.00385]},
+ ]},
+ {key:'D7',date:'11/27',city:'札幌',routes:[
+  {station:'札幌站',stationCoord:[43.0686555,141.3507870],spot:'北海道大學正門',spotCoord:[43.07162,141.34880]},
+  {station:'纜車入口電停',stationCoord:[43.0338219,141.3373357],spot:'藻岩山纜車山麓站',spotCoord:[43.02925,141.32220]},
+ ]},
+ {key:'D8',date:'11/28',city:'札幌',routes:[
+  {station:'札幌站',stationCoord:[43.0686555,141.3507870],spot:'Hotel Forza Sapporo Station',spotCoord:[43.06480,141.35375]},
+ ]},
+];
+let tripMap=null,mapLayers=null,mapDayIndex=0,mapRouteIndex=0,mapRouteToken=0,lastRouteRequest=0;
+const mapRouteCache=new Map();
+function initTripMap(){
+ if(typeof L==='undefined'){
+  document.getElementById('tripMap').innerHTML='<div class="h-full flex items-center justify-center text-[12px] text-sub">地圖元件載入失敗，請確認網路連線</div>';
+  return;
+ }
+ if(!tripMap){
+  tripMap=L.map('tripMap',{zoomControl:true,scrollWheelZoom:false,attributionControl:true}).setView([43.06,141.35],13);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
+   maxZoom:19,className:'map-tiles',attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(tripMap);
+  mapLayers=L.layerGroup().addTo(tripMap);
+  renderMapDayTabs();selectMapRoute(0,true);
+ }else tripMap.invalidateSize();
+}
+function renderMapDayTabs(){
+ document.getElementById('mapDayTabs').innerHTML=MAP_DAYS.map((d,i)=>
+  `<button type="button" onclick="selectMapDay(${i})" class="shrink-0 min-w-[70px] px-3 py-2 rounded-xl border text-left ${i===mapDayIndex?'bg-accent text-white border-accent':'bg-card text-sub border-line'}"><div class="text-[10px]">${d.key}</div><div class="text-sm font-bold">${d.date}</div></button>`
+ ).join('');
+}
+function selectMapDay(index){
+ mapDayIndex=index;mapRouteIndex=0;renderMapDayTabs();renderMapRouteList();selectMapRoute(0,true);
+}
+function renderMapRouteList(){
+ const day=MAP_DAYS[mapDayIndex];
+ document.getElementById('mapDayLabel').textContent=`DAY ${mapDayIndex+1}・${day.date}`;
+ document.getElementById('mapCityLabel').textContent=day.city;
+ document.getElementById('mapRouteList').innerHTML=day.routes.map((r,i)=>
+  `<button type="button" onclick="selectMapRoute(${i})" class="w-full flex items-center gap-3 text-left bg-card border ${i===mapRouteIndex?'border-accent':'border-line'} rounded-xl px-3 py-3 shadow-soft">
+    <span class="w-9 h-9 rounded-full ${i===mapRouteIndex?'bg-accent text-white':'bg-snow text-accent'} flex items-center justify-center shrink-0"><i class="fa-solid fa-person-walking"></i></span>
+    <span class="flex-1 min-w-0"><span class="block text-[12px] text-sub truncate">${r.station}</span><span class="block text-[14px] font-bold truncate">→ ${r.spot}</span></span>
+    <i class="fa-solid fa-chevron-right text-[10px] text-sub"></i>
+   </button>`
+ ).join('');
+}
+function mapMarkerIcon(type){
+ const icon=type==='station'?'fa-train-subway':'fa-location-dot';
+ return L.divIcon({className:'',html:`<div class="trip-marker ${type}"><i class="fa-solid ${icon}"></i></div>`,iconSize:[34,34],iconAnchor:[17,17]});
+}
+async function fetchWalkingRoute(route,token){
+ const cacheKey=[...route.stationCoord,...route.spotCoord].join(',');
+ if(mapRouteCache.has(cacheKey))return mapRouteCache.get(cacheKey);
+ const wait=Math.max(0,1050-(Date.now()-lastRouteRequest));
+ if(wait)await new Promise(resolve=>setTimeout(resolve,wait));
+ if(token!==mapRouteToken)return null;
+ lastRouteRequest=Date.now();
+ const [slat,slon]=route.stationCoord,[plat,plon]=route.spotCoord;
+ const url=`https://routing.openstreetmap.de/routed-foot/route/v1/driving/${slon},${slat};${plon},${plat}?overview=full&geometries=geojson&steps=false`;
+ const response=await fetch(url,{cache:'no-store'});
+ if(!response.ok)throw new Error('route response '+response.status);
+ const data=await response.json();
+ if(data.code!=='Ok'||!data.routes?.length)throw new Error('route unavailable');
+ const result=data.routes[0];mapRouteCache.set(cacheKey,result);return result;
+}
+function haversineKm(a,b){
+ const rad=x=>x*Math.PI/180,R=6371,dLat=rad(b[0]-a[0]),dLon=rad(b[1]-a[1]);
+ const h=Math.sin(dLat/2)**2+Math.cos(rad(a[0]))*Math.cos(rad(b[0]))*Math.sin(dLon/2)**2;
+ return 2*R*Math.asin(Math.sqrt(h));
+}
+async function selectMapRoute(index,skipList){
+ mapRouteIndex=index;if(!skipList)renderMapRouteList();else renderMapRouteList();
+ if(!tripMap)return;
+ const route=MAP_DAYS[mapDayIndex].routes[index],token=++mapRouteToken;
+ mapLayers.clearLayers();
+ const station=L.marker(route.stationCoord,{icon:mapMarkerIcon('station')}).bindTooltip(route.station,{direction:'top'}).addTo(mapLayers);
+ const spot=L.marker(route.spotCoord,{icon:mapMarkerIcon('spot')}).bindTooltip(route.spot,{direction:'top'}).addTo(mapLayers);
+ tripMap.fitBounds(L.latLngBounds([route.stationCoord,route.spotCoord]),{padding:[54,54],maxZoom:16});
+ document.getElementById('mapRouteSummary').innerHTML=`<div class="text-[12px] text-sub"><i class="fa-solid fa-spinner fa-spin mr-1"></i>計算 ${route.station} 到 ${route.spot} 的步行路線…</div>`;
+ try{
+  const result=await fetchWalkingRoute(route,token);if(!result||token!==mapRouteToken)return;
+  const geo={type:'Feature',geometry:result.geometry};
+  L.geoJSON(geo,{style:{color:'#3a3631',weight:8,opacity:.16,lineCap:'round'}}).addTo(mapLayers);
+  const path=L.geoJSON(geo,{style:{color:'#5b7a6b',weight:5,opacity:.95,lineCap:'round'}}).addTo(mapLayers);
+  const minutes=Math.max(1,Math.round(result.duration/60)),km=result.distance/1000;
+  tripMap.fitBounds(path.getBounds(),{padding:[46,46],maxZoom:16});
+  document.getElementById('mapRouteSummary').innerHTML=`<div class="flex items-center justify-between gap-3"><div><div class="text-[11px] text-sub">最近車站步行</div><div class="text-[14px] font-bold">${route.station} → ${route.spot}</div></div><div class="text-right shrink-0"><div class="text-xl font-bold text-accent">約 ${minutes} 分</div><div class="text-[10px] text-sub">${km<1?Math.round(result.distance)+' m':km.toFixed(1)+' km'}</div></div></div>`;
+ }catch(error){
+  if(token!==mapRouteToken)return;
+  L.polyline([route.stationCoord,route.spotCoord],{color:'#5b7a6b',weight:4,dashArray:'6 7'}).addTo(mapLayers);
+  const km=haversineKm(route.stationCoord,route.spotCoord)*1.25,minutes=Math.max(1,Math.round(km/4.5*60));
+  document.getElementById('mapRouteSummary').innerHTML=`<div class="flex items-center justify-between gap-3"><div><div class="text-[11px] text-sub">路線服務暫時無回應・以距離概算</div><div class="text-[14px] font-bold">${route.station} → ${route.spot}</div></div><div class="text-right shrink-0"><div class="text-xl font-bold text-accent">約 ${minutes} 分</div><div class="text-[10px] text-sub">約 ${km.toFixed(1)} km</div></div></div>`;
+ }
 }
 
 /* ===== GUIDE ===== */
@@ -507,6 +663,68 @@ document.getElementById('seasonspots').innerHTML=
      </div>
    </div>`).join('');
 
+/* ===== LIVE WEATHER ===== */
+const WEATHER_CITIES={
+ sapporo:{label:'札幌',lat:43.0618,lon:141.3545},
+ hakodate:{label:'函館',lat:41.7687,lon:140.7288},
+ noboribetsu:{label:'登別',lat:42.4128,lon:141.1066},
+ otaru:{label:'小樽',lat:43.1907,lon:140.9947},
+};
+let weatherCity='sapporo';
+function weatherInfo(code,isDay){
+ if(code===0)return {label:isDay?'晴朗':'晴朗夜空',icon:isDay?'fa-sun':'fa-moon'};
+ if(code<=2)return {label:'晴時多雲',icon:'fa-cloud-sun'};
+ if(code===3)return {label:'陰天',icon:'fa-cloud'};
+ if(code===45||code===48)return {label:'有霧',icon:'fa-smog'};
+ if(code>=51&&code<=57)return {label:'毛毛雨',icon:'fa-cloud-rain'};
+ if(code>=61&&code<=67)return {label:'下雨',icon:'fa-cloud-showers-heavy'};
+ if(code>=71&&code<=77)return {label:'下雪',icon:'fa-snowflake'};
+ if(code>=80&&code<=82)return {label:'陣雨',icon:'fa-cloud-showers-heavy'};
+ if(code>=85&&code<=86)return {label:'陣雪',icon:'fa-snowflake'};
+ if(code>=95)return {label:'雷雨',icon:'fa-cloud-bolt'};
+ return {label:'天氣變化',icon:'fa-cloud'};
+}
+function renderWeatherCities(){
+ document.getElementById('weatherCities').innerHTML=Object.entries(WEATHER_CITIES).map(([key,c])=>
+  `<button type="button" onclick="selectWeatherCity('${key}')" class="py-1.5 rounded-xl border text-[12px] font-bold ${key===weatherCity?'bg-accent text-white border-accent':'bg-paper text-sub border-line'}">${c.label}</button>`
+ ).join('');
+}
+function selectWeatherCity(key){weatherCity=key;renderWeatherCities();loadWeather();}
+async function loadWeather(){
+ const city=WEATHER_CITIES[weatherCity];
+ const panel=document.getElementById('weatherPanel');
+ const refresh=document.getElementById('weatherRefreshIcon');
+ refresh.classList.add('fa-spin');
+ panel.innerHTML='<div class="text-[12px] text-sub"><i class="fa-solid fa-spinner fa-spin mr-1"></i>讀取 '+city.label+' 即時天氣…</div>';
+ try{
+  const fields='temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,is_day';
+  const url=`https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current=${fields}&timezone=Asia%2FTokyo&forecast_days=1`;
+  const response=await fetch(url,{cache:'no-store'});
+  if(!response.ok)throw new Error('weather response '+response.status);
+  const data=await response.json();
+  const c=data.current;
+  const info=weatherInfo(c.weather_code,c.is_day===1);
+  const stamp=c.time.slice(5).replace('T',' ');
+  panel.innerHTML=`<div class="w-full">
+    <div class="flex items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-3 min-w-0">
+        <span class="w-12 h-12 rounded-full bg-snow flex items-center justify-center text-accent text-2xl shrink-0"><i class="fa-solid ${info.icon}"></i></span>
+        <div><div class="text-lg font-bold">${city.label}・${info.label}</div><div class="text-[10px] text-sub">更新 ${stamp}</div></div>
+      </div>
+      <div class="text-4xl font-bold text-ink whitespace-nowrap">${Math.round(c.temperature_2m)}<span class="text-xl">°</span></div>
+    </div>
+    <div class="grid grid-cols-2 gap-2 text-[12px]">
+      <div class="bg-card border border-line rounded-xl px-3 py-2"><span class="text-sub">體感</span><b class="float-right">${Math.round(c.apparent_temperature)}°</b></div>
+      <div class="bg-card border border-line rounded-xl px-3 py-2"><span class="text-sub">濕度</span><b class="float-right">${c.relative_humidity_2m}%</b></div>
+      <div class="bg-card border border-line rounded-xl px-3 py-2"><span class="text-sub">風速</span><b class="float-right">${Math.round(c.wind_speed_10m)} km/h</b></div>
+      <div class="bg-card border border-line rounded-xl px-3 py-2"><span class="text-sub">降水</span><b class="float-right">${c.precipitation} mm</b></div>
+    </div>
+  </div>`;
+ }catch(error){
+  panel.innerHTML='<div class="text-center"><i class="fa-solid fa-cloud-bolt text-alert text-2xl mb-2"></i><div class="text-[13px] font-bold">暫時無法取得即時天氣</div><button type="button" onclick="loadWeather()" class="text-[11px] text-accent mt-2">點此重試</button></div>';
+ }finally{refresh.classList.remove('fa-spin');}
+}
+
 /* ===== localStorage 安全包裝（清單／備忘錄用；iOS file:// 或無痕會丟例外，改記憶體備援）===== */
 let _mem={};
 const _hasLS=(()=>{try{localStorage.setItem('__t','1');localStorage.removeItem('__t');return true;}catch(e){return false;}})();
@@ -548,6 +766,8 @@ document.getElementById('newCheck').addEventListener('keydown',e=>{if(e.key==='E
 
 /* ===== INIT ===== */
 renderDayTabs();renderDay();renderGlance();renderCheck();renderMemo();
+renderWeatherCities();loadWeather();
+setInterval(loadWeather,15*60*1000);
 </script>
 </body>
 </html>
