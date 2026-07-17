@@ -748,23 +748,23 @@ function renderGuides(){
 /* ===== 11月底・各城市加碼景點 ===== */
 const SPOTS=[
  {city:'札幌',note:'白色燈樹節 11/21 起點燈',items:[
-   {n:'大通公園 白色燈樹節',w:'11/21–12/25 點燈，約80萬顆 LED，16:30 後最美',map:'さっぽろホワイトイルミネーション 大通公園'},
-   {n:'JR Tower 展望室 T38',w:'160m 高室內展望，下雪天也能賞夜景',map:'JRタワー展望室 タワー・スリーエイト'},
-   {n:'白色戀人公園',w:'室內參觀＋庭園聖誕燈飾，避寒首選',map:'白い恋人パーク'},
+   {n:'大通公園 白色燈樹節',w:'11/21–12/25 點燈，約80萬顆 LED，16:30 後最美',map:'さっぽろホワイトイルミネーション 大通公園',img:'assets/guide/addons/sapporo-illumination.jpg',source:'Sorah Fukumori・CC BY 3.0'},
+   {n:'JR Tower 展望室 T38',w:'160m 高室內展望，下雪天也能賞夜景',map:'JRタワー展望室 タワー・スリーエイト',img:'assets/guide/addons/jr-tower.jpg',source:'663highland・CC BY 2.5'},
+   {n:'白色戀人公園',w:'室內參觀＋庭園聖誕燈飾，避寒首選',map:'白い恋人パーク',img:'assets/guide/addons/shiroi-koibito.jpg',source:'ダブルで・Public domain'},
  ]},
  {city:'函館',note:'日落早，夜景時間更長',items:[
-   {n:'湯之川溫泉 足湯',w:'市電可達，免費足湯暖手腳',map:'湯の川温泉 足湯'},
-   {n:'元町教會群（夜間點燈）',w:'坡道教會打燈，冬夜浪漫',map:'カトリック元町教会'},
-   {n:'金森紅磚倉庫',w:'室內購物美食＋海灣夜景，避寒好去處',map:'金森赤レンガ倉庫'},
+   {n:'湯之川溫泉 足湯',w:'市電可達，免費足湯暖手腳',map:'湯の川温泉 足湯',img:'assets/guide/addons/yunokawa-footbath.jpg',source:'OraMAAG・CC BY 4.0'},
+   {n:'元町教會群（夜間點燈）',w:'坡道教會打燈，冬夜浪漫',map:'カトリック元町教会',img:'assets/guide/addons/motomachi-church.jpg',source:'663highland・CC BY 2.5'},
+   {n:'金森紅磚倉庫',w:'室內購物美食＋海灣夜景，避寒好去處',map:'金森赤レンガ倉庫',img:'assets/guide/addons/kanemori.jpg',source:'Suicasmo・CC BY-SA 4.0'},
  ]},
  {city:'登別',note:'下雪天的室內備案',items:[
-   {n:'登別尼克斯海洋公園',w:'室內水族館＋冬季點燈遊行，全天候',map:'登別マリンパークニクス'},
-   {n:'登別熊牧場',w:'纜車上山看棕熊，雪景纜車',map:'のぼりべつクマ牧場'},
-   {n:'大湯沼川 天然足湯',w:'林間溪流足湯，雪中泡腳（注意結冰）',map:'大湯沼川天然足湯'},
+   {n:'登別尼克斯海洋公園',w:'室內水族館＋冬季點燈遊行，全天候',map:'登別マリンパークニクス',img:'assets/guide/addons/nixe.jpg',source:'欅・CC BY-SA 3.0'},
+   {n:'登別熊牧場',w:'纜車上山看棕熊，雪景纜車',map:'のぼりべつクマ牧場',img:'assets/guide/addons/bear-park.jpg',source:'Ted Chi・CC BY 2.0'},
+   {n:'大湯沼川 天然足湯',w:'林間溪流足湯，雪中泡腳（注意結冰）',map:'大湯沼川天然足湯',img:'assets/guide/addons/oyunuma-footbath.jpg',source:'Choi2451・CC BY-SA 3.0'},
  ]},
  {city:'小樽',note:'小樽雪物語・青之運河 11 月起',items:[
-   {n:'青之運河（雪物語）',w:'11 月起萬顆藍 LED 點亮運河，日落後最美',map:'小樽運河'},
-   {n:'小樽藝術村',w:'玻璃與彩繪玻璃美術館，室內溫暖',map:'小樽芸術村'},
+   {n:'青之運河（雪物語）',w:'11 月起萬顆藍 LED 點亮運河，日落後最美',map:'小樽運河',img:'assets/guide/addons/otaru-blue-canal.jpg',source:'663highland・CC BY 2.5'},
+   {n:'小樽藝術村',w:'玻璃與彩繪玻璃美術館，室內溫暖',map:'小樽芸術村',img:'assets/guide/addons/otaru-art-base.jpg',source:'663highland・CC BY-SA 4.0'},
  ]},
 ];
 function renderSeasonSpots(){
@@ -780,10 +780,9 @@ function renderSeasonSpots(){
      </div>
      <div class="space-y-2">
        ${c.items.map(s=>`
-         <a href="${G(s.map)}" target="_blank" class="flex items-start gap-3 bg-card border border-line rounded-xl px-3 py-2.5 shadow-soft">
-           <span class="w-8 h-8 rounded-full bg-snow flex items-center justify-center text-accent shrink-0"><i class="fa-solid fa-location-dot"></i></span>
-           <span class="flex-1 min-w-0"><span class="block text-[14px] font-bold">${s.n}</span><span class="text-[12px] text-sub">${s.w}</span></span>
-           <i class="fa-solid fa-chevron-right text-sub text-[10px] mt-1.5"></i>
+         <a href="${G(s.map)}" target="_blank" rel="noopener" class="flex bg-card border border-line rounded-xl overflow-hidden shadow-soft">
+           <img src="${s.img}" alt="${s.n} 實景照片" class="w-[112px] min-h-[104px] object-cover shrink-0" loading="lazy">
+           <span class="flex-1 min-w-0 px-3 py-2.5 flex flex-col"><span class="flex items-start gap-2"><span class="block text-[14px] font-bold flex-1">${s.n}</span><i class="fa-solid fa-arrow-up-right-from-square text-sub text-[10px] mt-1"></i></span><span class="text-[12px] text-sub leading-relaxed mt-1">${s.w}</span><span class="text-[9px] text-sub/70 mt-auto pt-2">照片：${s.source}</span></span>
          </a>`).join('')}
      </div>
    </div>`).join('');
