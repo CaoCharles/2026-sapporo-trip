@@ -153,7 +153,8 @@ tailwind.config={theme:{extend:{
 <!-- ============ GUIDE ============ -->
 <section id="guide" class="tabpane">
   <h2 class="text-2xl font-bold mb-1">深度導覽</h2>
-  <p class="text-xs text-sub mb-4">重點景點的歷史背景與冷知識</p>
+  <p class="text-xs text-sub mb-3">依城市查看實用資訊、日文名稱與景點故事</p>
+  <div id="guideFilters" class="flex gap-2 overflow-x-auto pb-2 mb-3"></div>
   <div id="guidelist" class="space-y-5"></div>
   <div id="seasonspots" class="mt-8"></div>
 </section>
@@ -444,16 +445,14 @@ const DAYS = [
 ];
 
 const GUIDE = [
- {name:'函館山夜景',sub:'世界三大夜景之一',img:'assets/guide/hakodate-night.jpg',map:'函館山ロープウェイ',mapQuery:'Mt. Hakodate Ropeway, Hakodate, Hokkaido, Japan',source:'Wikimedia Commons / Lombroso / Public domain',
+ {name:'函館山夜景',ja:'函館山ロープウェイ',city:'函館',day:'D3–D4',dayIndex:2,status:'彈性安排',stay:'60–90 分',station:'十字街電停',walk:'約 10 分',setting:'戶外',best:'日落後 30 分',winter:'強風或能見度不佳時改至另一天',sub:'世界三大夜景之一',img:'assets/guide/hakodate-night.jpg',map:'函館山ロープウェイ',mapQuery:'Mt. Hakodate Ropeway, Hakodate, Hokkaido, Japan',source:'Wikimedia Commons / Lombroso / Public domain',
   body:'函館因兩側被海灣夾住、形成獨特的「扇形」地貌，入夜後街燈勾勒出彎曲海岸線，被譽為與香港、那不勒斯齊名的世界三大夜景。最佳觀景時間是日落後 30 分鐘的「藍調時刻」，天空尚有餘藍、街燈已亮。冷知識：日文有「百萬美元夜景」之說，據傳源於計算當晚點燈的電費。'},
- {name:'五稜郭',sub:'日本首座西式星形要塞',img:'assets/guide/goryokaku.jpg',map:'五稜郭タワー',mapQuery:'Goryokaku Tower, Hakodate, Hokkaido, Japan',source:'Wikimedia Commons / J o / CC BY-SA 2.5',
+ {name:'五稜郭',ja:'五稜郭タワー',city:'函館',day:'D3–D4',dayIndex:2,status:'主行程',stay:'90–120 分',station:'五稜郭公園前電停',walk:'約 15 分',setting:'室內＋戶外',best:'白天',winter:'積雪時公園步道較滑，塔內可避寒',sub:'日本首座西式星形要塞',img:'assets/guide/goryokaku.jpg',map:'五稜郭タワー',mapQuery:'Goryokaku Tower, Hakodate, Hokkaido, Japan',source:'Wikimedia Commons / J o / CC BY-SA 2.5',
   body:'建於 1864 年，是日本最早仿歐洲稜堡式設計的星形城郭，五個尖角能消除射擊死角。這裡是日本「最後的內戰」戊辰戰爭・箱館戰爭的舞台，舊幕府軍在此最終投降。如今護城河環繞、春櫻冬雪皆美，登五稜郭塔可俯瞰完整星形。'},
- {name:'登別地獄谷',sub:'北海道第一溫泉的源頭',img:'assets/guide/jigokudani.jpg',map:'登別地獄谷',mapQuery:'Noboribetsu Jigokudani Valley, Noboribetsu, Hokkaido, Japan',source:'Wikimedia Commons / 663highland / CC BY-SA 3.0',
+ {name:'登別地獄谷',ja:'登別地獄谷',city:'登別',day:'D5',dayIndex:4,status:'主行程',stay:'45–60 分',station:'登別溫泉巴士總站',walk:'約 10 分',setting:'戶外',best:'下午',winter:'步道結冰時只走展望台周邊，不勉強前往大湯沼',sub:'北海道第一溫泉的源頭',img:'assets/guide/jigokudani.jpg',map:'登別地獄谷',mapQuery:'Noboribetsu Jigokudani Valley, Noboribetsu, Hokkaido, Japan',source:'Wikimedia Commons / 663highland / CC BY-SA 3.0',
   body:'約一萬年前火山爆發形成的爆裂火口遺跡，直徑約 450 公尺，地表不斷噴出硫磺蒸氣與滾燙泉水，每分鐘湧出約 3,000 公升溫泉，供應整個登別溫泉街。「地獄」之名來自其荒涼地貌與硫磺味，江戶時代被視為「鬼的居所」，因此溫泉街處處可見鬼像。'},
- {name:'小樽運河',sub:'大正浪漫的石造倉庫群',img:'assets/guide/otaru-canal.jpg',map:'小樽運河',mapQuery:'Otaru Canal, Otaru, Hokkaido, Japan',source:'Wikimedia Commons / 663highland / CC BY 2.5',
+ {name:'小樽運河',ja:'小樽運河',city:'小樽',day:'D6',dayIndex:5,status:'主行程',stay:'60–90 分',station:'小樽站',walk:'約 10 分',setting:'戶外',best:'日落後點燈',winter:'運河邊可能結冰，穿防滑鞋並注意風雪',sub:'大正浪漫的石造倉庫群',img:'assets/guide/otaru-canal.jpg',map:'小樽運河',mapQuery:'Otaru Canal, Otaru, Hokkaido, Japan',source:'Wikimedia Commons / 663highland / CC BY 2.5',
   body:'1923 年完工，曾是北海道海運與金融重鎮的卸貨水道，沿岸石造倉庫見證小樽「北方華爾街」的繁華。隨海運沒落一度面臨填平危機，靠居民保存運動留下半側水道，改造成步道與煤氣燈。冬季「青之運河」與雪燈之路點燈時，水面倒映藍光，浪漫至極。'},
- {name:'洞爺湖',sub:'不結冰的火山口湖',img:'assets/guide/toya-lake.jpg',map:'洞爺湖温泉',mapQuery:'Lake Toya Onsen, Toyako, Hokkaido, Japan',source:'Wikimedia Commons / 663highland / CC BY-SA 3.0',
-  body:'約 11 萬年前火山活動形成的圓形破火山口湖，因地熱影響即使嚴冬也幾乎不結冰。湖畔的有珠山與昭和新山是仍在活動的活火山，昭和新山更是 1943–45 年間從麥田中「長」出來的新山，全球罕見。2008 年 G8 高峰會曾在此舉辦。'},
 ];
 
 const DEFAULT_CHECK = ['護照（效期6個月以上）','機票／登機證','日幣現金','信用卡','網卡／eSIM','防滑雪靴','保暖外套・發熱衣','行動電源','常備藥品','轉接插頭（日本可免）','飯店訂房確認單','JR PASS／車票'];
@@ -702,26 +701,49 @@ async function selectMapRoute(index,skipList){
 }
 
 /* ===== GUIDE ===== */
-document.getElementById('guidelist').innerHTML=GUIDE.map(g=>`
- <article class="bg-card rounded-2xl shadow-soft border border-line overflow-hidden">
-   <img src="${g.img}" alt="${g.name} 實景照片" class="guide-photo w-full" loading="lazy">
+const GUIDE_CITIES=['全部','札幌','函館','登別','小樽'];
+let guideCity='全部';
+function guideStatusClass(status){return status==='主行程'?'bg-accent text-white':'bg-snow text-accent';}
+function renderGuideFilters(){
+ document.getElementById('guideFilters').innerHTML=GUIDE_CITIES.map(city=>`<button type="button" onclick="selectGuideCity('${city}')" class="shrink-0 px-4 py-2 rounded-xl border text-[12px] font-bold ${city===guideCity?'bg-accent text-white border-accent':'bg-card text-sub border-line'}">${city}</button>`).join('');
+}
+function selectGuideCity(city){guideCity=city;renderGuideFilters();renderGuides();renderSeasonSpots();}
+async function copyGuideName(index,button){
+ const text=GUIDE[index].ja;
+ try{await navigator.clipboard.writeText(text);}catch(e){const area=document.createElement('textarea');area.value=text;area.style.position='fixed';area.style.opacity='0';document.body.appendChild(area);area.select();document.execCommand('copy');area.remove();}
+ const original=button.innerHTML;button.innerHTML='<i class="fa-solid fa-check mr-1"></i>已複製';setTimeout(()=>button.innerHTML=original,1600);
+}
+function renderGuides(){
+ const filtered=GUIDE.map((g,index)=>({g,index})).filter(x=>guideCity==='全部'||x.g.city===guideCity);
+ document.getElementById('guidelist').innerHTML=filtered.length?filtered.map(({g,index})=>{
+  const walk=`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(g.mapQuery)}&travelmode=walking`;
+  return `<article class="bg-card rounded-2xl shadow-soft border border-line overflow-hidden">
+   <div class="relative"><img src="${g.img}" alt="${g.name} 實景照片" class="guide-photo w-full" loading="lazy"><span class="absolute left-3 top-3 ${guideStatusClass(g.status)} text-[10px] font-bold rounded-full px-2.5 py-1">${g.day}・${g.status}</span></div>
    <div class="px-4 pt-4">
-     <div class="flex items-start justify-between gap-3">
-       <div>
-         <h3 class="text-xl font-bold">${g.name}</h3>
-         <div class="text-[12px] text-accent mb-2">${g.sub}</div>
-       </div>
-       <a href="${G(g.mapQuery)}" target="_blank" rel="noopener" class="w-10 h-10 rounded-full bg-accent text-white flex items-center justify-center shrink-0" aria-label="開啟 ${g.name} Google Maps"><i class="fa-solid fa-location-arrow"></i></a>
-     </div>
-     <p class="text-[13px] leading-relaxed text-ink mb-4">${g.body}</p>
+    <h3 class="text-xl font-bold">${g.name}</h3><div class="text-[13px] font-bold text-accent mt-0.5">${g.ja}</div><div class="text-[11px] text-sub mt-0.5">${g.sub}</div>
+    <div class="grid grid-cols-2 gap-2 mt-3 text-[11px]">
+     <div class="bg-paper border border-line rounded-xl px-3 py-2"><span class="text-sub">建議停留</span><b class="block mt-0.5">${g.stay}</b></div>
+     <div class="bg-paper border border-line rounded-xl px-3 py-2"><span class="text-sub">適合時段</span><b class="block mt-0.5">${g.best}</b></div>
+     <div class="bg-paper border border-line rounded-xl px-3 py-2"><span class="text-sub">最近車站</span><b class="block mt-0.5">${g.station}</b></div>
+     <div class="bg-paper border border-line rounded-xl px-3 py-2"><span class="text-sub">步行／環境</span><b class="block mt-0.5">${g.walk}・${g.setting}</b></div>
+    </div>
+    <div class="bg-alert/10 border border-alert/30 text-alert rounded-xl px-3 py-2 text-[11px] mt-3"><i class="fa-solid fa-snowflake mr-1"></i>${g.winter}</div>
+    <div class="grid grid-cols-4 gap-1.5 mt-3">
+     <button type="button" onclick="speakJapaneseText('${g.ja.replaceAll("'","\\'")}',this)" class="rounded-lg bg-accent text-white py-2 text-[10px]"><i class="fa-solid fa-volume-high block mb-1"></i>播放</button>
+     <button type="button" onclick="copyGuideName(${index},this)" class="rounded-lg bg-paper border border-line text-accent py-2 text-[10px]"><i class="fa-regular fa-copy block mb-1"></i>複製</button>
+     <a href="${G(g.mapQuery)}" target="_blank" rel="noopener" class="rounded-lg bg-paper border border-line text-accent py-2 text-[10px] text-center"><i class="fa-brands fa-google block mb-1"></i>地點</a>
+     <a href="${walk}" target="_blank" rel="noopener" class="rounded-lg bg-paper border border-line text-accent py-2 text-[10px] text-center"><i class="fa-solid fa-location-arrow block mb-1"></i>導航</a>
+    </div>
+    <button type="button" onclick="goDay(${g.dayIndex})" class="w-full bg-snow/50 border border-line rounded-xl py-2 text-[11px] text-accent font-bold mt-2"><i class="fa-solid fa-route mr-1"></i>查看 ${g.day} 行程</button>
+    <details class="group border-t border-line mt-4">
+     <summary class="list-none cursor-pointer py-3 flex items-center text-[12px] font-bold"><i class="fa-solid fa-book-open text-accent mr-2"></i>景點故事與冷知識<i class="fa-solid fa-chevron-down text-[10px] text-sub ml-auto transition group-open:rotate-180"></i></summary>
+     <p class="text-[13px] leading-relaxed text-ink pb-4">${g.body}</p>
+    </details>
    </div>
-   <a href="${G(g.mapQuery)}" target="_blank" rel="noopener" class="flex items-center gap-3 mx-4 mb-3 bg-snow/50 border border-line rounded-xl px-4 py-3">
-     <span class="w-9 h-9 rounded-full bg-accent text-white flex items-center justify-center shrink-0"><i class="fa-solid fa-location-dot"></i></span>
-     <span class="flex-1 min-w-0"><span class="block text-[13px] font-bold truncate">${g.map}</span><span class="text-[11px] text-sub">在 Google Maps 開啟精準地點</span></span>
-     <i class="fa-solid fa-arrow-up-right-from-square text-sub text-[11px]"></i>
-   </a>
    <div class="guide-source mx-4 pb-3 pt-2 text-[10px] text-sub leading-snug">照片：${g.source}</div>
- </article>`).join('');
+  </article>`;
+ }).join(''):`<div class="bg-card border border-line rounded-2xl px-4 py-5 text-center text-[12px] text-sub">${guideCity}的補充景點整理在下方「11 月底・加碼景點」。</div>`;
+}
 
 /* ===== 11月底・各城市加碼景點 ===== */
 const SPOTS=[
@@ -742,14 +764,15 @@ const SPOTS=[
  ]},
  {city:'小樽',note:'小樽雪物語・青之運河 11 月起',items:[
    {n:'青之運河（雪物語）',w:'11 月起萬顆藍 LED 點亮運河，日落後最美',map:'小樽運河'},
-   {n:'天狗山纜車夜景',w:'室內纜車登頂，北海道三大夜景之一',map:'天狗山ロープウェイ'},
    {n:'小樽藝術村',w:'玻璃與彩繪玻璃美術館，室內溫暖',map:'小樽芸術村'},
  ]},
 ];
-document.getElementById('seasonspots').innerHTML=
+function renderSeasonSpots(){
+ const cities=SPOTS.filter(c=>guideCity==='全部'||c.city===guideCity);
+ document.getElementById('seasonspots').innerHTML=
  `<h2 class="text-2xl font-bold mb-1">11月底・加碼景點</h2>
   <p class="text-xs text-sub mb-4">對照各城市，挑幾個這時節適合的點（點擊開地圖）</p>`
- + SPOTS.map(c=>`
+ + cities.map(c=>`
    <div class="mb-5">
      <div class="flex items-center gap-2 mb-2">
        <span class="bg-accent text-white text-[12px] rounded-full px-3 py-1">${c.city}</span>
@@ -764,6 +787,8 @@ document.getElementById('seasonspots').innerHTML=
          </a>`).join('')}
      </div>
    </div>`).join('');
+}
+renderGuideFilters();renderGuides();renderSeasonSpots();
 
 /* ===== LIVE WEATHER ===== */
 const WEATHER_CITIES={
