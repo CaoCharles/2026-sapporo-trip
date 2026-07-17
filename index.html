@@ -90,7 +90,7 @@ tailwind.config={theme:{extend:{
     <div class="overview-stack mb-4">
       <figure class="bg-card rounded-2xl shadow-soft border border-line overflow-hidden">
         <button type="button" class="hero-zoom block w-full text-left" onclick="openLightbox()" aria-label="放大北海道 8 天 7 夜旅遊總覽圖">
-          <img src="旅遊總覽-v2.png" alt="北海道 8 天 7 夜旅遊總覽圖" class="hero-img w-full">
+          <img src="旅遊總覽.jpg" alt="北海道 8 天 7 夜旅遊總覽圖" class="hero-img w-full">
         </button>
         <figcaption class="px-4 py-3">
           <div class="flex items-center justify-between gap-3">
@@ -241,7 +241,7 @@ tailwind.config={theme:{extend:{
 
 <div id="imageLightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="旅遊總覽圖放大預覽" onclick="closeLightbox(event)">
   <button type="button" class="lightbox-close" onclick="closeLightbox(event)" aria-label="關閉圖片預覽"><i class="fa-solid fa-xmark"></i></button>
-  <img src="旅遊總覽-v2.png" alt="北海道 8 天 7 夜旅遊總覽圖放大版">
+  <img src="旅遊總覽.jpg" alt="北海道 8 天 7 夜旅遊總覽圖放大版">
 </div>
 
 <script>
@@ -263,7 +263,7 @@ const HOTELS = [
    spot 物件：{type:'spot'|'meal'|'go'|'flight', t, name, stay, note, map}
    move 物件：{type:'move', t, route, opts:[{means,time,fare,note,link}]} */
 const DAYS = [
-{key:'D1',date:'11/21 六',city:'札幌',title:'主要逛中島公園、慕尼黑聖誕市集',
+{key:'D1',date:'11/21 六',city:'札幌',title:'抵達・札幌市中心散步',
  seg:[
   {type:'flight',t:'14:05',name:'抵達新千歲機場'},
   {type:'move',t:'14:45',route:'新千歲機場 → 札幌市區',from:'新千歳空港駅',to:'札幌駅',opts:[{means:'JR Rapid Airport',time:'抵達後'}]},
@@ -273,7 +273,7 @@ const DAYS = [
   {type:'spot',t:'18:00',name:'慕尼黑聖誕市集',map:'ミュンヘン・クリスマス市'},
   {type:'meal',t:'19:30',name:'狸小路商店街／薄野晚餐',map:'狸小路商店街'},
  ],optional:[{name:'藻岩山夜景',note:'天氣晴朗、能見度良好且體力足夠時安排',map:'藻岩山'}],
- alert:'第一天以散步與市中心行程為主，不要排得太趕。'},
+ alert:'第一天主要逛中島公園、慕尼黑聖誕市集；以散步與市中心行程為主，不要排得太趕。'},
 
 {key:'D2',date:'11/22 日',city:'函館湯之川',title:'札幌 → 函館湯之川・泡湯慢遊',
  seg:[
@@ -322,7 +322,7 @@ const DAYS = [
  ],optional:[{name:'大湯沼、天然足湯',note:'距離較遠，視天候、積雪與體力安排',map:'大湯沼'}],
  alert:'熊牧場排在今天的前提是搭較早的北斗號並控制函館退房時間；如此隔天可睡晚一點、充分泡湯後再前往小樽。'},
 
-{key:'D6',date:'11/26 四',city:'小樽',title:'小樽・主要逛小樽運河、運河點燈',
+{key:'D6',date:'11/26 四',city:'小樽',title:'登別 → 小樽・運河夜景',
  seg:[
   {type:'spot',t:'09:30',name:'睡晚一點'}, {type:'spot',t:'10:00',name:'飯店泡湯',map:'第一滝本館'},
   {type:'move',t:'12:00',route:'登別 → 小樽',from:'登別駅',to:'小樽駅',opts:[{means:'JR（札幌轉車）',time:'約 3.5 小時'}]},
@@ -332,9 +332,9 @@ const DAYS = [
   {name:'堺町通',map:'小樽堺町通り商店街'}, {name:'小樽音樂盒堂',map:'小樽オルゴール堂'},
   {name:'北一硝子',map:'北一硝子三号館'}, {name:'舊手宮線',map:'旧国鉄手宮線'},
   {name:'水天宮',map:'小樽水天宮'}, {name:'小樽文學館',map:'市立小樽文学館'}
- ],alert:'下方景點先不排時間，當天依抵達時間、體力與點燈狀況決定逛到哪裡；天狗山纜車於此日期預計停駛。'},
+ ],alert:'第六天在小樽，主要逛小樽運河與運河點燈。下方景點先不排時間，當天依抵達時間、體力與點燈狀況決定逛到哪裡；天狗山纜車於此日期預計停駛。'},
 
-{key:'D7',date:'11/27 五',city:'札幌',title:'主要逛北海道大學和周邊景點',
+{key:'D7',date:'11/27 五',city:'札幌',title:'小樽 → 札幌・市區重點',
  seg:[
   {type:'move',t:'09:00',route:'小樽 → 札幌',from:'小樽駅',to:'札幌駅',opts:[{means:'JR',time:'車程約 40–50 分'}]},
   {type:'move',t:'10:00',route:'札幌市區移動',opts:[{means:'地鐵、市電與步行',time:'市區移動'}]},
@@ -347,14 +347,14 @@ const DAYS = [
   {name:'狸小路商店街',map:'狸小路商店街'}, {name:'薄野',map:'すすきの'}, {name:'二條市場',map:'二条市場'},
   {name:'AOAO水族館',map:'AOAO SAPPORO'}, {name:'定山溪',map:'定山渓温泉'}, {name:'JR Tower展望室',map:'JRタワー展望室'},
   {name:'札幌電視塔',map:'さっぽろテレビ塔'}, {name:'札幌伏見稻荷神社',map:'札幌伏見稲荷神社'}, {name:'北菓樓',map:'北菓楼'}],
- alert:'圓山區景點標註為「有時間可逛」，不要全部塞進主要時間軸。'},
+ alert:'第七天主要逛北海道大學和周邊景點。圓山區景點標註為「有時間可逛」，不要全部塞進主要時間軸。'},
 
-{key:'D8',date:'11/28 六',city:'返程',title:'吃飽、早上附近晃晃，11 點前往機場',
+{key:'D8',date:'11/28 六',city:'返程',title:'札幌 → 新千歲機場 → 返台',
  seg:[
   {type:'meal',name:'早餐吃飽，附近簡單晃晃'},
   {type:'move',route:'札幌 → 新千歲機場',from:'札幌駅',to:'新千歳空港駅',opts:[{means:'建議 11:00 前往機場',time:'建議約 12:00–12:30 抵達機場'}]},
   {type:'flight',name:'15:20 新千歲機場起飛'}
- ],alert:'上午不排固定景點；吃完早餐後在飯店附近散步，並預留機場報到、安檢與午餐時間。'},
+ ],alert:'第八天吃飽後，早上在附近晃晃，11 點前往機場。上午不排固定景點，並預留機場報到、安檢與午餐時間。'},
 ];
 
 const GUIDE = [
