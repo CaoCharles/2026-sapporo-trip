@@ -206,15 +206,17 @@ tailwind.config={theme:{extend:{
     <div class="text-[10px] text-sub mt-2 text-right">資料來源：Open-Meteo・日本時間</div>
   </div>
   <div class="bg-card rounded-2xl shadow-soft p-4 border border-line mb-4">
-    <div class="text-sm font-bold mb-2"><i class="fa-solid fa-phone-volume text-alert text-lg"></i> 緊急聯絡</div>
-    <div class="grid grid-cols-2 gap-2 text-[13px]">
-      <a href="tel:110" class="bg-paper rounded-xl px-3 py-3 border border-line"><div class="text-sub text-[11px]">警察</div><div class="font-bold text-lg">110</div></a>
-      <a href="tel:119" class="bg-paper rounded-xl px-3 py-3 border border-line"><div class="text-sub text-[11px]">火警/救護</div><div class="font-bold text-lg">119</div></a>
-      <a href="tel:+81112222930" class="col-span-2 bg-paper rounded-xl px-3 py-3 border border-line"><div class="text-sub text-[11px]">台北駐日經濟文化代表處・札幌分處</div><div class="font-bold">+81-11-222-2930</div></a>
-      <a href="tel:+81333807917" class="col-span-2 bg-paper rounded-xl px-3 py-3 border border-line"><div class="text-sub text-[11px]">旅外國人急難救助（24h）</div><div class="font-bold">+81-3-3280-7917 ／ 台灣撥 0800-085-095</div></a>
+    <div class="flex items-start justify-between gap-3 mb-3">
+      <div>
+        <div class="text-sm font-bold"><i class="fa-solid fa-language text-accent text-lg"></i> 旅遊會話</div>
+        <div class="text-[11px] text-sub mt-1">點開情境，按一下即可複製日文給對方看</div>
+      </div>
+      <span class="text-[10px] text-accent bg-snow rounded-full px-2 py-1 whitespace-nowrap">中・日・英</span>
     </div>
+    <div id="phraseGroups" class="space-y-2"></div>
+    <div id="copyToast" class="hidden mt-3 rounded-xl bg-accent text-white text-[12px] text-center py-2" role="status" aria-live="polite">已複製日文</div>
   </div>
-  <div class="bg-card rounded-2xl shadow-soft p-4 border border-line">
+  <div class="bg-card rounded-2xl shadow-soft p-4 border border-line mb-4">
     <div class="text-sm font-bold mb-2"><i class="fa-solid fa-circle-info text-accent2 text-lg"></i> 旅遊注意事項</div>
     <ul class="text-[12.5px] text-ink space-y-2 leading-relaxed">
       <li><i class="fa-solid fa-ban text-alert mr-1"></i><b>入境違禁品：</b>新鮮水果、肉類及肉製品（含貢丸、肉鬆）嚴禁帶入日本，違者重罰。</li>
@@ -224,6 +226,15 @@ tailwind.config={theme:{extend:{
       <li><i class="fa-solid fa-trash-can text-accent mr-1"></i><b>垃圾：</b>街上垃圾桶少，請隨身帶回飯店或便利商店丟。</li>
       <li><i class="fa-solid fa-hot-tub-person text-accent mr-1"></i><b>溫泉禮儀：</b>入浴前先沖洗身體，毛巾勿放入池中，有刺青可能受限。</li>
     </ul>
+  </div>
+  <div class="bg-card rounded-2xl shadow-soft p-4 border border-line">
+    <div class="text-sm font-bold mb-2"><i class="fa-solid fa-phone-volume text-alert text-lg"></i> 緊急聯絡</div>
+    <div class="grid grid-cols-2 gap-2 text-[13px]">
+      <a href="tel:110" class="bg-paper rounded-xl px-3 py-3 border border-line"><div class="text-sub text-[11px]">警察</div><div class="font-bold text-lg">110</div></a>
+      <a href="tel:119" class="bg-paper rounded-xl px-3 py-3 border border-line"><div class="text-sub text-[11px]">火警/救護</div><div class="font-bold text-lg">119</div></a>
+      <a href="tel:+81112222930" class="col-span-2 bg-paper rounded-xl px-3 py-3 border border-line"><div class="text-sub text-[11px]">台北駐日經濟文化代表處・札幌分處</div><div class="font-bold">+81-11-222-2930</div></a>
+      <a href="tel:+81333807917" class="col-span-2 bg-paper rounded-xl px-3 py-3 border border-line"><div class="text-sub text-[11px]">旅外國人急難救助（24h）</div><div class="font-bold">+81-3-3280-7917 ／ 台灣撥 0800-085-095</div></a>
+    </div>
   </div>
 </section>
 
@@ -248,6 +259,54 @@ tailwind.config={theme:{extend:{
 const G = q => 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);
 // 預填起訖站的大眾運輸路線查詢（含當下班次）
 const DIR = (from,to) => 'https://www.google.com/maps/dir/?api=1&travelmode=transit&origin='+encodeURIComponent(from)+'&destination='+encodeURIComponent(to);
+
+const PHRASE_GROUPS=[
+ {title:'交通',icon:'fa-train-subway',items:[
+  ['請問這班車會到札幌嗎？','この電車は札幌に行きますか？','Does this train go to Sapporo?'],
+  ['請問是幾號月台？','何番ホームですか？','Which platform is it?'],
+  ['請問要在哪裡轉車？','どこで乗り換えますか？','Where should I transfer?']
+ ]},
+ {title:'住宿',icon:'fa-hotel',items:[
+  ['我想辦理入住','チェックインをお願いします。','I’d like to check in.'],
+  ['可以寄放行李嗎？','荷物を預かっていただけますか？','Can you store my luggage?'],
+  ['請載我到這個地址','この住所までお願いします。','Please take me to this address.']
+ ]},
+ {title:'餐飲',icon:'fa-utensils',items:[
+  ['請問兩位有位子嗎？','2人ですが、席はありますか？','Do you have a table for two?'],
+  ['我要這個','これをお願いします。','I’ll have this, please.'],
+  ['請幫我結帳','お会計をお願いします。','The bill, please.']
+ ]},
+ {title:'醫療與求助',icon:'fa-kit-medical',items:[
+  ['我對＿＿過敏','＿＿アレルギーがあります。','I’m allergic to ___.'],
+  ['我迷路了，請幫幫我','道に迷いました。助けてください。','I’m lost. Please help me.'],
+  ['請幫我叫救護車','救急車を呼んでください。','Please call an ambulance.']
+ ]}
+];
+
+function renderPhraseGroups(){
+ const root=document.getElementById('phraseGroups');
+ root.innerHTML=PHRASE_GROUPS.map((g,gi)=>`<details class="group bg-paper border border-line rounded-xl overflow-hidden" ${gi===0?'open':''}>
+  <summary class="flex items-center gap-2 px-3 py-3 cursor-pointer list-none text-[13px] font-bold">
+   <i class="fa-solid ${g.icon} text-accent w-5 text-center"></i><span>${g.title}</span>
+   <span class="ml-auto text-[10px] text-sub">${g.items.length} 句</span><i class="fa-solid fa-chevron-down text-[10px] text-sub transition group-open:rotate-180"></i>
+  </summary>
+  <div class="border-t border-line px-3 pb-2">${g.items.map((p,pi)=>`<div class="py-3 ${pi?'border-t border-line':''}">
+   <div class="text-[11px] text-sub mb-1">${p[0]}</div>
+   <div class="flex items-start gap-2"><div class="flex-1 min-w-0"><div class="text-[15px] font-bold leading-relaxed">${p[1]}</div><div class="text-[10px] text-sub mt-1">${p[2]}</div></div>
+   <button type="button" onclick="copyPhrase(${gi},${pi},this)" class="shrink-0 w-9 h-9 rounded-full bg-card border border-line text-accent" aria-label="複製日文：${p[1]}"><i class="fa-regular fa-copy"></i></button></div>
+  </div>`).join('')}</div>
+ </details>`).join('');
+}
+
+async function copyPhrase(gi,pi,button){
+ const text=PHRASE_GROUPS[gi].items[pi][1];
+ try{await navigator.clipboard.writeText(text);}catch(e){
+  const area=document.createElement('textarea');area.value=text;area.style.position='fixed';area.style.opacity='0';document.body.appendChild(area);area.select();document.execCommand('copy');area.remove();
+ }
+ const icon=button.querySelector('i');icon.className='fa-solid fa-check';
+ const toast=document.getElementById('copyToast');toast.textContent='已複製：'+text;toast.classList.remove('hidden');
+ setTimeout(()=>{icon.className='fa-regular fa-copy';toast.classList.add('hidden');},1800);
+}
 
 const HOTELS = [
   ['Day 1','札幌','the b sapporo'],
@@ -766,6 +825,7 @@ document.getElementById('newCheck').addEventListener('keydown',e=>{if(e.key==='E
 
 /* ===== INIT ===== */
 renderDayTabs();renderDay();renderGlance();renderCheck();renderMemo();
+renderPhraseGroups();
 renderWeatherCities();loadWeather();
 setInterval(loadWeather,15*60*1000);
 </script>
