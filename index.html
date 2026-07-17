@@ -305,11 +305,12 @@ let speakingButton=null;
 function resetSpeakingButton(){
  if(speakingButton){speakingButton.querySelector('i').className='fa-solid fa-volume-high';speakingButton.classList.remove('bg-alert','border-alert');speakingButton.classList.add('bg-accent','border-accent');speakingButton=null;}
 }
-function speakPhrase(gi,pi,button){
+function speakPhrase(gi,pi,button){speakJapaneseText(PHRASE_GROUPS[gi].items[pi][1],button);}
+function speakJapaneseText(text,button){
  if(!('speechSynthesis' in window)){alert('此瀏覽器暫不支援語音播放');return;}
  if(speakingButton===button&&speechSynthesis.speaking){speechSynthesis.cancel();resetSpeakingButton();return;}
  speechSynthesis.cancel();resetSpeakingButton();
- const utterance=new SpeechSynthesisUtterance(PHRASE_GROUPS[gi].items[pi][1]);
+ const utterance=new SpeechSynthesisUtterance(text);
  utterance.lang='ja-JP';utterance.rate=0.82;utterance.pitch=1;
  const voices=speechSynthesis.getVoices();
  const japaneseVoice=voices.find(v=>v.lang.toLowerCase().startsWith('ja'));
@@ -565,33 +566,33 @@ function renderDay(){
 /* ===== TRIP MAP ===== */
 const MAP_DAYS=[
  {key:'D1',date:'11/21',city:'札幌',routes:[
-  {station:'中島公園站',stationCoord:[43.0483303,141.3551210],spot:'中島公園',spotCoord:[43.0452856,141.3524454]},
-  {station:'大通站',stationCoord:[43.0602455,141.3521469],spot:'大通公園／聖誕市集',spotCoord:[43.0599018,141.3475101]},
+  {station:'中島公園站',stationJa:'中島公園駅',stationCoord:[43.0483303,141.3551210],spot:'中島公園',spotJa:'中島公園',spotCoord:[43.0452856,141.3524454]},
+  {station:'大通站',stationJa:'大通駅',stationCoord:[43.0602455,141.3521469],spot:'大通公園／聖誕市集',spotJa:'大通公園／ミュンヘン・クリスマス市',spotCoord:[43.0599018,141.3475101]},
  ]},
  {key:'D2',date:'11/22',city:'函館湯之川',routes:[
-  {station:'湯之川溫泉電停',stationCoord:[41.7800403,140.7851715],spot:'函館市熱帶植物園',spotCoord:[41.7741492,140.7893215]},
-  {station:'湯之川溫泉電停',stationCoord:[41.7800403,140.7851715],spot:'湯倉神社',spotCoord:[41.7820825,140.7910153]},
+  {station:'湯之川溫泉電停',stationJa:'湯の川温泉 電停',stationCoord:[41.7800403,140.7851715],spot:'函館市熱帶植物園',spotJa:'函館市熱帯植物園',spotCoord:[41.7741492,140.7893215]},
+  {station:'湯之川溫泉電停',stationJa:'湯の川温泉 電停',stationCoord:[41.7800403,140.7851715],spot:'湯倉神社',spotJa:'湯倉神社',spotCoord:[41.7820825,140.7910153]},
  ]},
  {key:'D3',date:'11/23',city:'函館',routes:[
-  {station:'五稜郭公園前電停',stationCoord:[41.7892382,140.7523010],spot:'五稜郭塔',spotCoord:[41.7945919,140.7539587]},
-  {station:'十字街電停',stationCoord:[41.7643446,140.7192811],spot:'函館山纜車山麓站',spotCoord:[41.7609207,140.7141770]},
+  {station:'五稜郭公園前電停',stationJa:'五稜郭公園前 電停',stationCoord:[41.7892382,140.7523010],spot:'五稜郭塔',spotJa:'五稜郭タワー',spotCoord:[41.7945919,140.7539587]},
+  {station:'十字街電停',stationJa:'十字街 電停',stationCoord:[41.7643446,140.7192811],spot:'函館山纜車山麓站',spotJa:'函館山ロープウェイ 山麓駅',spotCoord:[41.7609207,140.7141770]},
  ]},
  {key:'D4',date:'11/24',city:'函館',routes:[
-  {station:'十字街電停',stationCoord:[41.7643446,140.7192811],spot:'金森紅磚倉庫',spotCoord:[41.7663069,140.7168435]},
-  {station:'末廣町電停',stationCoord:[41.76710,140.71415],spot:'舊函館區公會堂',spotCoord:[41.76525,140.71010]},
+  {station:'十字街電停',stationJa:'十字街 電停',stationCoord:[41.7643446,140.7192811],spot:'金森紅磚倉庫',spotJa:'金森赤レンガ倉庫',spotCoord:[41.7663069,140.7168435]},
+  {station:'末廣町電停',stationJa:'末広町 電停',stationCoord:[41.76710,140.71415],spot:'舊函館區公會堂',spotJa:'旧函館区公会堂',spotCoord:[41.76525,140.71010]},
  ]},
  {key:'D5',date:'11/25',city:'登別',routes:[
-  {station:'登別溫泉巴士總站',stationCoord:[42.49255,141.14370],spot:'登別地獄谷',spotCoord:[42.4975716,141.1453349]},
+  {station:'登別溫泉巴士總站',stationJa:'登別温泉バスターミナル',stationCoord:[42.49255,141.14370],spot:'登別地獄谷',spotJa:'登別地獄谷',spotCoord:[42.4975716,141.1453349]},
  ]},
  {key:'D6',date:'11/26',city:'小樽',routes:[
-  {station:'小樽站',stationCoord:[43.1973436,140.9941512],spot:'小樽運河・淺草橋',spotCoord:[43.19855,141.00385]},
+  {station:'小樽站',stationJa:'小樽駅',stationCoord:[43.1973436,140.9941512],spot:'小樽運河・淺草橋',spotJa:'小樽運河・浅草橋',spotCoord:[43.19855,141.00385]},
  ]},
  {key:'D7',date:'11/27',city:'札幌',routes:[
-  {station:'札幌站',stationCoord:[43.0686555,141.3507870],spot:'北海道大學正門',spotCoord:[43.07162,141.34880]},
-  {station:'纜車入口電停',stationCoord:[43.0338219,141.3373357],spot:'藻岩山纜車山麓站',spotCoord:[43.02925,141.32220]},
+  {station:'札幌站',stationJa:'札幌駅',stationCoord:[43.0686555,141.3507870],spot:'北海道大學正門',spotJa:'北海道大学 正門',spotCoord:[43.07162,141.34880]},
+  {station:'纜車入口電停',stationJa:'ロープウェイ入口 電停',stationCoord:[43.0338219,141.3373357],spot:'藻岩山纜車山麓站',spotJa:'もいわ山ロープウェイ 山麓駅',spotCoord:[43.02925,141.32220]},
  ]},
  {key:'D8',date:'11/28',city:'札幌',routes:[
-  {station:'札幌站',stationCoord:[43.0686555,141.3507870],spot:'Hotel Forza Sapporo Station',spotCoord:[43.06480,141.35375]},
+  {station:'札幌站',stationJa:'札幌駅',stationCoord:[43.0686555,141.3507870],spot:'Hotel Forza Sapporo Station',spotJa:'ホテルフォルツァ札幌駅前',spotCoord:[43.06480,141.35375]},
  ]},
 ];
 let tripMap=null,mapLayers=null,mapDayIndex=0,mapRouteIndex=0,mapRouteToken=0,lastRouteRequest=0;
@@ -622,13 +623,29 @@ function renderMapRouteList(){
  const day=MAP_DAYS[mapDayIndex];
  document.getElementById('mapDayLabel').textContent=`DAY ${mapDayIndex+1}・${day.date}`;
  document.getElementById('mapCityLabel').textContent=day.city;
- document.getElementById('mapRouteList').innerHTML=day.routes.map((r,i)=>
-  `<button type="button" onclick="selectMapRoute(${i})" class="w-full flex items-center gap-3 text-left bg-card border ${i===mapRouteIndex?'border-accent':'border-line'} rounded-xl px-3 py-3 shadow-soft">
+ document.getElementById('mapRouteList').innerHTML=day.routes.map((r,i)=>{
+  const query=`${r.spotJa}, Hokkaido, Japan`,place=G(query);
+  const walk=`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(r.spotCoord.join(','))}&travelmode=walking`;
+  return `<div class="bg-card border ${i===mapRouteIndex?'border-accent':'border-line'} rounded-xl shadow-soft overflow-hidden">
+   <button type="button" onclick="selectMapRoute(${i})" class="w-full flex items-center gap-3 text-left px-3 pt-3 pb-2">
     <span class="w-9 h-9 rounded-full ${i===mapRouteIndex?'bg-accent text-white':'bg-snow text-accent'} flex items-center justify-center shrink-0"><i class="fa-solid fa-person-walking"></i></span>
-    <span class="flex-1 min-w-0"><span class="block text-[12px] text-sub truncate">${r.station}</span><span class="block text-[14px] font-bold truncate">→ ${r.spot}</span></span>
+    <span class="flex-1 min-w-0"><span class="block text-[11px] text-sub truncate">${r.station}・${r.stationJa}</span><span class="block text-[14px] font-bold truncate">→ ${r.spot}</span><span class="block text-[11px] text-sub truncate mt-0.5">${r.spotJa}</span></span>
     <i class="fa-solid fa-chevron-right text-[10px] text-sub"></i>
-   </button>`
+   </button>
+   <div class="flex gap-1.5 px-3 pb-3 pl-[60px]">
+    <button type="button" onclick="speakMapName(${mapDayIndex},${i},this)" class="h-8 px-2.5 rounded-lg bg-accent text-white text-[11px]" aria-label="播放日文名稱"><i class="fa-solid fa-volume-high mr-1"></i>播放</button>
+    <button type="button" onclick="copyMapName(${mapDayIndex},${i},this)" class="h-8 px-2.5 rounded-lg bg-paper border border-line text-accent text-[11px]" aria-label="複製日文名稱"><i class="fa-regular fa-copy mr-1"></i>複製</button>
+    <a href="${place}" target="_blank" rel="noopener" class="h-8 px-2.5 rounded-lg bg-paper border border-line text-accent text-[11px] flex items-center" aria-label="在 Google Maps 查看 ${r.spot}"><i class="fa-brands fa-google mr-1"></i>地點</a>
+    <a href="${walk}" target="_blank" rel="noopener" class="h-8 px-2.5 rounded-lg bg-paper border border-line text-accent text-[11px] flex items-center" aria-label="步行導航至 ${r.spot}"><i class="fa-solid fa-location-arrow mr-1"></i>導航</a>
+   </div></div>`;
+ }
  ).join('');
+}
+function speakMapName(dayIndex,routeIndex,button){speakJapaneseText(MAP_DAYS[dayIndex].routes[routeIndex].spotJa,button);}
+async function copyMapName(dayIndex,routeIndex,button){
+ const text=MAP_DAYS[dayIndex].routes[routeIndex].spotJa;
+ try{await navigator.clipboard.writeText(text);}catch(e){const area=document.createElement('textarea');area.value=text;area.style.position='fixed';area.style.opacity='0';document.body.appendChild(area);area.select();document.execCommand('copy');area.remove();}
+ const original=button.innerHTML;button.innerHTML='<i class="fa-solid fa-check mr-1"></i>已複製';setTimeout(()=>button.innerHTML=original,1600);
 }
 function mapMarkerIcon(type){
  const icon=type==='station'?'fa-train-subway':'fa-location-dot';
