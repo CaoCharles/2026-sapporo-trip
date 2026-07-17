@@ -293,9 +293,30 @@ function renderPhraseGroups(){
   <div class="border-t border-line px-3 pb-2">${g.items.map((p,pi)=>`<div class="py-3 ${pi?'border-t border-line':''}">
    <div class="text-[11px] text-sub mb-1">${p[0]}</div>
    <div class="flex items-start gap-2"><div class="flex-1 min-w-0"><div class="text-[15px] font-bold leading-relaxed">${p[1]}</div><div class="text-[10px] text-sub mt-1">${p[2]}</div></div>
-   <button type="button" onclick="copyPhrase(${gi},${pi},this)" class="shrink-0 w-9 h-9 rounded-full bg-card border border-line text-accent" aria-label="複製日文：${p[1]}"><i class="fa-regular fa-copy"></i></button></div>
+   <div class="flex gap-1.5 shrink-0">
+    <button type="button" onclick="speakPhrase(${gi},${pi},this)" class="w-9 h-9 rounded-full bg-accent text-white border border-accent" aria-label="播放日文：${p[1]}"><i class="fa-solid fa-volume-high"></i></button>
+    <button type="button" onclick="copyPhrase(${gi},${pi},this)" class="w-9 h-9 rounded-full bg-card border border-line text-accent" aria-label="複製日文：${p[1]}"><i class="fa-regular fa-copy"></i></button>
+   </div></div>
   </div>`).join('')}</div>
  </details>`).join('');
+}
+
+let speakingButton=null;
+function resetSpeakingButton(){
+ if(speakingButton){speakingButton.querySelector('i').className='fa-solid fa-volume-high';speakingButton.classList.remove('bg-alert','border-alert');speakingButton.classList.add('bg-accent','border-accent');speakingButton=null;}
+}
+function speakPhrase(gi,pi,button){
+ if(!('speechSynthesis' in window)){alert('此瀏覽器暫不支援語音播放');return;}
+ if(speakingButton===button&&speechSynthesis.speaking){speechSynthesis.cancel();resetSpeakingButton();return;}
+ speechSynthesis.cancel();resetSpeakingButton();
+ const utterance=new SpeechSynthesisUtterance(PHRASE_GROUPS[gi].items[pi][1]);
+ utterance.lang='ja-JP';utterance.rate=0.82;utterance.pitch=1;
+ const voices=speechSynthesis.getVoices();
+ const japaneseVoice=voices.find(v=>v.lang.toLowerCase().startsWith('ja'));
+ if(japaneseVoice)utterance.voice=japaneseVoice;
+ speakingButton=button;button.querySelector('i').className='fa-solid fa-stop';button.classList.remove('bg-accent','border-accent');button.classList.add('bg-alert','border-alert');
+ utterance.onend=resetSpeakingButton;utterance.onerror=resetSpeakingButton;
+ speechSynthesis.speak(utterance);
 }
 
 async function copyPhrase(gi,pi,button){
