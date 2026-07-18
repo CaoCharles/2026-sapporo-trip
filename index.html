@@ -309,7 +309,7 @@ function renderPhraseGroups(){
 
 let speakingButton=null;
 function resetSpeakingButton(){
- if(speakingButton){speakingButton.querySelector('i').className='fa-solid fa-volume-high';speakingButton.classList.remove('bg-alert','border-alert');speakingButton.classList.add('bg-accent','border-accent');speakingButton=null;}
+ if(speakingButton){speakingButton.querySelector('i').className='fa-solid fa-volume-high';speakingButton=null;}
 }
 function speakPhrase(gi,pi,button){speakJapaneseText(PHRASE_GROUPS[gi].items[pi][1],button);}
 function speakJapaneseText(text,button){
@@ -321,7 +321,7 @@ function speakJapaneseText(text,button){
  const voices=speechSynthesis.getVoices();
  const japaneseVoice=voices.find(v=>v.lang.toLowerCase().startsWith('ja'));
  if(japaneseVoice)utterance.voice=japaneseVoice;
- speakingButton=button;button.querySelector('i').className='fa-solid fa-stop';button.classList.remove('bg-accent','border-accent');button.classList.add('bg-alert','border-alert');
+ speakingButton=button;button.querySelector('i').className='fa-solid fa-stop';
  utterance.onend=resetSpeakingButton;utterance.onerror=resetSpeakingButton;
  speechSynthesis.speak(utterance);
 }
