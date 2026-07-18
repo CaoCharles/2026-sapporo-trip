@@ -91,6 +91,7 @@ tailwind.config={theme:{extend:{
 
 <!-- ============ OVERVIEW ============ -->
 <section id="overview" class="tabpane active">
+  <h2 class="text-2xl font-bold mb-3">旅程總覽</h2>
   <div class="overview-layout">
     <div class="overview-stack mb-4">
       <figure class="bg-card rounded-2xl shadow-soft border border-line overflow-hidden">
@@ -110,11 +111,11 @@ tailwind.config={theme:{extend:{
         <div class="text-xs text-sub mb-1"><i class="fa-solid fa-route text-accent text-base"></i> 行程速覽（點擊看當天）</div>
         <div id="ovglance"></div>
       </div>
-      <details class="group bg-card rounded-2xl shadow-soft border border-line overflow-hidden">
+      <details open class="group bg-card rounded-2xl shadow-soft border border-line overflow-hidden">
         <summary class="list-none cursor-pointer px-3 py-3 flex items-center gap-2">
           <i class="fa-solid fa-hotel text-accent text-base"></i>
           <span class="flex-1"><span class="block text-xs font-bold">住宿一覽</span><span class="block text-[11px] text-sub mt-0.5">札幌 2・函館 3・登別 1・小樽 1 晚</span></span>
-          <span class="text-[10px] text-sub">查看全部</span><i class="fa-solid fa-chevron-down text-[10px] text-sub transition group-open:rotate-180"></i>
+          <span class="text-[10px] text-sub">點飯店看詳情</span><i class="fa-solid fa-chevron-down text-[10px] text-sub transition group-open:rotate-180"></i>
         </summary>
         <div id="hotels" class="space-y-1.5 text-[13px] px-3 pb-3 pt-1 border-t border-line"></div>
       </details>
@@ -124,6 +125,7 @@ tailwind.config={theme:{extend:{
 
 <!-- ============ PLAN ============ -->
 <section id="plan" class="tabpane">
+  <h2 class="text-2xl font-bold mb-2">每日行程</h2>
   <!-- Day selector -->
   <div class="daytabs-sticky"><div id="daytabs" class="flex gap-2 overflow-x-auto"></div></div>
   <div id="daycontent"></div>
@@ -156,7 +158,7 @@ tailwind.config={theme:{extend:{
 
 <!-- ============ LISTS ============ -->
 <section id="lists" class="tabpane">
-  <h2 class="text-2xl font-bold mb-3">清單</h2>
+  <h2 class="text-2xl font-bold mb-3">旅行清單</h2>
   <div class="bg-card rounded-2xl shadow-soft p-4 border border-line mb-4">
     <div class="text-sm font-bold mb-3"><i class="fa-solid fa-suitcase-rolling text-accent text-lg"></i> 行前準備 Checklist</div>
     <div id="checklist" class="space-y-1"></div>
@@ -322,13 +324,12 @@ async function copyPhrase(gi,pi,button){
 }
 
 const HOTELS = [
-  ['Day 1','札幌','the b sapporo'],
-  ['Day 2','函館湯之川','Imagine Hotel & Resort Hakodate'],
-  ['Day 3–4','函館','Hotel Enoe Hakodate'],
-  ['Day 5','登別','第一滝本館'],
-  ['Day 6','小樽','Grids Premium Hotel Otaru'],
-  ['Day 7','札幌','Hotel Forza Sapporo Station'],
-  ['Day 8','—','無'],
+ {day:'Day 1',city:'札幌',name:'the b sapporo',zh:'the b 札幌',ja:'the b 札幌',address:'〒060-0063 北海道札幌市中央区南3条西2-17-17',phone:'011-211-0412',check:'15:00／11:00',access:'地下鐵薄野站 1 號出口步行約 3 分',map:'the b sapporo',web:'https://www.theb-hotels.com/theb/sapporo'},
+ {day:'Day 2',city:'函館湯之川',name:'Imagine Hotel & Resort Hakodate',zh:'函館湯之川 Imagine 飯店及度假村',ja:'イマジン ホテル＆リゾート函館',address:'〒042-0932 北海道函館市湯川町3丁目1-17',phone:'0138-57-9161',check:'15:00／10:00',access:'函館機場搭計程車約 5 分；湯之川電停步行約 15 分',map:'イマジン ホテル＆リゾート函館',web:'https://imaginehakodate.jp/'},
+ {day:'Day 3–4',city:'函館',name:'Hotel Enoe Hakodate',zh:'函館 Enoe 飯店',ja:'ホテルエノエ函館',address:'〒040-0043 北海道函館市宝来町22-15',phone:'0138-38-9500',check:'15:00／11:00',access:'函館市電寶來町站步行約 3 分',map:'ホテルエノエ函館',web:'https://hotel-enoe.com/hakodate/'},
+ {day:'Day 5',city:'登別',name:'第一滝本館',zh:'第一滝本館',ja:'第一滝本館',address:'〒059-0551 北海道登別市登別温泉町55',phone:'0143-84-2111',check:'依訂房確認資料',access:'登別溫泉巴士總站下車後步行前往',map:'第一滝本館',web:'https://takimotokan.co.jp/ja/'},
+ {day:'Day 6',city:'小樽',name:'Grids Premium Hotel Otaru',zh:'小樽 Grids Premium 飯店',ja:'グリッズプレミアムホテル小樽',address:'〒047-0032 北海道小樽市稲穂1丁目3-13',phone:'0134-31-5801',check:'15:00／11:00',access:'JR 小樽站步行約 9 分',map:'グリッズプレミアムホテル小樽',web:'https://gridshotel.com/otaru/'},
+ {day:'Day 7',city:'札幌',name:'Hotel Forza Sapporo Station',zh:'札幌站前 Forza 飯店',ja:'ホテルフォルツァ札幌駅前',address:'〒060-0003 北海道札幌市中央区北3条西2-1-1',phone:'011-222-3555',check:'14:00／11:00',access:'JR 札幌站南口步行約 4 分；地下鐵 24 號出口約 2 分',map:'ホテルフォルツァ札幌駅前',web:'https://www.hotelforza.jp/sapporo/ekimae/'},
 ];
 
 /* itinerary：每日 segments
@@ -468,9 +469,20 @@ document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>{
 });
 
 /* ===== PLAN ===== */
-document.getElementById('hotels').innerHTML = HOTELS.map(h=>
- `<div class="flex items-start gap-2"><span class="text-sub font-bold text-[11px] mt-0.5 w-16 shrink-0">${h[0]}</span>
-  <span><b>${h[1]}</b><span class="text-sub"> ・${h[2]}</span></span></div>`).join('');
+document.getElementById('hotels').innerHTML = HOTELS.map((h,index)=>
+ `<button type="button" onclick="openHotelSheet(${index})" class="w-full flex items-center gap-3 text-left bg-paper/60 border border-line rounded-xl px-3 py-2.5"><span class="w-9 h-9 rounded-full bg-snow text-accent flex items-center justify-center shrink-0"><i class="fa-solid fa-hotel"></i></span><span class="flex-1 min-w-0"><span class="block text-[10px] text-sub">${h.day}・${h.city}</span><b class="block text-[13px] truncate mt-0.5">${h.zh}</b><span class="block text-[10px] text-accent truncate mt-0.5">${h.ja}</span></span><i class="fa-solid fa-chevron-right text-[10px] text-sub"></i></button>`).join('');
+
+function hotelIndexForName(name){return HOTELS.findIndex(h=>name.includes(h.name)||name.includes(h.ja));}
+function openHotelSheet(index){
+ const h=HOTELS[index],walk=`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(h.map)}&travelmode=walking`;
+ document.getElementById('appSheetContent').innerHTML=`<div class="flex items-start gap-3"><div class="flex-1"><div class="text-[11px] text-accent font-bold">${h.day}・${h.city}住宿</div><h3 class="text-xl font-bold mt-1">${h.zh}</h3><div class="text-[13px] text-accent mt-1">${h.ja}</div><div class="text-[11px] text-sub mt-1">${h.name}</div></div><button type="button" onclick="closeAppSheet()" class="w-9 h-9 rounded-full bg-paper border border-line text-sub shrink-0"><i class="fa-solid fa-xmark"></i></button></div>
+  <div class="bg-snow/50 border border-line rounded-2xl px-4 py-4 mt-4"><div class="text-[10px] text-sub">給司機看的日文資訊</div><div class="text-[14px] font-bold mt-2">${h.ja}</div><div class="text-[12px] leading-relaxed mt-1 select-all">${h.address}</div><div class="grid grid-cols-2 gap-2 mt-3"><button type="button" onclick="copyQuickText('${h.ja.replaceAll("'","\\'")}\\n${h.address.replaceAll("'","\\'")}',this)" class="bg-card border border-line text-accent rounded-xl py-2.5 text-[11px] font-bold"><i class="fa-regular fa-copy mr-1"></i>複製叫車資訊</button><button type="button" onclick="speakJapaneseText('${h.ja.replaceAll("'","\\'")}',this)" class="bg-accent text-white rounded-xl py-2.5 text-[11px] font-bold"><i class="fa-solid fa-volume-high mr-1"></i>播放飯店名</button></div></div>
+  <div class="grid grid-cols-2 gap-2 mt-3 text-[11px]"><div class="bg-paper border border-line rounded-xl px-3 py-2.5"><span class="text-sub">入住／退房</span><b class="block mt-1">${h.check}</b></div><div class="bg-paper border border-line rounded-xl px-3 py-2.5"><span class="text-sub">電話</span><a href="tel:+81${h.phone.replace(/^0/,'').replaceAll('-','')}" class="block mt-1 font-bold text-accent">${h.phone}</a></div></div>
+  <div class="bg-paper border border-line rounded-xl px-3 py-2.5 mt-2"><div class="text-[10px] text-sub">前往方式</div><div class="text-[12px] font-bold mt-1">${h.access}</div></div>
+  <div class="grid grid-cols-2 gap-2 mt-4"><a href="tel:+81${h.phone.replace(/^0/,'').replaceAll('-','')}" class="bg-alert text-white rounded-xl py-3 text-[12px] font-bold text-center"><i class="fa-solid fa-phone mr-1"></i>撥打飯店</a><button type="button" onclick="copyQuickText('${h.phone}',this)" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold"><i class="fa-regular fa-copy mr-1"></i>複製電話</button><a href="${G(h.map)}" target="_blank" rel="noopener" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold text-center"><i class="fa-solid fa-location-dot mr-1"></i>查看地點</a><a href="${walk}" target="_blank" rel="noopener" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold text-center"><i class="fa-solid fa-location-arrow mr-1"></i>前往導航</a></div>
+  <a href="${h.web}" target="_blank" rel="noopener" class="block text-center text-[11px] text-accent mt-4"><i class="fa-solid fa-arrow-up-right-from-square mr-1"></i>飯店官方網站</a>`;
+ document.getElementById('appSheet').classList.add('open');document.body.classList.add('modal-open');
+}
 
 const ICON={flight:['fa-plane','bg-accent'],meal:['fa-utensils','bg-accent'],
   spot:['fa-location-dot','bg-accent'],go:['fa-person-walking-luggage','bg-accent'],move:['fa-train-subway','bg-sub']};
@@ -540,7 +552,8 @@ const PLAN_ADDRESS={
  '登別熊牧場':'〒059-0551 北海道登別市登別温泉町224','入住第一滝本館':'〒059-0551 北海道登別市登別温泉町55','地獄谷':'〒059-0551 北海道登別市登別温泉町無番地','登別溫泉街散步':'北海道登別市登別温泉町','晚餐與飯店泡湯':'〒059-0551 北海道登別市登別温泉町55','飯店泡湯':'〒059-0551 北海道登別市登別温泉町55',
  '入住 Grids Premium Hotel Otaru':'〒047-0032 北海道小樽市稲穂1丁目3-13','小樽運河夜景與運河點燈':'〒047-0007 北海道小樽市港町5','倉庫群散步與晚餐':'〒047-0007 北海道小樽市港町5',
  '北海道大學':'〒060-0808 北海道札幌市北区北8条西5丁目','札幌時計台':'〒060-0001 北海道札幌市中央区北1条西2丁目','北海道廳紅磚舍':'〒060-0003 北海道札幌市中央区北3条西6丁目','札幌場外市場－根室杉山水產':'〒060-0011 北海道札幌市中央区北11条西21丁目2-3','入住 Hotel Forza Sapporo Station':'〒060-0003 北海道札幌市中央区北3条西2丁目1-1','藻岩山夜景':'〒064-0942 北海道札幌市中央区伏見5丁目3-7',
- '函館山夜景':'〒040-0054 北海道函館市元町19-7','五稜郭':'〒040-0001 北海道函館市五稜郭町43-9','登別地獄谷':'〒059-0551 北海道登別市登別温泉町無番地','小樽運河':'〒047-0007 北海道小樽市港町5'
+ '函館山夜景':'〒040-0054 北海道函館市元町19-7','五稜郭':'〒040-0001 北海道函館市五稜郭町43-9','登別地獄谷':'〒059-0551 北海道登別市登別温泉町無番地','小樽運河':'〒047-0007 北海道小樽市港町5',
+ '摩周丸紀念船':'〒040-0063 北海道函館市若松町12番地先','小樽音樂盒堂':'〒047-0015 北海道小樽市住吉町4-1','圓山動物園':'〒064-0959 北海道札幌市中央区宮ケ丘3-1','北海道神宮':'〒064-8505 北海道札幌市中央区宮ケ丘474','二條市場':'〒060-0053 北海道札幌市中央区南3条東1〜2丁目','札幌電視塔':'〒060-0042 北海道札幌市中央区大通西1丁目'
 };
 const PLAN_MEDIA={
  '中島公園':[{img:'assets/plan-gallery/nakajima-winter-1.jpg',source:'t-konno・CC BY-SA 3.0'},{img:'assets/plan-gallery/nakajima-winter-2.jpg',source:'t-konno・CC BY-SA 3.0'}],
@@ -555,7 +568,17 @@ const PLAN_MEDIA={
  '地獄谷':[{img:'assets/guide/jigokudani.jpg',source:'663highland・CC BY-SA 3.0'},{img:'assets/guide/gallery/jigokudani-2.jpg',source:'Calistemon・CC BY-SA 4.0'}],
  '小樽運河夜景與運河點燈':[{img:'assets/guide/otaru-canal.jpg',source:'663highland・CC BY 2.5'},{img:'assets/guide/gallery/otaru-canal-2.jpg',source:'Haha169・CC BY-SA 4.0'},{img:'assets/guide/gallery/otaru-canal-3.jpg',source:'逃亡者・Public domain'}],
  '北海道大學':[{img:'assets/plan-gallery/hokkaido-university-winter-1.jpg',source:'ノボホショコロトソ・CC BY 4.0'},{img:'assets/plan-gallery/hokkaido-university-winter-2.jpg',source:'ノボホショコロトソ・CC BY 4.0'}],
- '藻岩山夜景':[{img:'assets/plan-gallery/moiwa-night-1.jpg',source:'Sorah Fukumori・CC BY 3.0'},{img:'assets/plan-gallery/moiwa-night-2.jpg',source:'Sorah Fukumori・CC BY 3.0'}]
+ '藻岩山夜景':[{img:'assets/plan-gallery/moiwa-night-1.jpg',source:'Sorah Fukumori・CC BY 3.0'},{img:'assets/plan-gallery/moiwa-night-2.jpg',source:'Sorah Fukumori・CC BY 3.0'}],
+ '摩周丸紀念船':[{img:'assets/plan-gallery/extras/mashumaru-1.jpg',source:'Wikimedia Commons・CC BY 4.0'},{img:'assets/plan-gallery/extras/mashumaru-2.jpg',source:'Wikimedia Commons・CC BY-SA 2.0'}],
+ 'Lucky Pierrot 小丑漢堡':[{img:'assets/plan-gallery/extras/lucky-pierrot-1.jpg',source:'Wikimedia Commons・CC BY-SA 2.0'},{img:'assets/plan-gallery/extras/lucky-pierrot-2.jpg',source:'Wikimedia Commons・Public domain'}],
+ '小樽音樂盒堂':[{img:'assets/plan-gallery/extras/otaru-music-box-1.jpg',source:'Wikimedia Commons・CC BY-SA 3.0'},{img:'assets/plan-gallery/extras/otaru-music-box-2.jpg',source:'Wikimedia Commons・CC BY-SA 4.0'}],
+ '圓山公園':[{img:'assets/plan-gallery/extras/maruyama-park-1.jpg',source:'ブルーノ・プラス・CC BY-SA 4.0'},{img:'assets/plan-gallery/extras/maruyama-park-2.jpg',source:'t-konno・CC BY-SA 3.0'}],
+ '圓山動物園':[{img:'assets/plan-gallery/extras/maruyama-zoo-1.jpg',source:'Ozizo・CC0'},{img:'assets/plan-gallery/extras/maruyama-zoo-2.jpg',source:'藤木一博・CC BY-SA 4.0'}],
+ '北海道神宮':[{img:'assets/plan-gallery/extras/hokkaido-jingu-1.jpg',source:'Daigaku2051・CC BY-SA 3.0'},{img:'assets/plan-gallery/extras/hokkaido-jingu-2.jpg',source:'danobrienmuzyka・CC BY-SA 2.0'}],
+ '二條市場':[{img:'assets/plan-gallery/extras/nijo-market-1.jpg',source:'Wing1990hk・CC BY 3.0'},{img:'assets/plan-gallery/extras/nijo-market-2.jpg',source:'K. Takeda・CC BY-SA 3.0'}],
+ '札幌電視塔':[{img:'assets/plan-gallery/extras/sapporo-tv-1.jpg',source:'Ermell・CC BY-SA 4.0'},{img:'assets/plan-gallery/extras/sapporo-tv-2.jpg',source:'ノボホショコロトソ・CC BY 4.0'}],
+ 'JR Tower展望室':[{img:'assets/guide/addons/jr-tower.jpg',source:'663highland・CC BY 2.5'}],
+ '大湯沼、天然足湯':[{img:'assets/guide/addons/oyunuma-footbath.jpg',source:'Choi2451・CC BY-SA 3.0'}]
 };
 function planJapanese(s){return s.ja||PLAN_JA[s.name]||s.map||'';}
 function openSpotSheet(index){
@@ -592,11 +615,12 @@ function periodOf(t){
 }
 function spotCard(s,index){
  const ic=ICON[s.type]||ICON.spot;
+ const hotelIndex=hotelIndexForName(s.name);
  const duration=s.stay||SPOT_STAYS[s.name];
  const stay=duration&&duration!=='—'?`<span class="text-[10px] text-sub bg-black/5 rounded-full px-2 py-0.5 whitespace-nowrap ml-2">建議 ${duration}</span>`:'';
  const ja=planJapanese(s),hasJapanese=/[\u3040-\u30ff\u3400-\u9fff]/.test(ja);
  const walk=s.map?`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(s.map)}&travelmode=walking`:'';
- const actions=`<div class="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-line"><button type="button" onclick="openSpotSheet(${index})" class="inline-flex items-center gap-1 text-[10px] font-bold text-ink"><i class="fa-solid fa-chevron-up"></i><span>詳情</span></button><span class="text-line">·</span>
+ const actions=`<div class="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-line"><button type="button" onclick="${hotelIndex>=0?`openHotelSheet(${hotelIndex})`:`openSpotSheet(${index})`}" class="inline-flex items-center gap-1 text-[10px] font-bold text-ink"><i class="fa-solid fa-chevron-up"></i><span>${hotelIndex>=0?'住宿詳情':'詳情'}</span></button><span class="text-line">·</span>
    ${s.map?`
    ${hasJapanese?`<button type="button" onclick="speakJapaneseText('${ja.replaceAll("'","\\'")}',this)" class="inline-flex items-center gap-1 text-[10px] text-accent"><i class="fa-solid fa-volume-high"></i><span>播放</span></button><span class="text-line">·</span><button type="button" onclick="copyPlanName(${index},this)" class="inline-flex items-center gap-1 text-[10px] text-accent"><i class="fa-regular fa-copy"></i><span>複製</span></button><span class="text-line">·</span>`:''}
    <a href="${G(s.map)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-[10px] text-accent"><i class="fa-solid fa-location-dot"></i>查看地點</a><span class="text-line">·</span><a href="${walk}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-[10px] text-accent"><i class="fa-solid fa-location-arrow"></i>步行導航</a>
@@ -615,14 +639,31 @@ function spotCard(s,index){
      ${actions}
    </div></div>`;
 }
-function sideList(title, items, icon){
+let activeSupplementMedia=[];
+function updateSupplementGallery(scroller){
+ const i=Math.max(0,Math.min(activeSupplementMedia.length-1,Math.round(scroller.scrollLeft/scroller.clientWidth)));
+ document.querySelectorAll('[data-supplement-dot]').forEach((dot,n)=>{dot.classList.toggle('bg-accent',n===i);dot.classList.toggle('bg-line',n!==i);});
+ const credit=document.getElementById('supplementPhotoCredit');if(credit&&activeSupplementMedia[i])credit.textContent=`${i+1} / ${activeSupplementMedia.length}・照片：${activeSupplementMedia[i].source}`;
+}
+function openSupplementSheet(kind,index){
+ const s=DAYS[curDay][kind][index],ja=planJapanese(s),media=PLAN_MEDIA[s.name]||[],address=PLAN_ADDRESS[s.name]||'',meta=OPTIONAL_META[s.name],typeLabel=kind==='food'?'餐飲':kind==='conan'?'柯南補充景點':'有時間可逛／備案',walk=s.map?`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(s.map)}&travelmode=walking`:'';
+ activeSupplementMedia=media;
+ const gallery=media.length?`<div class="mt-3"><div class="flex overflow-x-auto snap-x snap-mandatory rounded-2xl bg-paper" style="scrollbar-width:none" onscroll="updateSupplementGallery(this)">${media.map((m,i)=>`<img src="${m.img}" alt="${s.name}照片 ${i+1}" class="min-w-full object-cover snap-center" style="aspect-ratio:16/10" loading="lazy">`).join('')}</div><div class="flex items-center justify-between gap-3 mt-2 px-1"><div class="flex gap-1.5">${media.map((_,i)=>`<span data-supplement-dot class="block w-1.5 h-1.5 rounded-full ${i===0?'bg-accent':'bg-line'}"></span>`).join('')}</div><div id="supplementPhotoCredit" class="text-[9px] text-sub text-right">1 / ${media.length}・照片：${media[0].source}</div></div></div>`:'';
+ document.getElementById('appSheetContent').innerHTML=`<div class="flex items-start gap-3"><div class="flex-1"><div class="text-[11px] text-accent font-bold">${DAYS[curDay].key}・${typeLabel}</div><h3 class="text-xl font-bold mt-1">${s.name}</h3>${ja?`<div class="text-[13px] text-accent mt-1">${ja}</div>`:''}</div><button type="button" onclick="closeAppSheet()" class="w-9 h-9 rounded-full bg-paper border border-line text-sub shrink-0"><i class="fa-solid fa-xmark"></i></button></div>
+  ${gallery}
+  ${(s.note||meta?.tip)?`<div class="bg-snow/50 border border-line rounded-xl px-3 py-3 text-[12px] leading-relaxed mt-3">${s.note||meta.tip}</div>`:''}
+  ${address?`<div class="bg-paper border border-line rounded-xl px-3 py-2.5 mt-3"><div class="text-[10px] text-sub">詳細地址（日文）</div><div class="text-[12px] font-bold leading-relaxed mt-1">${address}</div><button type="button" onclick="copyQuickText('${address.replaceAll("'","\\'")}',this)" class="text-[11px] text-accent font-bold mt-2"><i class="fa-regular fa-copy mr-1"></i>複製地址</button></div>`:''}
+  ${!media.length?`<div class="text-[10px] text-sub mt-3"><i class="fa-regular fa-image mr-1"></i>尚未找到可確認授權的實景照片</div>`:''}
+  <div class="grid grid-cols-2 gap-2 mt-4"><button type="button" onclick="speakJapaneseText('${ja.replaceAll("'","\\'")}',this)" class="bg-accent text-white rounded-xl py-3 text-[12px] font-bold"><i class="fa-solid fa-volume-high mr-1"></i>播放日文</button><button type="button" onclick="copyQuickText('${ja.replaceAll("'","\\'")}',this)" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold"><i class="fa-regular fa-copy mr-1"></i>複製日文</button>${s.map?`<a href="${G(s.map)}" target="_blank" rel="noopener" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold text-center"><i class="fa-solid fa-location-dot mr-1"></i>查看地點</a><a href="${walk}" target="_blank" rel="noopener" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold text-center"><i class="fa-solid fa-location-arrow mr-1"></i>步行導航</a>`:''}</div>`;
+ document.getElementById('appSheet').classList.add('open');document.body.classList.add('modal-open');
+}
+function sideList(title, items, icon,kind){
  if(!items||!items.length)return '';
  return `<div class="mt-2 mb-4 pl-10">
    <div class="text-[12px] font-bold text-sub mb-2"><i class="fa-solid ${icon} text-accent mr-1"></i>${title}</div>
-   <div class="space-y-2">${items.map(s=>{
-     const ja=planJapanese(s),walk=s.map?`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(s.map)}&travelmode=walking`:'';
-     const actions=s.map?`<div class="flex flex-wrap items-center gap-1.5 mt-2 pt-2 border-t border-line"><button type="button" onclick="speakJapaneseText('${ja.replaceAll("'","\\'")}',this)" class="inline-flex items-center gap-1 text-[10px] text-accent"><i class="fa-solid fa-volume-high"></i><span>播放</span></button><span class="text-line">·</span><button type="button" onclick="copyQuickText('${ja.replaceAll("'","\\'")}',this)" class="inline-flex items-center gap-1 text-[10px] text-accent"><i class="fa-regular fa-copy"></i><span>複製</span></button><span class="text-line">·</span><a href="${G(s.map)}" target="_blank" rel="noopener" class="text-[10px] text-accent"><i class="fa-solid fa-location-dot mr-1"></i>查看地點</a><span class="text-line">·</span><a href="${walk}" target="_blank" rel="noopener" class="text-[10px] text-accent"><i class="fa-solid fa-location-arrow mr-1"></i>導航</a></div>`:'';
-     return `<div class="bg-snow/40 border border-line rounded-2xl px-3 py-2.5"><div class="text-[13px] font-bold">${s.name}</div>${ja?`<div class="text-[10px] text-sub mt-0.5">${ja}</div>`:''}${s.note?`<div class="text-[12px] text-sub mt-1">${s.note}</div>`:''}${actions}</div>`;
+   <div class="space-y-2">${items.map((s,index)=>{
+     const ja=planJapanese(s),media=PLAN_MEDIA[s.name]||[];
+     return `<button type="button" onclick="openSupplementSheet('${kind}',${index})" class="w-full bg-card border border-line rounded-2xl px-3 py-2.5 text-left flex items-center gap-3">${media.length?`<img src="${media[0].img}" alt="${s.name}" class="w-14 h-14 rounded-xl object-cover shrink-0">`:`<span class="w-10 h-10 rounded-full bg-snow text-accent flex items-center justify-center shrink-0"><i class="fa-solid ${icon}"></i></span>`}<span class="flex-1 min-w-0"><span class="block text-[13px] font-bold">${s.name}</span>${ja?`<span class="block text-[10px] text-sub mt-0.5 truncate">${ja}</span>`:''}${s.note?`<span class="block text-[11px] text-sub mt-1 line-clamp-2">${s.note}</span>`:''}</span><i class="fa-solid fa-chevron-right text-[10px] text-sub"></i></button>`;
    }).join('')}</div></div>`;
 }
 const OPTIONAL_META={
@@ -640,12 +681,12 @@ async function copyQuickText(text,button){
 }
 function optionalList(items){
  if(!items||!items.length)return '';
- const groups={};items.forEach(s=>{const meta=OPTIONAL_META[s.name]||{area:'其他備案',tip:s.note||'依時間與體力安排'};(groups[meta.area]??=[]).push({s,meta});});
+ const groups={};items.forEach((s,index)=>{const meta=OPTIONAL_META[s.name]||{area:'其他備案',tip:s.note||'依時間與體力安排'};(groups[meta.area]??=[]).push({s,meta,index});});
  return `<details class="group mt-2 mb-4 pl-10">
   <summary class="list-none cursor-pointer bg-snow/50 border border-line rounded-xl px-3 py-3 flex items-center gap-2"><i class="fa-solid fa-clock text-accent"></i><span class="text-[12px] font-bold flex-1">有時間可逛／備案</span><span class="text-[10px] text-sub">共 ${items.length} 個</span><i class="fa-solid fa-chevron-down text-[10px] text-sub transition group-open:rotate-180"></i></summary>
-  <div class="mt-2 space-y-3">${Object.entries(groups).map(([area,rows])=>`<div><div class="text-[10px] font-bold text-sub px-1 mb-1.5">${area}</div><div class="bg-card border border-line rounded-xl overflow-hidden">${rows.map(({s,meta},i)=>{
-   const ja=planJapanese(s),walk=s.map?`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(s.map)}&travelmode=walking`:'';
-   return `<div class="px-3 py-2.5 ${i?'border-t border-line':''}"><div class="flex items-start gap-2"><div class="flex-1 min-w-0"><div class="text-[13px] font-bold">${s.name}</div>${ja?`<div class="text-[10px] text-sub mt-0.5">${ja}</div>`:''}<div class="text-[10px] text-accent mt-1">${meta.tip}</div></div><div class="flex gap-1 shrink-0"><button type="button" onclick="speakJapaneseText('${ja.replaceAll("'","\\'")}',this)" class="w-8 h-8 rounded-full bg-paper border border-line text-accent" aria-label="播放日文名稱"><i class="fa-solid fa-volume-high"></i></button><button type="button" onclick="copyQuickText('${ja.replaceAll("'","\\'")}',this)" class="w-8 h-8 rounded-full bg-paper border border-line text-accent" aria-label="複製日文名稱"><i class="fa-regular fa-copy"></i></button><a href="${G(s.map)}" target="_blank" rel="noopener" class="w-8 h-8 rounded-full bg-paper border border-line text-accent flex items-center justify-center" aria-label="查看地點"><i class="fa-solid fa-location-dot"></i></a><a href="${walk}" target="_blank" rel="noopener" class="w-8 h-8 rounded-full bg-paper border border-line text-accent flex items-center justify-center" aria-label="步行導航"><i class="fa-solid fa-location-arrow"></i></a></div></div></div>`;
+  <div class="mt-2 space-y-3">${Object.entries(groups).map(([area,rows])=>`<div><div class="text-[10px] font-bold text-sub px-1 mb-1.5">${area}</div><div class="bg-card border border-line rounded-xl overflow-hidden">${rows.map(({s,meta,index},i)=>{
+   const ja=planJapanese(s),media=PLAN_MEDIA[s.name]||[];
+   return `<button type="button" onclick="openSupplementSheet('optional',${index})" class="w-full px-3 py-2.5 ${i?'border-t border-line':''} flex items-center gap-3 text-left">${media.length?`<img src="${media[0].img}" alt="${s.name}" class="w-12 h-12 rounded-xl object-cover shrink-0">`:`<span class="w-9 h-9 rounded-full bg-snow text-accent flex items-center justify-center shrink-0"><i class="fa-solid fa-location-dot"></i></span>`}<span class="flex-1 min-w-0"><span class="block text-[13px] font-bold">${s.name}</span>${ja?`<span class="block text-[10px] text-sub mt-0.5 truncate">${ja}</span>`:''}<span class="block text-[10px] text-accent mt-1">${meta.tip}</span></span><i class="fa-solid fa-chevron-right text-[10px] text-sub"></i></button>`;
   }).join('')}</div></div>`).join('')}</div></details>`;
 }
 function renderDay(){
@@ -658,7 +699,8 @@ function renderDay(){
  }).join('');
  const al=d.alert?`<div class="bg-alert/10 border border-alert/30 rounded-xl px-3 py-2 text-[12px] text-alert mb-3"><i class="fa-solid fa-circle-exclamation mr-1"></i>${d.alert}</div>`:'';
  const info=DAY_INFO[curDay];
- const summary=`<div class="grid grid-cols-2 gap-2 mb-3 text-[11px]"><div class="bg-snow/50 border border-line rounded-xl px-3 py-2"><span class="text-sub">行程節奏</span><b class="block mt-0.5">${info.pace}</b></div><div class="bg-snow/50 border border-line rounded-xl px-3 py-2"><span class="text-sub">主要交通</span><b class="block mt-0.5">${info.transport}</b></div><div class="col-span-2 bg-snow/50 border border-line rounded-xl px-3 py-2"><span class="text-sub">今晚住宿</span><b class="float-right">${info.hotel}</b></div></div>`;
+ const hotelIndex=hotelIndexForName(info.hotel);
+ const summary=`<div class="grid grid-cols-2 gap-2 mb-3 text-[11px]"><div class="bg-snow/50 border border-line rounded-xl px-3 py-2.5"><span class="text-sub"><i class="fa-solid fa-gauge-high text-accent mr-1"></i>行程節奏</span><b class="block mt-1">${info.pace}</b></div><div class="bg-snow/50 border border-line rounded-xl px-3 py-2.5"><span class="text-sub"><i class="fa-solid fa-train text-accent mr-1"></i>主要交通</span><b class="block mt-1">${info.transport}</b></div>${hotelIndex>=0?`<button type="button" onclick="openHotelSheet(${hotelIndex})" class="col-span-2 bg-card border border-accent/40 rounded-xl px-3 py-2.5 flex items-center gap-3 text-left"><span class="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center"><i class="fa-solid fa-hotel"></i></span><span class="flex-1"><span class="block text-[10px] text-sub">今晚住宿・點擊查看叫車資訊</span><b class="block mt-0.5">${HOTELS[hotelIndex].zh}</b></span><i class="fa-solid fa-chevron-right text-accent"></i></button>`:`<div class="col-span-2 bg-snow/50 border border-line rounded-xl px-3 py-2"><span class="text-sub">今晚住宿</span><b class="float-right">${info.hotel}</b></div>`}</div>`;
  document.getElementById('daycontent').innerHTML=
   `<div class="flex items-center gap-2 mb-3">
      <span class="text-3xl font-bold">${d.key}</span>
@@ -668,8 +710,8 @@ function renderDay(){
    <div class="text-base font-bold mb-3">${d.title}</div>${al}${summary}
    <div class="relative tl">${rows}</div>
    ${optionalList(d.optional)}
-   ${sideList('餐飲',d.food,'fa-utensils')}
-   ${sideList('柯南補充景點',d.conan,'fa-magnifying-glass')}`;
+   ${sideList('餐飲',d.food,'fa-utensils','food')}
+   ${sideList('柯南補充景點',d.conan,'fa-magnifying-glass','conan')}`;
 }
 
 /* ===== TRIP MAP ===== */
