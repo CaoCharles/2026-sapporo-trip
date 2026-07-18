@@ -131,11 +131,10 @@ tailwind.config={theme:{extend:{
 
 <!-- ============ GUIDE ============ -->
 <section id="guide" class="tabpane">
-  <h2 class="text-2xl font-bold mb-1">深度導覽</h2>
-  <p class="text-xs text-sub mb-3">依城市查看實用資訊、日文名稱與景點故事</p>
-  <div id="guideFilters" class="flex gap-2 overflow-x-auto pb-2 mb-3"></div>
+  <h2 class="text-2xl font-bold mb-3">景點導覽</h2>
+  <div id="guideFilters" class="flex gap-2 overflow-x-auto pb-2 mb-4"></div>
   <div id="guidelist" class="space-y-5"></div>
-  <div id="seasonspots" class="mt-8"></div>
+  <div id="seasonspots" class="mt-5"></div>
 </section>
 
 <!-- ============ MAP ============ -->
@@ -152,7 +151,7 @@ tailwind.config={theme:{extend:{
     <div id="mapRouteSummary" class="px-4 py-3 min-h-[72px]"></div>
   </div>
   <div class="text-xs text-sub font-bold mb-2"><i class="fa-solid fa-person-walking text-accent mr-1"></i>步行路線</div>
-  <div id="mapRouteList" class="flex gap-2 overflow-x-auto snap-x snap-mandatory pb-2"></div>
+  <div id="mapRouteList" class="space-y-2 pb-2"></div>
 </section>
 
 <!-- ============ LISTS ============ -->
@@ -740,7 +739,7 @@ function renderMapRouteList(){
  document.getElementById('mapRouteList').innerHTML=day.routes.map((r,i)=>{
   const query=`${r.spotJa}, Hokkaido, Japan`,place=G(query);
   const walk=`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(r.spotCoord.join(','))}&travelmode=walking`;
-  return `<div class="shrink-0 snap-start bg-card border ${i===mapRouteIndex?'border-accent':'border-line'} rounded-xl shadow-soft overflow-hidden" style="width:calc(100% - 24px)">
+  return `<div class="w-full bg-card border ${i===mapRouteIndex?'border-accent':'border-line'} rounded-xl shadow-soft overflow-hidden">
    <button type="button" onclick="selectMapRoute(${i})" class="w-full flex items-center gap-3 text-left px-3 pt-3 pb-2">
     <span class="w-9 h-9 rounded-full ${i===mapRouteIndex?'bg-accent text-white':'bg-snow text-accent'} flex items-center justify-center shrink-0"><i class="fa-solid fa-person-walking"></i></span>
     <span class="flex-1 min-w-0"><span class="block text-[11px] text-sub truncate">${r.station}・${r.stationJa}</span><span class="block text-[14px] font-bold truncate">→ ${r.spot}</span><span class="block text-[11px] text-sub truncate mt-0.5">${r.spotJa}</span></span>
@@ -847,7 +846,7 @@ function openGuideSheet(index){
 }
 function renderGuides(){
  const filtered=GUIDE.map((g,index)=>({g,index})).filter(x=>guideCity==='全部'||x.g.city===guideCity);
- document.getElementById('guidelist').innerHTML=filtered.length?filtered.map(({g,index})=>{
+ document.getElementById('guidelist').innerHTML=filtered.length?`<div class="text-[13px] font-bold text-accent"><i class="fa-solid fa-star mr-1"></i>行程重點</div>`+filtered.map(({g,index})=>{
   return `<button type="button" onclick="openGuideSheet(${index})" class="w-full bg-card rounded-2xl shadow-soft border border-line overflow-hidden text-left flex min-h-[126px]"><img src="${g.gallery[0].img}" alt="${g.name}" class="w-[38%] shrink-0 object-cover bg-snow" loading="lazy"><span class="flex-1 min-w-0 px-3 py-3 flex flex-col"><span class="${guideStatusClass(g.status)} self-start text-[9px] font-bold rounded-full px-2 py-0.5">${g.day}・${g.status}</span><strong class="text-[16px] mt-2 leading-tight">${g.name}</strong><span class="text-[11px] text-accent mt-1">${g.ja}</span><span class="text-[10px] text-sub mt-auto pt-2">${g.best}・${g.stay}<i class="fa-solid fa-chevron-right float-right mt-0.5"></i></span></span></button>`;
  }).join(''):'';
 }
@@ -874,23 +873,26 @@ const SPOTS=[
    {n:'小樽藝術村',w:'玻璃與彩繪玻璃美術館，室內溫暖',map:'小樽芸術村',img:'assets/guide/addons/otaru-art-base.jpg',source:'663highland・CC BY-SA 4.0'},
  ]},
 ];
+function openSeasonSheet(cityIndex,itemIndex){
+ const city=SPOTS[cityIndex],s=city.items[itemIndex],walk=`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(s.map)}&travelmode=walking`;
+ document.getElementById('appSheetContent').innerHTML=`<div class="flex items-start gap-3"><div class="flex-1"><div class="text-[11px] text-accent font-bold">${city.city}・11 月季節推薦</div><h3 class="text-xl font-bold mt-1">${s.n}</h3><div class="text-[13px] text-accent mt-1">${s.map}</div></div><button type="button" onclick="closeAppSheet()" class="w-9 h-9 rounded-full bg-paper border border-line text-sub shrink-0"><i class="fa-solid fa-xmark"></i></button></div>
+  <img src="${s.img}" alt="${s.n}" class="w-full object-cover rounded-2xl mt-3" style="aspect-ratio:16/10">
+  <div class="text-[9px] text-sub text-right mt-1">照片：${s.source}</div>
+  <div class="bg-paper border border-line rounded-xl px-3 py-3 text-[13px] leading-relaxed mt-3">${s.w}</div>
+  <div class="grid grid-cols-2 gap-2 mt-4"><button type="button" onclick="speakJapaneseText('${s.map.replaceAll("'","\\'")}',this)" class="bg-accent text-white rounded-xl py-3 text-[12px] font-bold"><i class="fa-solid fa-volume-high mr-1"></i>播放日文</button><button type="button" onclick="copyQuickText('${s.map.replaceAll("'","\\'")}',this)" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold"><i class="fa-regular fa-copy mr-1"></i>複製日文</button><a href="${G(s.map)}" target="_blank" rel="noopener" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold text-center"><i class="fa-solid fa-location-dot mr-1"></i>查看地點</a><a href="${walk}" target="_blank" rel="noopener" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold text-center"><i class="fa-solid fa-location-arrow mr-1"></i>步行導航</a></div>`;
+ document.getElementById('appSheet').classList.add('open');document.body.classList.add('modal-open');
+}
 function renderSeasonSpots(){
- const cities=SPOTS.filter(c=>guideCity==='全部'||c.city===guideCity);
- document.getElementById('seasonspots').innerHTML=
- `<h2 class="text-2xl font-bold mb-1">11月底・加碼景點</h2>
-  <p class="text-xs text-sub mb-4">對照各城市，挑幾個這時節適合的點（點擊開地圖）</p>`
- + cities.map(c=>`
+ const cities=SPOTS.map((c,index)=>({c,index})).filter(x=>guideCity==='全部'||x.c.city===guideCity);
+ document.getElementById('seasonspots').innerHTML=`<div class="text-[13px] font-bold text-accent mb-2"><i class="fa-solid fa-snowflake mr-1"></i>11 月適合</div>`+cities.map(({c,index})=>`
    <div class="mb-5">
-     <div class="flex items-center gap-2 mb-2">
-       <span class="bg-accent text-white text-[12px] rounded-full px-3 py-1">${c.city}</span>
-       <span class="text-[11px] text-sub">${c.note}</span>
-     </div>
+     <div class="text-[11px] text-sub mb-2">${guideCity==='全部'?`<b class="text-ink mr-1">${c.city}</b>・`:''}${c.note}</div>
      <div class="space-y-2">
-       ${c.items.map(s=>`
-         <a href="${G(s.map)}" target="_blank" rel="noopener" class="flex bg-card border border-line rounded-xl overflow-hidden shadow-soft">
+       ${c.items.map((s,itemIndex)=>`
+         <button type="button" onclick="openSeasonSheet(${index},${itemIndex})" class="w-full flex bg-card border border-line rounded-xl overflow-hidden shadow-soft text-left">
            <img src="${s.img}" alt="${s.n} 實景照片" class="w-[112px] min-h-[104px] object-cover shrink-0" loading="lazy">
-           <span class="flex-1 min-w-0 px-3 py-2.5 flex flex-col"><span class="flex items-start gap-2"><span class="block text-[14px] font-bold flex-1">${s.n}</span><i class="fa-solid fa-arrow-up-right-from-square text-sub text-[10px] mt-1"></i></span><span class="text-[12px] text-sub leading-relaxed mt-1">${s.w}</span><span class="text-[9px] text-sub/70 mt-auto pt-2">照片：${s.source}</span></span>
-         </a>`).join('')}
+           <span class="flex-1 min-w-0 px-3 py-2.5 flex flex-col"><span class="flex items-start gap-2"><span class="block text-[14px] font-bold flex-1">${s.n}</span><i class="fa-solid fa-chevron-right text-sub text-[10px] mt-1"></i></span><span class="text-[12px] text-sub leading-relaxed mt-1">${s.w}</span><span class="text-[9px] text-sub/70 mt-auto pt-2">查看照片與實用資訊</span></span>
+         </button>`).join('')}
      </div>
    </div>`).join('');
 }
