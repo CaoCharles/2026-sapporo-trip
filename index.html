@@ -740,17 +740,17 @@ function renderMapRouteList(){
  document.getElementById('mapRouteList').innerHTML=day.routes.map((r,i)=>{
   const query=`${r.spotJa}, Hokkaido, Japan`,place=G(query);
   const walk=`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(r.spotCoord.join(','))}&travelmode=walking`;
-  return `<div class="shrink-0 w-[310px] snap-center bg-card border ${i===mapRouteIndex?'border-accent':'border-line'} rounded-xl shadow-soft overflow-hidden">
+  return `<div class="shrink-0 snap-start bg-card border ${i===mapRouteIndex?'border-accent':'border-line'} rounded-xl shadow-soft overflow-hidden" style="width:calc(100% - 24px)">
    <button type="button" onclick="selectMapRoute(${i})" class="w-full flex items-center gap-3 text-left px-3 pt-3 pb-2">
     <span class="w-9 h-9 rounded-full ${i===mapRouteIndex?'bg-accent text-white':'bg-snow text-accent'} flex items-center justify-center shrink-0"><i class="fa-solid fa-person-walking"></i></span>
     <span class="flex-1 min-w-0"><span class="block text-[11px] text-sub truncate">${r.station}・${r.stationJa}</span><span class="block text-[14px] font-bold truncate">→ ${r.spot}</span><span class="block text-[11px] text-sub truncate mt-0.5">${r.spotJa}</span></span>
     <i class="fa-solid fa-chevron-right text-[10px] text-sub"></i>
    </button>
-   <div class="flex gap-1.5 px-3 pb-3 pl-[60px]">
-    <button type="button" onclick="speakMapName(${mapDayIndex},${i},this)" class="h-8 px-2.5 rounded-lg bg-accent text-white text-[11px]" aria-label="播放日文名稱"><i class="fa-solid fa-volume-high mr-1"></i>播放</button>
-    <button type="button" onclick="copyMapName(${mapDayIndex},${i},this)" class="h-8 px-2.5 rounded-lg bg-paper border border-line text-accent text-[11px]" aria-label="複製日文名稱"><i class="fa-regular fa-copy mr-1"></i>複製</button>
-    <a href="${place}" target="_blank" rel="noopener" class="h-8 px-2.5 rounded-lg bg-paper border border-line text-accent text-[11px] flex items-center" aria-label="在 Google Maps 查看 ${r.spot}"><i class="fa-brands fa-google mr-1"></i>地點</a>
-    <a href="${walk}" target="_blank" rel="noopener" class="h-8 px-2.5 rounded-lg bg-paper border border-line text-accent text-[11px] flex items-center" aria-label="步行導航至 ${r.spot}"><i class="fa-solid fa-location-arrow mr-1"></i>導航</a>
+   <div class="grid grid-cols-4 gap-1.5 px-3 pb-3">
+    <button type="button" onclick="speakMapName(${mapDayIndex},${i},this)" class="h-9 px-1 rounded-lg bg-accent text-white text-[11px] whitespace-nowrap" aria-label="播放日文名稱"><i class="fa-solid fa-volume-high mr-1"></i>播放</button>
+    <button type="button" onclick="copyMapName(${mapDayIndex},${i},this)" class="h-9 px-1 rounded-lg bg-paper border border-line text-accent text-[11px] whitespace-nowrap" aria-label="複製日文名稱"><i class="fa-regular fa-copy mr-1"></i>複製</button>
+    <a href="${place}" target="_blank" rel="noopener" class="h-9 px-1 rounded-lg bg-paper border border-line text-accent text-[11px] flex items-center justify-center whitespace-nowrap" aria-label="在 Google Maps 查看 ${r.spot}"><i class="fa-brands fa-google mr-1"></i>地點</a>
+    <a href="${walk}" target="_blank" rel="noopener" class="h-9 px-1 rounded-lg bg-paper border border-line text-accent text-[11px] flex items-center justify-center whitespace-nowrap" aria-label="步行導航至 ${r.spot}"><i class="fa-solid fa-location-arrow mr-1"></i>導航</a>
    </div></div>`;
  }
  ).join('');
