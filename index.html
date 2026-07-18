@@ -530,24 +530,30 @@ function renderGlance(){
 function moveCard(s){
  const opts=s.opts.map(o=>`
    <div class="mt-2 first:mt-0">
-     <div class="flex items-center justify-between">
-       <span class="text-[13px] font-bold text-ink"><i class="fa-solid fa-circle text-[5px] text-accent align-middle mr-1"></i>${o.means}</span>
-       <span class="text-[12px] text-accent font-bold whitespace-nowrap ml-2">${o.time}</span>
-     </div>
+     <div class="text-[13px] font-bold text-ink leading-relaxed"><i class="fa-solid fa-circle text-[5px] text-accent align-middle mr-1.5"></i>${o.means}</div>
+     <div class="text-[12px] text-accent font-bold leading-relaxed mt-1 pl-3">${o.time}</div>
      ${(o.fare||o.note)?`<div class="text-[12px] text-sub mt-0.5">${o.fare?'💴 '+o.fare:''}${o.fare&&o.note?'　·　':''}${o.note||''}</div>`:''}
      ${o.link?`<a href="${o.link}" target="_blank" class="inline-block text-[11px] text-accent mt-1"><i class="fa-solid fa-arrow-up-right-from-square"></i> 查班次</a>`:''}
    </div>`).join('<div class="dash my-2"></div>');
  return `<div class="relative pl-11 pb-4">
    <div class="absolute left-0 top-0 w-9 h-9 rounded-full flex items-center justify-center text-white text-base bg-sub"><i class="fa-solid fa-train-subway"></i></div>
    <div class="bg-snow/40 border border-line rounded-2xl px-3 py-2.5 shadow-soft">
-     <div class="flex items-center gap-2 mb-1.5">
+     <div class="flex flex-wrap items-center gap-2 mb-1.5">
        ${s.t?`<span class="text-[12px] font-bold text-ink bg-paper border border-line rounded-full px-2 py-0.5">${s.t}</span>`:''}
        <span class="text-[13px] font-bold">🚉 ${s.route}</span>
      </div>${opts}
      ${s.from?`<a href="${DIR(s.from,s.to)}" target="_blank" class="flex items-center justify-center gap-1 text-[12px] text-white bg-accent rounded-lg py-1.5 mt-2.5 font-bold"><i class="fa-solid fa-route"></i> 查路線班次（${s.from}→${s.to}）</a>`:''}
    </div></div>`;
 }
-function planJapanese(s){return s.ja||s.map||'';}
+const PLAN_JA={
+ '入住 the b sapporo':'ザ ビー 札幌','中島公園':'中島公園','豐平館':'豊平館','八窗庵':'八窓庵','大通公園':'大通公園','慕尼黑聖誕市集':'ミュンヘン・クリスマス市','狸小路商店街／薄野晚餐':'狸小路商店街・すすきの',
+ '入住 Imagine Hotel & Resort Hakodate':'イマジン ホテル＆リゾート函館','飯店海景溫泉':'イマジン ホテル＆リゾート函館','熱帶植物園':'函館市熱帯植物園','湯倉神社':'湯倉神社','湯之川散步':'湯の川温泉',
+ '函館自由市場早餐':'はこだて自由市場','五稜郭公園（柯南）':'五稜郭公園','箱館奉行所外觀':'箱館奉行所','五稜郭塔（柯南）':'五稜郭タワー','八幡坂（柯南）':'八幡坂','船魂神社':'船魂神社','元町公園':'元町公園','舊函館區公會堂':'旧函館区公会堂','舊北海道廳函館支廳':'旧北海道庁函館支庁庁舎','元町教堂群（柯南）':'元町教会群','金森紅磚倉庫（柯南）':'金森赤レンガ倉庫','函館明治館':'函館明治館','函館山夜景（柯南）':'函館山ロープウェイ',
+ '依天氣安排函館山夜景':'函館山ロープウェイ','補看五稜郭塔白天景色或夜間點燈':'五稜郭タワー','登別熊牧場':'のぼりべつクマ牧場','入住第一滝本館':'第一滝本館','地獄谷':'登別地獄谷','登別溫泉街散步':'登別温泉極楽通り','晚餐與飯店泡湯':'第一滝本館',
+ '飯店泡湯':'第一滝本館','入住 Grids Premium Hotel Otaru':'グリッズプレミアムホテル小樽','小樽運河夜景與運河點燈':'小樽運河','倉庫群散步與晚餐':'小樽運河','北海道大學':'北海道大学','札幌時計台':'札幌市時計台','北海道廳紅磚舍':'北海道庁旧本庁舎','札幌場外市場－根室杉山水產':'札幌市中央卸売市場 場外市場・根室杉山水産','入住 Hotel Forza Sapporo Station':'ホテルフォルツァ札幌駅前','Toriton':'回転寿しトリトン','藻岩山夜景':'もいわ山ロープウェイ',
+ '晚餐推薦：函館麵屋一文字':'函館麺や一文字','備選：RAIMON ZUSHI':'雷門鮨 湯川店','Lucky Pierrot 小丑漢堡':'ラッキーピエロ'
+};
+function planJapanese(s){return s.ja||PLAN_JA[s.name]||s.map||'';}
 async function copyPlanName(index,button){
  const text=planJapanese(DAYS[curDay].seg[index]);if(!text)return;
  try{await navigator.clipboard.writeText(text);}catch(e){const area=document.createElement('textarea');area.value=text;area.style.position='fixed';area.style.opacity='0';document.body.appendChild(area);area.select();document.execCommand('copy');area.remove();}
@@ -578,18 +584,19 @@ function spotCard(s,index){
          <span class="text-[13px] font-bold">${s.name}</span>
        </div>${stay}
      </div>
-     ${hasJapanese&&ja!==s.name?`<div class="text-[10px] text-sub mt-0.5">${ja}</div>`:''}
+     ${hasJapanese?`<div class="text-[10px] text-sub mt-0.5">${ja}</div>`:(!s.map?`<div class="text-[10px] text-sub mt-0.5">彈性安排・無固定地點</div>`:'')}
      ${s.note?`<div class="text-[12px] text-sub mt-1">${s.note}</div>`:''}
      ${actions}
    </div></div>`;
 }
 function sideList(title, items, icon){
  if(!items||!items.length)return '';
- return `<div class="mt-2 mb-4 pl-11">
+ return `<div class="mt-2 mb-4 pl-10">
    <div class="text-[12px] font-bold text-sub mb-2"><i class="fa-solid ${icon} text-accent mr-1"></i>${title}</div>
    <div class="space-y-2">${items.map(s=>{
-     const mapBtn=s.map?`<a href="${G(s.map)}" target="_blank" class="inline-flex items-center gap-1 text-[11px] text-accent bg-paper border border-line rounded-full px-2 py-0.5 mt-1.5"><i class="fa-solid fa-location-dot"></i> 地圖</a>`:'';
-     return `<div class="bg-snow/40 border border-line rounded-2xl px-3 py-2.5"><div class="text-[13px] font-bold">${s.name}</div>${s.note?`<div class="text-[12px] text-sub mt-1">${s.note}</div>`:''}${mapBtn}</div>`;
+     const ja=planJapanese(s),walk=s.map?`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(s.map)}&travelmode=walking`:'';
+     const actions=s.map?`<div class="flex flex-wrap items-center gap-1.5 mt-2 pt-2 border-t border-line"><button type="button" onclick="speakJapaneseText('${ja.replaceAll("'","\\'")}',this)" class="inline-flex items-center gap-1 text-[10px] text-accent"><i class="fa-solid fa-volume-high"></i><span>播放</span></button><span class="text-line">·</span><button type="button" onclick="copyQuickText('${ja.replaceAll("'","\\'")}',this)" class="inline-flex items-center gap-1 text-[10px] text-accent"><i class="fa-regular fa-copy"></i><span>複製</span></button><span class="text-line">·</span><a href="${G(s.map)}" target="_blank" rel="noopener" class="text-[10px] text-accent"><i class="fa-solid fa-location-dot mr-1"></i>查看地點</a><span class="text-line">·</span><a href="${walk}" target="_blank" rel="noopener" class="text-[10px] text-accent"><i class="fa-solid fa-location-arrow mr-1"></i>導航</a></div>`:'';
+     return `<div class="bg-snow/40 border border-line rounded-2xl px-3 py-2.5"><div class="text-[13px] font-bold">${s.name}</div>${ja?`<div class="text-[10px] text-sub mt-0.5">${ja}</div>`:''}${s.note?`<div class="text-[12px] text-sub mt-1">${s.note}</div>`:''}${actions}</div>`;
    }).join('')}</div></div>`;
 }
 const OPTIONAL_META={
@@ -611,8 +618,8 @@ function optionalList(items){
  return `<details class="group mt-2 mb-4 pl-10">
   <summary class="list-none cursor-pointer bg-snow/50 border border-line rounded-xl px-3 py-3 flex items-center gap-2"><i class="fa-solid fa-clock text-accent"></i><span class="text-[12px] font-bold flex-1">有時間可逛／備案</span><span class="text-[10px] text-sub">共 ${items.length} 個</span><i class="fa-solid fa-chevron-down text-[10px] text-sub transition group-open:rotate-180"></i></summary>
   <div class="mt-2 space-y-3">${Object.entries(groups).map(([area,rows])=>`<div><div class="text-[10px] font-bold text-sub px-1 mb-1.5">${area}</div><div class="bg-card border border-line rounded-xl overflow-hidden">${rows.map(({s,meta},i)=>{
-   const ja=s.map||'',walk=s.map?`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(s.map)}&travelmode=walking`:'';
-   return `<div class="px-3 py-2.5 ${i?'border-t border-line':''}"><div class="flex items-start gap-2"><div class="flex-1 min-w-0"><div class="text-[13px] font-bold">${s.name}</div>${ja&&ja!==s.name?`<div class="text-[10px] text-sub mt-0.5">${ja}</div>`:''}<div class="text-[10px] text-accent mt-1">${meta.tip}</div></div><div class="flex gap-1.5 shrink-0"><button type="button" onclick="copyQuickText('${ja.replaceAll("'","\\'")}',this)" class="w-8 h-8 rounded-full bg-paper border border-line text-accent" aria-label="複製日文名稱"><i class="fa-regular fa-copy"></i></button><a href="${G(s.map)}" target="_blank" rel="noopener" class="w-8 h-8 rounded-full bg-paper border border-line text-accent flex items-center justify-center" aria-label="查看地點"><i class="fa-solid fa-location-dot"></i></a><a href="${walk}" target="_blank" rel="noopener" class="w-8 h-8 rounded-full bg-paper border border-line text-accent flex items-center justify-center" aria-label="步行導航"><i class="fa-solid fa-location-arrow"></i></a></div></div></div>`;
+   const ja=planJapanese(s),walk=s.map?`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(s.map)}&travelmode=walking`:'';
+   return `<div class="px-3 py-2.5 ${i?'border-t border-line':''}"><div class="flex items-start gap-2"><div class="flex-1 min-w-0"><div class="text-[13px] font-bold">${s.name}</div>${ja?`<div class="text-[10px] text-sub mt-0.5">${ja}</div>`:''}<div class="text-[10px] text-accent mt-1">${meta.tip}</div></div><div class="flex gap-1 shrink-0"><button type="button" onclick="speakJapaneseText('${ja.replaceAll("'","\\'")}',this)" class="w-8 h-8 rounded-full bg-paper border border-line text-accent" aria-label="播放日文名稱"><i class="fa-solid fa-volume-high"></i></button><button type="button" onclick="copyQuickText('${ja.replaceAll("'","\\'")}',this)" class="w-8 h-8 rounded-full bg-paper border border-line text-accent" aria-label="複製日文名稱"><i class="fa-regular fa-copy"></i></button><a href="${G(s.map)}" target="_blank" rel="noopener" class="w-8 h-8 rounded-full bg-paper border border-line text-accent flex items-center justify-center" aria-label="查看地點"><i class="fa-solid fa-location-dot"></i></a><a href="${walk}" target="_blank" rel="noopener" class="w-8 h-8 rounded-full bg-paper border border-line text-accent flex items-center justify-center" aria-label="步行導航"><i class="fa-solid fa-location-arrow"></i></a></div></div></div>`;
   }).join('')}</div></div>`).join('')}</div></details>`;
 }
 function renderDay(){
