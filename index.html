@@ -254,25 +254,65 @@ const G = q => 'https://www.google.com/maps/search/?api=1&query='+encodeURICompo
 const DIR = (from,to) => 'https://www.google.com/maps/dir/?api=1&travelmode=transit&origin='+encodeURIComponent(from)+'&destination='+encodeURIComponent(to);
 
 const PHRASE_GROUPS=[
- {title:'交通',icon:'fa-train-subway',items:[
-  ['請問這班車會到札幌嗎？','この電車は札幌に行きますか？','Does this train go to Sapporo?'],
-  ['請問是幾號月台？','何番ホームですか？','Which platform is it?'],
-  ['請問要在哪裡轉車？','どこで乗り換えますか？','Where should I transfer?']
+ {title:'JR・市電',icon:'fa-train-subway',sub:'D1–D8 城市移動',items:[
+  ['這班快速 Airport 會到札幌站嗎？','この快速エアポートは札幌駅に行きますか？','Does this Rapid Airport train go to Sapporo Station?','新千歲機場 → 札幌'],
+  ['指定席要在哪裡購買？','指定席はどこで買えますか？','Where can I buy a reserved-seat ticket?','JR'],
+  ['往函館的特急北斗在幾號月台？','函館行きの特急北斗は何番ホームですか？','Which platform is the Hokuto limited express for Hakodate?','札幌 → 函館'],
+  ['往湯之川溫泉的市電在哪裡搭？','湯の川温泉行きの市電はどこから乗りますか？','Where can I take the tram for Yunokawa Onsen?','函館市電'],
+  ['這班特急北斗會停登別站嗎？','この特急北斗は登別駅に停まりますか？','Does this Hokuto limited express stop at Noboribetsu Station?','函館 → 登別'],
+  ['前往小樽要在札幌站哪裡轉車？','小樽へ行くには、札幌駅でどこに乗り換えますか？','Where do I transfer at Sapporo Station for Otaru?','登別 → 小樽'],
+  ['這一節車廂是自由席嗎？','この車両は自由席ですか？','Is this car for non-reserved seats?','JR'],
+  ['列車有因為下雪延誤嗎？','雪で列車は遅れていますか？','Is the train delayed because of snow?','冬季交通']
  ]},
- {title:'住宿',icon:'fa-hotel',items:[
-  ['我想辦理入住','チェックインをお願いします。','I’d like to check in.'],
-  ['可以寄放行李嗎？','荷物を預かっていただけますか？','Can you store my luggage?'],
-  ['請載我到這個地址','この住所までお願いします。','Please take me to this address.']
+ {title:'問路・景點',icon:'fa-location-dot',sub:'函館、登別、小樽、札幌',items:[
+  ['最近的車站在哪裡？','一番近い駅はどこですか？','Where is the nearest station?','通用'],
+  ['五稜郭塔要往哪個方向走？','五稜郭タワーはどちらですか？','Which way is Goryokaku Tower?','函館'],
+  ['今天從函館山看得到夜景嗎？','今日、函館山から夜景は見えますか？','Can we see the night view from Mt. Hakodate today?','函館山'],
+  ['纜車今天有運行嗎？','ロープウェイは今日運行していますか？','Is the ropeway operating today?','函館山／熊牧場／藻岩山'],
+  ['今天看得到猴子泡溫泉嗎？','温泉に入っているサルは今日見られますか？','Can we see the monkeys bathing in the hot spring today?','熱帶植物園'],
+  ['地獄谷步道現在可以走嗎？','地獄谷の遊歩道は今、歩けますか？','Is the Jigokudani walking trail open now?','登別'],
+  ['小樽運河幾點開始點燈？','小樽運河のライトアップは何時からですか？','What time does the Otaru Canal illumination begin?','小樽'],
+  ['路面會不會很滑？','道は滑りやすいですか？','Is the road slippery?','雪天']
  ]},
- {title:'餐飲',icon:'fa-utensils',items:[
-  ['請問兩位有位子嗎？','2人ですが、席はありますか？','Do you have a table for two?'],
-  ['我要這個','これをお願いします。','I’ll have this, please.'],
-  ['請幫我結帳','お会計をお願いします。','The bill, please.']
+ {title:'叫車',icon:'fa-taxi',sub:'飯店、車站與景點',items:[
+  ['請載我到這個地址','この住所までお願いします。','Please take me to this address.','出示飯店地址'],
+  ['請載我到這間飯店','このホテルまでお願いします。','Please take me to this hotel.','飯店'],
+  ['可以把行李放進後車廂嗎？','荷物をトランクに入れてもいいですか？','May I put my luggage in the trunk?','行李'],
+  ['到那裡大約需要多久？','そこまでどのくらいかかりますか？','About how long will it take to get there?','車程'],
+  ['可以刷信用卡嗎？','クレジットカードは使えますか？','Can I pay by credit card?','付款'],
+  ['請給我收據','領収書をお願いします。','May I have a receipt, please?','下車前']
  ]},
- {title:'醫療與求助',icon:'fa-kit-medical',items:[
-  ['我對＿＿過敏','＿＿アレルギーがあります。','I’m allergic to ___.'],
-  ['我迷路了，請幫幫我','道に迷いました。助けてください。','I’m lost. Please help me.'],
-  ['請幫我叫救護車','救急車を呼んでください。','Please call an ambulance.']
+ {title:'住宿',icon:'fa-hotel',sub:'入住、行李與櫃檯',items:[
+  ['我想辦理入住','チェックインをお願いします。','I’d like to check in.','入住'],
+  ['訂房姓名是＿＿','予約名は＿＿です。','The reservation is under ___.','入住'],
+  ['入住前／退房後可以寄放行李嗎？','チェックイン前／チェックアウト後に荷物を預かっていただけますか？','Can you store our luggage before check-in / after check-out?','寄放行李'],
+  ['早餐是幾點到幾點？','朝食は何時から何時までですか？','What time is breakfast served?','早餐'],
+  ['可以幫我叫計程車嗎？','タクシーを呼んでいただけますか？','Could you call a taxi for me?','櫃檯叫車'],
+  ['我想辦理退房','チェックアウトをお願いします。','I’d like to check out.','退房']
+ ]},
+ {title:'餐廳・候位',icon:'fa-utensils',sub:'市場、壽司、拉麵與晚餐',items:[
+  ['兩位，請問有位子嗎？','2人ですが、席はありますか？','Do you have a table for two?','入店'],
+  ['現在大約要等多久？','今、待ち時間はどのくらいですか？','About how long is the wait now?','Toriton 候位'],
+  ['需要先拿號碼牌嗎？','先に番号券を取りますか？','Should I take a number ticket first?','候位'],
+  ['請問有什麼推薦？','おすすめは何ですか？','What do you recommend?','點餐'],
+  ['我要這個，兩份','これを二つお願いします。','Two of these, please.','點餐'],
+  ['我沒有食物過敏，什麼都可以吃','食物アレルギーはありません。何でも食べられます。','I have no food allergies and can eat anything.','飲食需求'],
+  ['芥末請另外放','わさびは別にしてください。','Please serve the wasabi on the side.','壽司'],
+  ['麻煩結帳，可以刷卡嗎？','お会計をお願いします。カードは使えますか？','The bill, please. Can I pay by card?','結帳']
+ ]},
+ {title:'溫泉',icon:'fa-hot-tub-person',sub:'湯之川與登別',items:[
+  ['大浴場開放到幾點？','大浴場は何時まで利用できますか？','Until what time is the public bath open?','飯店溫泉'],
+  ['露天溫泉在哪裡？','露天風呂はどこですか？','Where is the open-air bath?','飯店溫泉'],
+  ['毛巾要從房間帶過去嗎？','タオルは部屋から持って行きますか？','Should I bring the towel from my room?','入浴前'],
+  ['這裡需要脫鞋嗎？','ここで靴を脱ぎますか？','Should I take off my shoes here?','館內'],
+  ['這件浴衣尺寸可以更換嗎？','浴衣のサイズを交換できますか？','Can I change the size of this yukata?','飯店']
+ ]},
+ {title:'求助・醫療',icon:'fa-kit-medical',sub:'迷路、跌倒與緊急狀況',items:[
+  ['我迷路了，請幫幫我','道に迷いました。助けてください。','I’m lost. Please help me.','問路'],
+  ['附近有藥局嗎？','近くに薬局はありますか？','Is there a pharmacy nearby?','身體不適'],
+  ['我在雪地滑倒了','雪道で転びました。','I slipped and fell on the snowy road.','冬季'],
+  ['請幫我叫救護車','救急車を呼んでください。','Please call an ambulance.','緊急'],
+  ['請幫我聯絡警察','警察に連絡してください。','Please contact the police.','緊急']
  ]}
 ];
 
@@ -280,11 +320,11 @@ function renderPhraseGroups(){
  const root=document.getElementById('phraseGroups');
  root.innerHTML=PHRASE_GROUPS.map((g,gi)=>`<details class="group bg-paper border border-line rounded-xl overflow-hidden" ${gi===0?'open':''}>
   <summary class="flex items-center gap-2 px-3 py-3 cursor-pointer list-none text-[13px] font-bold">
-   <i class="fa-solid ${g.icon} text-accent w-5 text-center"></i><span>${g.title}</span>
-   <span class="ml-auto text-[10px] text-sub">${g.items.length} 句</span><i class="fa-solid fa-chevron-down text-[10px] text-sub transition group-open:rotate-180"></i>
+   <i class="fa-solid ${g.icon} text-accent w-5 text-center"></i><span class="flex-1"><span class="block">${g.title}</span><span class="block text-[9px] text-sub font-normal mt-0.5">${g.sub||''}</span></span>
+   <span class="text-[10px] text-sub">${g.items.length} 句</span><i class="fa-solid fa-chevron-down text-[10px] text-sub transition group-open:rotate-180"></i>
   </summary>
   <div class="border-t border-line px-3 pb-2">${g.items.map((p,pi)=>`<div class="py-3 ${pi?'border-t border-line':''}">
-   <div class="text-[11px] text-sub mb-1">${p[0]}</div>
+   <div class="flex items-center gap-2 mb-1"><div class="text-[11px] text-sub flex-1">${p[0]}</div>${p[3]?`<span class="text-[8px] text-accent bg-snow rounded-full px-2 py-0.5 whitespace-nowrap">${p[3]}</span>`:''}</div>
    <div class="flex items-start gap-2"><div class="flex-1 min-w-0"><div class="text-[15px] font-bold leading-relaxed">${p[1]}</div><div class="text-[10px] text-sub mt-1">${p[2]}</div></div>
    <div class="flex gap-1.5 shrink-0">
     <button type="button" onclick="speakPhrase(${gi},${pi},this)" class="w-9 h-9 rounded-full bg-accent text-white border border-accent" aria-label="播放日文：${p[1]}"><i class="fa-solid fa-volume-high"></i></button>
@@ -882,7 +922,7 @@ function openGuideSheet(index){
   <div class="bg-alert/10 border border-alert/30 text-alert rounded-xl px-3 py-2 text-[11px] mt-3"><i class="fa-solid fa-snowflake mr-1"></i>${g.winter}</div>
   ${address?`<div class="bg-paper border border-line rounded-xl px-3 py-2.5 mt-3"><div class="text-[10px] text-sub">詳細地址（日文）</div><div class="text-[12px] font-bold leading-relaxed mt-1 select-all">${address}</div><button type="button" onclick="copyQuickText('${address.replaceAll("'","\\'")}',this)" class="inline-flex items-center gap-1 text-[11px] text-accent font-bold mt-2"><i class="fa-regular fa-copy"></i><span>複製地址</span></button></div>`:''}
   <div class="grid grid-cols-2 gap-2 mt-4"><button type="button" onclick="speakJapaneseText('${g.ja.replaceAll("'","\\'")}',this)" class="bg-accent text-white rounded-xl py-3 text-[12px] font-bold"><i class="fa-solid fa-volume-high mr-1"></i>播放日文</button><button type="button" onclick="copyGuideName(${index},this)" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold"><i class="fa-regular fa-copy mr-1"></i>複製日文</button><a href="${G(g.mapQuery)}" target="_blank" rel="noopener" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold text-center"><i class="fa-solid fa-location-dot mr-1"></i>查看地點</a><a href="${walk}" target="_blank" rel="noopener" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold text-center"><i class="fa-solid fa-location-arrow mr-1"></i>步行導航</a></div>
-  <details class="group border-t border-line mt-4"><summary class="list-none cursor-pointer py-3 flex items-center text-[12px] font-bold"><i class="fa-solid fa-book-open text-accent mr-2"></i>景點故事與冷知識<i class="fa-solid fa-chevron-down text-[10px] text-sub ml-auto transition group-open:rotate-180"></i></summary><p class="text-[13px] leading-relaxed text-ink pb-3">${g.body}</p></details>
+  <section class="border-t border-line mt-4 pt-3 pb-3"><div class="flex items-center text-[12px] font-bold mb-2"><i class="fa-solid fa-book-open text-accent mr-2"></i>景點故事與冷知識</div><p class="text-[13px] leading-relaxed text-ink">${g.body}</p></section>
   <button type="button" onclick="closeAppSheet();goDay(${g.dayIndex})" class="w-full bg-snow/50 border border-line rounded-xl py-2.5 text-[11px] text-accent font-bold"><i class="fa-solid fa-route mr-1"></i>查看 ${g.day} 行程</button>`;
  document.getElementById('appSheet').classList.add('open');document.body.classList.add('modal-open');
 }
