@@ -117,7 +117,7 @@ tailwind.config={theme:{extend:{
           <span class="flex-1"><span class="block text-xs font-bold">住宿一覽</span><span class="block text-[11px] text-sub mt-0.5">札幌 2・函館 3・登別 1・小樽 1 晚</span></span>
           <span class="text-[10px] text-sub">點飯店看詳情</span><i class="fa-solid fa-chevron-down text-[10px] text-sub transition group-open:rotate-180"></i>
         </summary>
-        <div id="hotels" class="space-y-1.5 text-[13px] px-3 pb-3 pt-1 border-t border-line"></div>
+        <div id="hotels" class="text-[13px] px-4 pb-2 border-t border-line"></div>
       </details>
     </div>
   </div>
@@ -470,7 +470,7 @@ document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>{
 
 /* ===== PLAN ===== */
 document.getElementById('hotels').innerHTML = HOTELS.map((h,index)=>
- `<button type="button" onclick="openHotelSheet(${index})" class="w-full flex items-center gap-3 text-left bg-paper/60 border border-line rounded-xl px-3 py-2.5"><span class="w-9 h-9 rounded-full bg-snow text-accent flex items-center justify-center shrink-0"><i class="fa-solid fa-hotel"></i></span><span class="flex-1 min-w-0"><span class="block text-[10px] text-sub">${h.day}・${h.city}</span><b class="block text-[13px] truncate mt-0.5">${h.zh}</b><span class="block text-[10px] text-accent truncate mt-0.5">${h.ja}</span></span><i class="fa-solid fa-chevron-right text-[10px] text-sub"></i></button>`).join('');
+ `<button type="button" onclick="openHotelSheet(${index})" class="w-full flex items-center gap-3 text-left py-3 border-b border-line last:border-0"><span class="w-8 text-center text-accent shrink-0"><i class="fa-solid fa-hotel"></i></span><span class="flex-1 min-w-0"><span class="block text-[10px] text-sub tracking-wide">${h.day}・${h.city}</span><b class="block text-[13px] truncate mt-0.5">${h.zh}</b><span class="block text-[10px] text-sub truncate mt-0.5">${h.ja}</span></span><i class="fa-solid fa-chevron-right text-[9px] text-sub/70"></i></button>`).join('');
 
 function hotelIndexForName(name){return HOTELS.findIndex(h=>name.includes(h.name)||name.includes(h.ja));}
 function openHotelSheet(index){
@@ -508,7 +508,7 @@ const DAY_INFO=[
 let curDay=0;
 function renderDayTabs(){
  document.getElementById('daytabs').innerHTML=DAYS.map((d,i)=>
-  `<button onclick="selDay(${i})" class="shrink-0 px-3 py-2 rounded-xl text-[12px] border ${i===curDay?'bg-accent text-white border-accent':'bg-card text-sub border-line'}">
+  `<button onclick="selDay(${i})" class="shrink-0 px-3 py-2 rounded-xl text-[12px] transition ${i===curDay?'bg-accent text-white shadow-soft':'bg-card/70 text-sub'}">
     <div class="font-bold text-sm">${d.key}</div><div class="text-[10px] ${i===curDay?'text-white/80':'text-sub'}">${d.date.slice(0,5)}</div></button>`).join('');
 }
 function selDay(i){curDay=i;renderDayTabs();renderDay();}
@@ -697,10 +697,10 @@ function renderDay(){
   if(period)lastPeriod=period;
   return heading+(s.type==='move'?moveCard(s):spotCard(s,index));
  }).join('');
- const al=d.alert?`<div class="bg-alert/10 border border-alert/30 rounded-xl px-3 py-2 text-[12px] text-alert mb-3"><i class="fa-solid fa-circle-exclamation mr-1"></i>${d.alert}</div>`:'';
+ const al=d.alert?`<div class="bg-alert/[.07] border-l-[3px] border-alert rounded-r-xl px-3 py-2.5 text-[12px] leading-relaxed text-alert mb-4"><i class="fa-solid fa-circle-exclamation mr-1"></i>${d.alert}</div>`:'';
  const info=DAY_INFO[curDay];
  const hotelIndex=hotelIndexForName(info.hotel);
- const summary=`<div class="grid grid-cols-2 gap-2 mb-3 text-[11px]"><div class="bg-snow/50 border border-line rounded-xl px-3 py-2.5"><span class="text-sub"><i class="fa-solid fa-gauge-high text-accent mr-1"></i>行程節奏</span><b class="block mt-1">${info.pace}</b></div><div class="bg-snow/50 border border-line rounded-xl px-3 py-2.5"><span class="text-sub"><i class="fa-solid fa-train text-accent mr-1"></i>主要交通</span><b class="block mt-1">${info.transport}</b></div>${hotelIndex>=0?`<button type="button" onclick="openHotelSheet(${hotelIndex})" class="col-span-2 bg-card border border-accent/40 rounded-xl px-3 py-2.5 flex items-center gap-3 text-left"><span class="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center"><i class="fa-solid fa-hotel"></i></span><span class="flex-1"><span class="block text-[10px] text-sub">今晚住宿・點擊查看叫車資訊</span><b class="block mt-0.5">${HOTELS[hotelIndex].zh}</b></span><i class="fa-solid fa-chevron-right text-accent"></i></button>`:`<div class="col-span-2 bg-snow/50 border border-line rounded-xl px-3 py-2"><span class="text-sub">今晚住宿</span><b class="float-right">${info.hotel}</b></div>`}</div>`;
+ const summary=`<div class="bg-snow/50 rounded-2xl overflow-hidden mb-4 text-[11px]"><div class="grid grid-cols-2 divide-x divide-line"><div class="px-3 py-3"><span class="text-sub"><i class="fa-solid fa-gauge-high text-accent mr-1"></i>行程節奏</span><b class="block mt-1">${info.pace}</b></div><div class="px-3 py-3"><span class="text-sub"><i class="fa-solid fa-train text-accent mr-1"></i>主要交通</span><b class="block mt-1">${info.transport}</b></div></div>${hotelIndex>=0?`<button type="button" onclick="openHotelSheet(${hotelIndex})" class="w-full border-t border-line/80 px-3 py-3 flex items-center gap-3 text-left bg-card/40"><span class="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center shrink-0"><i class="fa-solid fa-hotel"></i></span><span class="flex-1"><span class="block text-[10px] text-sub">今晚住宿・點擊查看叫車資訊</span><b class="block mt-0.5">${HOTELS[hotelIndex].zh}</b></span><i class="fa-solid fa-chevron-right text-accent"></i></button>`:`<div class="border-t border-line/80 px-3 py-3"><span class="text-sub">今晚住宿</span><b class="float-right">${info.hotel}</b></div>`}</div>`;
  document.getElementById('daycontent').innerHTML=
   `<div class="flex items-center gap-2 mb-3">
      <span class="text-3xl font-bold">${d.key}</span>
