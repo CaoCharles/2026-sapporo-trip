@@ -46,7 +46,7 @@ tailwind.config={theme:{extend:{
   .lightbox-close{position:absolute;top:calc(.75rem + env(safe-area-inset-top));right:1rem;width:44px;height:44px;border-radius:999px;background:rgba(255,253,249,.94);color:#3a3631;display:flex;align-items:center;justify-content:center;font-size:20px}
   body.modal-open{overflow:hidden;touch-action:none}
   .overview-stack{display:grid;gap:16px}
-  .flight-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .flight-grid{display:grid;gap:12px}
   .daytabs-sticky{position:sticky;top:78px;z-index:20;background:rgba(246,244,239,.96);backdrop-filter:blur(12px);margin-left:-16px;margin-right:-16px;padding:8px 16px 6px;border-bottom:1px solid #e6e1d8}
   .app-sheet{position:fixed;inset:0;z-index:70;display:none;align-items:flex-end;justify-content:center;background:rgba(30,28,25,.38)}
   .app-sheet.open{display:flex;animation:fade .18s ease}
@@ -91,21 +91,24 @@ tailwind.config={theme:{extend:{
 
 <!-- ============ OVERVIEW ============ -->
 <section id="overview" class="tabpane active">
-  <div class="overview-stack">
-      <div class="bg-accent text-white rounded-2xl shadow-soft p-4 relative overflow-hidden">
-        <div class="absolute -right-5 -top-6 text-white/10 text-8xl">❄</div>
-        <div id="tripPhaseLabel" class="text-[11px] text-white/80 font-bold">旅程 Dashboard</div>
-        <div id="tripCountdown" class="text-2xl font-bold mt-1">北海道 8 天 7 夜</div>
-        <div id="tripCurrentSummary" class="text-[12px] text-white/85 mt-1">札幌・函館・登別・小樽</div>
-        <button id="tripPrimaryAction" type="button" onclick="goDay(0)" class="mt-4 bg-white text-accent rounded-xl px-4 py-2 text-[12px] font-bold"><i class="fa-solid fa-route mr-1"></i>查看 Day 1</button>
-      </div>
+  <div class="overview-layout">
+    <div class="overview-stack mb-4">
+      <figure class="bg-card rounded-2xl shadow-soft border border-line overflow-hidden">
+        <button type="button" class="hero-zoom relative block w-full text-left" onclick="openLightbox()" aria-label="放大北海道 8 天 7 夜旅遊總覽圖">
+          <img src="旅遊總覽-v2.png" alt="北海道 8 天 7 夜旅遊總覽圖" class="hero-img w-full">
+          <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent pt-10 pb-2.5 px-3 text-white text-[11px] font-bold"><i class="fa-solid fa-expand mr-1"></i>點擊查看完整行程圖</span>
+        </button>
+        <figcaption class="px-4 py-3"><div class="flex items-center justify-between gap-3"><div><div class="text-sm font-bold">札幌・函館・登別・小樽</div><div class="text-[12px] text-sub mt-0.5">8 天 7 夜冬季路線總覽</div></div><button type="button" onclick="openLightbox()" class="text-[11px] text-accent bg-paper border border-line rounded-full px-3 py-1.5 shrink-0"><i class="fa-solid fa-expand mr-1"></i>查看完整圖</button></div></figcaption>
+      </figure>
+    </div>
+    <div class="overview-stack">
       <div class="flight-grid">
-        <div class="bg-card rounded-2xl shadow-soft p-3 border border-line"><div class="text-[11px] text-sub"><i class="fa-solid fa-plane-arrival text-accent mr-1"></i>去程・11/21</div><div class="text-xl font-bold mt-1">14:05</div><div class="text-[10px] text-sub mt-1">抵達新千歲</div></div>
-        <div class="bg-card rounded-2xl shadow-soft p-3 border border-line"><div class="text-[11px] text-sub"><i class="fa-solid fa-plane-departure text-accent mr-1"></i>回程・11/28</div><div class="text-xl font-bold mt-1">15:20</div><div class="text-[10px] text-sub mt-1">新千歲起飛</div></div>
+        <div class="bg-card rounded-2xl shadow-soft p-4 border border-line"><div class="text-sm font-bold mb-2"><i class="fa-solid fa-plane-arrival text-accent text-lg mr-1"></i>抵達・11/21 六</div><div class="flex items-center gap-3"><div class="text-2xl font-bold">14:05</div><div class="text-[12px] text-sub">抵達新千歲機場，搭 JR Rapid Airport 前往札幌市區</div></div></div>
+        <div class="bg-card rounded-2xl shadow-soft p-4 border border-line"><div class="text-sm font-bold mb-2"><i class="fa-solid fa-plane-departure text-accent text-lg mr-1"></i>回程・11/28 六</div><div class="flex items-center gap-3"><div class="text-2xl font-bold">15:20</div><div class="text-[12px] text-sub">新千歲機場起飛；預留足夠時間前往機場與辦理登機</div></div></div>
       </div>
       <div class="bg-card rounded-2xl shadow-soft p-3 border border-line">
-        <div class="text-xs text-sub mb-2"><i class="fa-solid fa-route text-accent text-base"></i> Day 1–8 快速切換</div>
-        <div id="ovglance" class="flex gap-2 overflow-x-auto pb-1"></div>
+        <div class="text-xs text-sub mb-1"><i class="fa-solid fa-route text-accent text-base"></i> 行程速覽（點擊看當天）</div>
+        <div id="ovglance"></div>
       </div>
       <details class="group bg-card rounded-2xl shadow-soft border border-line overflow-hidden">
         <summary class="list-none cursor-pointer px-3 py-3 flex items-center gap-2">
@@ -115,10 +118,7 @@ tailwind.config={theme:{extend:{
         </summary>
         <div id="hotels" class="space-y-1.5 text-[13px] px-3 pb-3 pt-1 border-t border-line"></div>
       </details>
-      <details class="group bg-card rounded-2xl shadow-soft border border-line overflow-hidden">
-        <summary class="list-none cursor-pointer px-3 py-3 flex items-center gap-2"><i class="fa-solid fa-image text-accent"></i><span class="flex-1 text-xs font-bold">完整旅程總覽圖</span><span class="text-[10px] text-sub">點擊展開</span><i class="fa-solid fa-chevron-down text-[10px] text-sub transition group-open:rotate-180"></i></summary>
-        <button type="button" class="hero-zoom relative block w-full text-left border-t border-line" onclick="openLightbox()" aria-label="放大北海道 8 天 7 夜旅遊總覽圖"><img src="旅遊總覽-v2.png" alt="北海道 8 天 7 夜旅遊總覽圖" class="hero-img w-full"><span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent pt-10 pb-2.5 px-3 text-white text-[11px] font-bold"><i class="fa-solid fa-expand mr-1"></i>點擊查看完整行程圖</span></button>
-      </details>
+    </div>
   </div>
 </section>
 
@@ -505,14 +505,7 @@ function selDay(i){curDay=i;renderDayTabs();renderDay();}
 function goDay(i){selDay(i);document.querySelector('.navbtn[data-tab="plan"]').click();}
 function renderGlance(){
  document.getElementById('ovglance').innerHTML=DAYS.map((d,i)=>`
-  <button onclick="goDay(${i})" class="shrink-0 w-[118px] text-left bg-paper border border-line rounded-xl px-3 py-2.5"><span class="block text-accent font-bold text-[13px]">${d.key}・${d.date.slice(0,5)}</span><span class="block text-[11px] font-bold mt-1 truncate">${d.city}</span><span class="block text-[9px] text-sub mt-0.5 truncate">${d.title}</span></button>`).join('');
-}
-function renderTripStatus(){
- const now=new Date(),start=new Date('2026-11-21T00:00:00+09:00'),end=new Date('2026-11-29T00:00:00+09:00');
- const label=document.getElementById('tripPhaseLabel'),count=document.getElementById('tripCountdown'),summary=document.getElementById('tripCurrentSummary'),action=document.getElementById('tripPrimaryAction');
- if(now<start){const days=Math.max(0,Math.ceil((start-now)/86400000));label.textContent='距離出發';count.textContent=`還有 ${days} 天`;summary.textContent='2026 / 11 / 21・新千歲機場 → 札幌';action.innerHTML='<i class="fa-solid fa-route mr-1"></i>查看 Day 1';action.onclick=()=>goDay(0);return;}
- if(now>=end){label.textContent='旅程紀錄';count.textContent='北海道旅程已完成';summary.textContent='查看八天行程與旅行收藏';action.innerHTML='<i class="fa-solid fa-book-open mr-1"></i>回顧總覽';action.onclick=openLightbox;return;}
- const day=Math.min(7,Math.max(0,Math.floor((now-start)/86400000)));label.textContent=`旅程進行中・${DAYS[day].key}`;count.textContent=DAYS[day].city;summary.textContent=DAYS[day].title;action.innerHTML=`<i class="fa-solid fa-location-arrow mr-1"></i>開啟今天行程`;action.onclick=()=>goDay(day);
+  <button onclick="goDay(${i})" class="w-full flex items-center gap-3 text-left py-2 border-b border-line last:border-0"><span class="text-accent font-bold text-[13px] w-7 shrink-0">${d.key}</span><span class="text-[11px] text-sub w-11 shrink-0">${d.date.slice(0,5)}</span><span class="text-[13px] flex-1">${d.title}</span><i class="fa-solid fa-chevron-right text-sub text-[10px]"></i></button>`).join('');
 }
 
 function moveCard(s){
@@ -979,7 +972,7 @@ function renderMemo(){
 document.getElementById('newCheck').addEventListener('keydown',e=>{if(e.key==='Enter')addCheck();});
 
 /* ===== INIT ===== */
-renderDayTabs();renderDay();renderGlance();renderTripStatus();renderCheck();renderMemo();
+renderDayTabs();renderDay();renderGlance();renderCheck();renderMemo();
 renderPhraseGroups();
 renderWeatherCities();loadWeather();
 setInterval(loadWeather,15*60*1000);
