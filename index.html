@@ -63,7 +63,7 @@ tailwind.config={theme:{extend:{
   .navbtn.active .ic{background:#5b7a6b;color:#fff}
   ::-webkit-scrollbar{width:0;height:0}
   .dash{border-top:1.5px dashed #ddd6c9}
-  .trip-map{height:min(52vh,480px);min-height:360px;background:#eceae5}
+  .trip-map{height:clamp(300px,40vh,360px);background:#eceae5}
   .map-tiles{filter:grayscale(1) contrast(.88) brightness(1.08)}
   .leaflet-container{font-family:"Noto Serif TC","Songti TC",serif!important;background:#eceae5}
   .leaflet-control-attribution{font-size:8px!important;background:rgba(246,244,239,.84)!important;color:#8a8378!important}
@@ -540,10 +540,12 @@ const PLAN_ADDRESS={
  '函館自由市場早餐':'〒040-0032 北海道函館市新川町1-2','五稜郭公園（柯南）':'〒040-0001 北海道函館市五稜郭町44','箱館奉行所外觀':'〒040-0001 北海道函館市五稜郭町44-3','五稜郭塔（柯南）':'〒040-0001 北海道函館市五稜郭町43-9','八幡坂（柯南）':'北海道函館市末広町','船魂神社':'〒040-0054 北海道函館市元町7-2','元町公園':'〒040-0054 北海道函館市元町12-18','舊函館區公會堂':'〒040-0054 北海道函館市元町11-13','舊北海道廳函館支廳':'〒040-0054 北海道函館市元町12-18','元町教堂群（柯南）':'北海道函館市元町','金森紅磚倉庫（柯南）':'〒040-0053 北海道函館市末広町14-12','函館明治館':'〒040-0065 北海道函館市豊川町11-17','函館山夜景（柯南）':'〒040-0054 北海道函館市元町19-7','依天氣安排函館山夜景':'〒040-0054 北海道函館市元町19-7','補看五稜郭塔白天景色或夜間點燈':'〒040-0001 北海道函館市五稜郭町43-9',
  '登別熊牧場':'〒059-0551 北海道登別市登別温泉町224','入住第一滝本館':'〒059-0551 北海道登別市登別温泉町55','地獄谷':'〒059-0551 北海道登別市登別温泉町無番地','登別溫泉街散步':'北海道登別市登別温泉町','晚餐與飯店泡湯':'〒059-0551 北海道登別市登別温泉町55','飯店泡湯':'〒059-0551 北海道登別市登別温泉町55',
  '入住 Grids Premium Hotel Otaru':'〒047-0032 北海道小樽市稲穂1丁目3-13','小樽運河夜景與運河點燈':'〒047-0007 北海道小樽市港町5','倉庫群散步與晚餐':'〒047-0007 北海道小樽市港町5',
- '北海道大學':'〒060-0808 北海道札幌市北区北8条西5丁目','札幌時計台':'〒060-0001 北海道札幌市中央区北1条西2丁目','北海道廳紅磚舍':'〒060-0003 北海道札幌市中央区北3条西6丁目','札幌場外市場－根室杉山水產':'〒060-0011 北海道札幌市中央区北11条西21丁目2-3','入住 Hotel Forza Sapporo Station':'〒060-0003 北海道札幌市中央区北3条西2丁目1-1','藻岩山夜景':'〒064-0942 北海道札幌市中央区伏見5丁目3-7'
+ '北海道大學':'〒060-0808 北海道札幌市北区北8条西5丁目','札幌時計台':'〒060-0001 北海道札幌市中央区北1条西2丁目','北海道廳紅磚舍':'〒060-0003 北海道札幌市中央区北3条西6丁目','札幌場外市場－根室杉山水產':'〒060-0011 北海道札幌市中央区北11条西21丁目2-3','入住 Hotel Forza Sapporo Station':'〒060-0003 北海道札幌市中央区北3条西2丁目1-1','藻岩山夜景':'〒064-0942 北海道札幌市中央区伏見5丁目3-7',
+ '函館山夜景':'〒040-0054 北海道函館市元町19-7','五稜郭':'〒040-0001 北海道函館市五稜郭町43-9','登別地獄谷':'〒059-0551 北海道登別市登別温泉町無番地','小樽運河':'〒047-0007 北海道小樽市港町5'
 };
 const PLAN_MEDIA={
  '中島公園':[{img:'assets/plan-gallery/nakajima-winter-1.jpg',source:'t-konno・CC BY-SA 3.0'},{img:'assets/plan-gallery/nakajima-winter-2.jpg',source:'t-konno・CC BY-SA 3.0'}],
+ '大通公園':[{img:'assets/guide/addons/sapporo-illumination.jpg',source:'Sorah Fukumori・CC BY 3.0'}],
  '慕尼黑聖誕市集':[{img:'assets/guide/addons/sapporo-illumination.jpg',source:'Sorah Fukumori・CC BY 3.0'}],
  '五稜郭公園（柯南）':[{img:'assets/guide/goryokaku.jpg',source:'J o・CC BY-SA 2.5'},{img:'assets/guide/gallery/goryokaku-2.jpg',source:'掬茶・CC BY-SA 4.0'},{img:'assets/guide/gallery/goryokaku-3.jpg',source:'Goryokaku-Tower・CC BY 4.0'}],
  '五稜郭塔（柯南）':[{img:'assets/guide/gallery/goryokaku-2.jpg',source:'掬茶・CC BY-SA 4.0'},{img:'assets/guide/goryokaku.jpg',source:'J o・CC BY-SA 2.5'}],
@@ -826,35 +828,27 @@ async function copyGuideName(index,button){
  try{await navigator.clipboard.writeText(text);}catch(e){const area=document.createElement('textarea');area.value=text;area.style.position='fixed';area.style.opacity='0';document.body.appendChild(area);area.select();document.execCommand('copy');area.remove();}
  const original=button.innerHTML;button.innerHTML='<i class="fa-solid fa-check mr-1"></i>已複製';setTimeout(()=>button.innerHTML=original,1600);
 }
+function updateGuideSheetGallery(scroller,index){
+ const g=GUIDE[index],current=Math.max(0,Math.min(g.gallery.length-1,Math.round(scroller.scrollLeft/scroller.clientWidth)));
+ document.querySelectorAll('[data-guide-sheet-dot]').forEach((dot,i)=>{dot.classList.toggle('bg-accent',i===current);dot.classList.toggle('bg-line',i!==current);});
+ const credit=document.getElementById('guideSheetCredit');if(credit)credit.textContent=`${current+1} / ${g.gallery.length}・照片：${g.gallery[current].source}`;
+}
+function openGuideSheet(index){
+ const g=GUIDE[index],address=PLAN_ADDRESS[g.name]||'',walk=`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(g.mapQuery)}&travelmode=walking`;
+ document.getElementById('appSheetContent').innerHTML=`<div class="flex items-start gap-3"><div class="flex-1"><div class="text-[11px] text-accent font-bold">${g.day}・${g.city}・${g.status}</div><h3 class="text-xl font-bold mt-1">${g.name}</h3><div class="text-[13px] text-accent mt-1">${g.ja}</div><div class="text-[11px] text-sub mt-1">${g.sub}</div></div><button type="button" onclick="closeAppSheet()" class="w-9 h-9 rounded-full bg-paper border border-line text-sub shrink-0"><i class="fa-solid fa-xmark"></i></button></div>
+  <div class="mt-3"><div class="flex overflow-x-auto snap-x snap-mandatory rounded-2xl bg-paper" style="scrollbar-width:none" onscroll="updateGuideSheetGallery(this,${index})">${g.gallery.map((photo,i)=>`<img src="${photo.img}" alt="${g.name}照片 ${i+1}" class="min-w-full object-cover snap-center" style="aspect-ratio:16/10" loading="lazy">`).join('')}</div><div class="flex items-center justify-between gap-3 mt-2 px-1"><div class="flex gap-1.5">${g.gallery.map((_,i)=>`<span data-guide-sheet-dot class="block w-1.5 h-1.5 rounded-full ${i===0?'bg-accent':'bg-line'}"></span>`).join('')}</div><div id="guideSheetCredit" class="text-[9px] text-sub text-right">1 / ${g.gallery.length}・照片：${g.gallery[0].source}</div></div></div>
+  <div class="grid grid-cols-2 gap-2 mt-4 text-[11px]"><div class="bg-paper border border-line rounded-xl px-3 py-2"><span class="text-sub">建議停留</span><b class="block mt-0.5">${g.stay}</b></div><div class="bg-paper border border-line rounded-xl px-3 py-2"><span class="text-sub">適合時段</span><b class="block mt-0.5">${g.best}</b></div><div class="bg-paper border border-line rounded-xl px-3 py-2"><span class="text-sub">最近車站</span><b class="block mt-0.5">${g.station}</b></div><div class="bg-paper border border-line rounded-xl px-3 py-2"><span class="text-sub">步行／環境</span><b class="block mt-0.5">${g.walk}・${g.setting}</b></div></div>
+  <div class="bg-alert/10 border border-alert/30 text-alert rounded-xl px-3 py-2 text-[11px] mt-3"><i class="fa-solid fa-snowflake mr-1"></i>${g.winter}</div>
+  ${address?`<div class="bg-paper border border-line rounded-xl px-3 py-2.5 mt-3"><div class="text-[10px] text-sub">詳細地址（日文）</div><div class="text-[12px] font-bold leading-relaxed mt-1 select-all">${address}</div><button type="button" onclick="copyQuickText('${address.replaceAll("'","\\'")}',this)" class="inline-flex items-center gap-1 text-[11px] text-accent font-bold mt-2"><i class="fa-regular fa-copy"></i><span>複製地址</span></button></div>`:''}
+  <div class="grid grid-cols-2 gap-2 mt-4"><button type="button" onclick="speakJapaneseText('${g.ja.replaceAll("'","\\'")}',this)" class="bg-accent text-white rounded-xl py-3 text-[12px] font-bold"><i class="fa-solid fa-volume-high mr-1"></i>播放日文</button><button type="button" onclick="copyGuideName(${index},this)" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold"><i class="fa-regular fa-copy mr-1"></i>複製日文</button><a href="${G(g.mapQuery)}" target="_blank" rel="noopener" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold text-center"><i class="fa-solid fa-location-dot mr-1"></i>查看地點</a><a href="${walk}" target="_blank" rel="noopener" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold text-center"><i class="fa-solid fa-location-arrow mr-1"></i>步行導航</a></div>
+  <details class="group border-t border-line mt-4"><summary class="list-none cursor-pointer py-3 flex items-center text-[12px] font-bold"><i class="fa-solid fa-book-open text-accent mr-2"></i>景點故事與冷知識<i class="fa-solid fa-chevron-down text-[10px] text-sub ml-auto transition group-open:rotate-180"></i></summary><p class="text-[13px] leading-relaxed text-ink pb-3">${g.body}</p></details>
+  <button type="button" onclick="closeAppSheet();goDay(${g.dayIndex})" class="w-full bg-snow/50 border border-line rounded-xl py-2.5 text-[11px] text-accent font-bold"><i class="fa-solid fa-route mr-1"></i>查看 ${g.day} 行程</button>`;
+ document.getElementById('appSheet').classList.add('open');document.body.classList.add('modal-open');
+}
 function renderGuides(){
  const filtered=GUIDE.map((g,index)=>({g,index})).filter(x=>guideCity==='全部'||x.g.city===guideCity);
  document.getElementById('guidelist').innerHTML=filtered.length?filtered.map(({g,index})=>{
-  const walk=`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(g.mapQuery)}&travelmode=walking`;
-  return `<article class="bg-card rounded-2xl shadow-soft border border-line overflow-hidden">
-   <div class="relative"><div class="flex overflow-x-auto snap-x snap-mandatory scrollbar-none" onscroll="updateGuideDots(this,${index})">${g.gallery.map((photo,pi)=>`<img src="${photo.img}" alt="${g.name} 實景照片 ${pi+1}" class="guide-photo w-full shrink-0 snap-center" loading="lazy">`).join('')}</div><span class="absolute left-3 top-3 ${guideStatusClass(g.status)} text-[10px] font-bold rounded-full px-2.5 py-1">${g.day}・${g.status}</span></div>
-   <div class="flex items-center justify-between gap-3 px-4 py-2 border-b border-line"><div class="flex gap-1.5">${g.gallery.map((_,pi)=>`<span data-guide-dot="${index}" class="w-1.5 h-1.5 rounded-full ${pi===0?'bg-accent':'bg-line'}"></span>`).join('')}</div><span id="guidePhotoCredit-${index}" class="text-[9px] text-sub">1 / ${g.gallery.length}・照片：${g.gallery[0].source}</span></div>
-   <div class="px-4 pt-4">
-    <h3 class="text-xl font-bold">${g.name}</h3><div class="text-[13px] font-bold text-accent mt-0.5">${g.ja}</div><div class="text-[11px] text-sub mt-0.5">${g.sub}</div>
-    <div class="grid grid-cols-2 gap-2 mt-3 text-[11px]">
-     <div class="bg-paper border border-line rounded-xl px-3 py-2"><span class="text-sub">建議停留</span><b class="block mt-0.5">${g.stay}</b></div>
-     <div class="bg-paper border border-line rounded-xl px-3 py-2"><span class="text-sub">適合時段</span><b class="block mt-0.5">${g.best}</b></div>
-     <div class="bg-paper border border-line rounded-xl px-3 py-2"><span class="text-sub">最近車站</span><b class="block mt-0.5">${g.station}</b></div>
-     <div class="bg-paper border border-line rounded-xl px-3 py-2"><span class="text-sub">步行／環境</span><b class="block mt-0.5">${g.walk}・${g.setting}</b></div>
-    </div>
-    <div class="bg-alert/10 border border-alert/30 text-alert rounded-xl px-3 py-2 text-[11px] mt-3"><i class="fa-solid fa-snowflake mr-1"></i>${g.winter}</div>
-    <div class="grid grid-cols-4 gap-1.5 mt-3">
-     <button type="button" onclick="speakJapaneseText('${g.ja.replaceAll("'","\\'")}',this)" class="rounded-lg bg-accent text-white py-2 text-[10px]"><i class="fa-solid fa-volume-high block mb-1"></i>播放</button>
-     <button type="button" onclick="copyGuideName(${index},this)" class="rounded-lg bg-paper border border-line text-accent py-2 text-[10px]"><i class="fa-regular fa-copy block mb-1"></i>複製</button>
-     <a href="${G(g.mapQuery)}" target="_blank" rel="noopener" class="rounded-lg bg-paper border border-line text-accent py-2 text-[10px] text-center"><i class="fa-brands fa-google block mb-1"></i>地點</a>
-     <a href="${walk}" target="_blank" rel="noopener" class="rounded-lg bg-paper border border-line text-accent py-2 text-[10px] text-center"><i class="fa-solid fa-location-arrow block mb-1"></i>導航</a>
-    </div>
-    <button type="button" onclick="goDay(${g.dayIndex})" class="w-full bg-snow/50 border border-line rounded-xl py-2 text-[11px] text-accent font-bold mt-2"><i class="fa-solid fa-route mr-1"></i>查看 ${g.day} 行程</button>
-    <details class="group border-t border-line mt-4">
-     <summary class="list-none cursor-pointer py-3 flex items-center text-[12px] font-bold"><i class="fa-solid fa-book-open text-accent mr-2"></i>景點故事與冷知識<i class="fa-solid fa-chevron-down text-[10px] text-sub ml-auto transition group-open:rotate-180"></i></summary>
-     <p class="text-[13px] leading-relaxed text-ink pb-4">${g.body}</p>
-    </details>
-   </div>
-  </article>`;
+  return `<button type="button" onclick="openGuideSheet(${index})" class="w-full bg-card rounded-2xl shadow-soft border border-line overflow-hidden text-left flex min-h-[126px]"><img src="${g.gallery[0].img}" alt="${g.name}" class="w-[38%] shrink-0 object-cover bg-snow" loading="lazy"><span class="flex-1 min-w-0 px-3 py-3 flex flex-col"><span class="${guideStatusClass(g.status)} self-start text-[9px] font-bold rounded-full px-2 py-0.5">${g.day}・${g.status}</span><strong class="text-[16px] mt-2 leading-tight">${g.name}</strong><span class="text-[11px] text-accent mt-1">${g.ja}</span><span class="text-[10px] text-sub mt-auto pt-2">${g.best}・${g.stay}<i class="fa-solid fa-chevron-right float-right mt-0.5"></i></span></span></button>`;
  }).join(''):'';
 }
 
