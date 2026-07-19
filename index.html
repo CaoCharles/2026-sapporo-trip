@@ -159,22 +159,33 @@ tailwind.config={theme:{extend:{
 <!-- ============ LISTS ============ -->
 <section id="lists" class="tabpane">
   <h2 class="text-2xl font-bold mb-3">旅行清單</h2>
-  <div class="bg-card rounded-2xl shadow-soft p-4 border border-line mb-4">
-    <div class="text-sm font-bold mb-3"><i class="fa-solid fa-suitcase-rolling text-accent text-lg"></i> 行前準備 Checklist</div>
-    <div id="checklist" class="space-y-1"></div>
-    <div class="flex gap-2 mt-3">
+  <div id="checkProgress" class="bg-accent text-white rounded-2xl shadow-soft px-4 py-4 mb-4"></div>
+  <section class="mb-5">
+    <div class="text-[13px] font-bold text-accent mb-2"><i class="fa-solid fa-ticket mr-1"></i>重要預訂</div>
+    <div id="reservationList" class="bg-card rounded-2xl shadow-soft px-4 border border-line"></div>
+  </section>
+  <section class="mb-5">
+    <div class="text-[13px] font-bold text-accent mb-2"><i class="fa-solid fa-suitcase-rolling mr-1"></i>分類清單</div>
+    <div id="checklist" class="space-y-3"></div>
+    <div class="flex gap-2 mt-3 bg-card rounded-2xl shadow-soft p-3 border border-line">
       <input id="newCheck" placeholder="新增項目…" class="flex-1 bg-paper rounded-xl px-3 py-2 border border-line text-sm">
       <button type="button" onclick="addCheck()" class="bg-accent text-white rounded-xl px-4 text-sm" aria-label="新增行前準備項目"><i class="fa-solid fa-plus"></i></button>
     </div>
-  </div>
-  <div class="bg-card rounded-2xl shadow-soft p-4 border border-line">
+  </section>
+  <section class="bg-card rounded-2xl shadow-soft p-4 border border-line">
     <div class="text-sm font-bold mb-2"><i class="fa-solid fa-note-sticky text-accent2 text-lg"></i> 個人備忘錄</div>
-    <p class="text-[11px] text-sub mb-2">貼上網址會自動變成可點擊連結</p>
-    <textarea id="memo" rows="5" placeholder="自由輸入… 例如訂房連結、店家網址"
+    <p class="text-[11px] text-sub mb-2">選擇標籤快速分類；貼上網址會自動變成連結</p>
+    <div class="flex gap-1.5 overflow-x-auto mb-2">
+      <button type="button" onclick="addMemoTag('交通')" class="shrink-0 bg-snow text-accent rounded-full px-3 py-1 text-[10px]">＋ 交通</button>
+      <button type="button" onclick="addMemoTag('餐廳')" class="shrink-0 bg-snow text-accent rounded-full px-3 py-1 text-[10px]">＋ 餐廳</button>
+      <button type="button" onclick="addMemoTag('購物')" class="shrink-0 bg-snow text-accent rounded-full px-3 py-1 text-[10px]">＋ 購物</button>
+      <button type="button" onclick="addMemoTag('其他')" class="shrink-0 bg-snow text-accent rounded-full px-3 py-1 text-[10px]">＋ 其他</button>
+    </div>
+    <textarea id="memo" rows="5" placeholder="自由輸入… 例如訂房編號、店家網址或購物清單"
       class="w-full bg-paper rounded-xl px-3 py-2 border border-line text-sm mb-2"></textarea>
     <button type="button" onclick="saveMemo()" class="bg-accent text-white rounded-xl px-4 py-2 text-sm font-bold"><i class="fa-solid fa-floppy-disk"></i> 儲存</button>
     <div id="memoView" class="mt-3 text-[13px] leading-relaxed space-y-2"></div>
-  </div>
+  </section>
 </section>
 
 <!-- ============ INFO ============ -->
@@ -485,7 +496,21 @@ const GUIDE = [
   body:'1923 年完工，曾是北海道海運與金融重鎮的卸貨水道，沿岸石造倉庫見證小樽「北方華爾街」的繁華。隨海運沒落一度面臨填平危機，靠居民保存運動留下半側水道，改造成步道與煤氣燈。冬季「青之運河」與雪燈之路點燈時，水面倒映藍光，浪漫至極。'},
 ];
 
-const DEFAULT_CHECK = ['護照（效期6個月以上）','機票／登機證','日幣現金','信用卡','網卡／eSIM','防滑雪靴','保暖外套・發熱衣','行動電源','常備藥品','轉接插頭（日本可免）','飯店訂房確認單','JR PASS／車票'];
+const LEGACY_DEFAULT_CHECK=['護照（效期6個月以上）','機票／登機證','日幣現金','信用卡','網卡／eSIM','防滑雪靴','保暖外套・發熱衣','行動電源','常備藥品','轉接插頭（日本可免）','飯店訂房確認單','JR PASS／車票'];
+const CHECK_CATEGORIES=[
+ {id:'documents',title:'證件與付款',icon:'fa-passport',items:[['passport','護照（效期 6 個月以上）'],['flight-doc','機票／電子登機資料'],['hotel-doc','六間飯店訂房確認資料'],['insurance','旅遊平安險／不便險'],['cash','日幣現金與零錢'],['cards','信用卡與海外交易確認']]},
+ {id:'transport',title:'交通與網路',icon:'fa-train-subway',items:[['esim','eSIM／網卡設定'],['suica','Suica／交通 IC 卡'],['offline-map','下載北海道離線地圖'],['jr-pass','確認是否需要 JR Pass'],['rail-ticket','整理 JR 指定席與車票'],['route-capture','儲存重要轉乘截圖']]},
+ {id:'winter',title:'北海道冬季',icon:'fa-snowflake',items:[['boots','防滑雪靴'],['coat','保暖外套與發熱衣'],['gloves','手套、毛帽與圍巾'],['warmers','暖暖包'],['waterproof','防水外層／折傘'],['lip-care','護唇膏與保濕用品']]},
+ {id:'carry',title:'隨身用品',icon:'fa-bag-shopping',items:[['powerbank','行動電源'],['cables','充電線與插頭'],['medicine','常備藥品'],['tissues','衛生紙／濕紙巾'],['bottle','保溫瓶'],['luggage-tag','行李吊牌']]},
+ {id:'departure',title:'出發當日',icon:'fa-plane-departure',items:[['flight-status','確認班機狀態'],['weather-check','確認北海道天氣與穿著'],['jr-status','確認 JR 運行資訊'],['phone-charge','手機與行動電源充滿'],['passport-final','護照放入隨身包'],['home-check','門窗、電器與垃圾確認']]}
+];
+const RESERVATION_CHECKS=[
+ {id:'reserve-hotels',title:'確認六間住宿訂房',detail:'札幌・函館・登別・小樽',day:0},
+ {id:'reserve-hokuto-1',title:'預訂札幌 → 函館 特急北斗',detail:'D2・11/22',day:1},
+ {id:'reserve-hokuto-2',title:'預訂函館 → 登別 特急北斗',detail:'D5・11/25',day:4},
+ {id:'reserve-otaru',title:'確認登別 → 小樽轉乘',detail:'D6・札幌轉車',day:5},
+ {id:'reserve-return',title:'確認回程班機與機場交通',detail:'D8・15:20 起飛',day:7}
+];
 
 /* ===== TAB SWITCH ===== */
 function openLightbox(){
@@ -1062,24 +1087,34 @@ const LS=k=>{try{return JSON.parse((_hasLS?localStorage.getItem(k):_mem[k])||'nu
 const SET=(k,v)=>{try{_hasLS?localStorage.setItem(k,JSON.stringify(v)):(_mem[k]=JSON.stringify(v));}catch(e){_mem[k]=JSON.stringify(v);}};
 
 /* ===== LISTS ===== */
-function getChecks(){return LS('checks')||DEFAULT_CHECK.map(t=>({t,done:false}));}
-function renderCheck(){
- const c=getChecks();
- document.getElementById('checklist').innerHTML=c.map((x,i)=>{
-  const text=escapeHTML(x.t);
-  return `
-  <label class="flex items-center gap-2 py-1.5 text-[13px]">
-    <input type="checkbox" ${x.done?'checked':''} onchange="toggleCheck(${i})" class="w-4 h-4 accent-[#5b7a6b]">
-    <span class="${x.done?'line-through text-sub':''}">${text}</span>
-    <button type="button" onclick="event.preventDefault();event.stopPropagation();delCheck(${i})" class="ml-auto text-sub text-[11px]" aria-label="刪除 ${text}"><i class="fa-solid fa-xmark"></i></button>
-  </label>`;
- }).join('');
+function allDefaultCheckItems(){return CHECK_CATEGORIES.flatMap(c=>c.items.map(([id,t])=>({id,t})));}
+function getListState(){
+ let state=LS('trip_list_v2');if(state&&state.done&&Array.isArray(state.custom))return state;
+ state={done:{},custom:[]};
+ const legacy=LS('checks');
+ if(Array.isArray(legacy)){
+  const aliases={'護照（效期6個月以上）':'passport','機票／登機證':'flight-doc','日幣現金':'cash','信用卡':'cards','網卡／eSIM':'esim','防滑雪靴':'boots','保暖外套・發熱衣':'coat','行動電源':'powerbank','常備藥品':'medicine','飯店訂房確認單':'hotel-doc','JR PASS／車票':'jr-pass'};
+  legacy.forEach((x,i)=>{const id=aliases[x.t];if(id)state.done[id]=!!x.done;else if(!LEGACY_DEFAULT_CHECK.includes(x.t))state.custom.push({id:`legacy-${i}`,t:x.t,done:!!x.done});});
+ }
+ SET('trip_list_v2',state);return state;
 }
-function toggleCheck(i){const c=getChecks();c[i].done=!c[i].done;SET('checks',c);renderCheck();}
-function delCheck(i){const c=getChecks();c.splice(i,1);SET('checks',c);renderCheck();}
-function addCheck(){const v=document.getElementById('newCheck').value.trim();if(!v)return;const c=getChecks();c.push({t:v,done:false});SET('checks',c);document.getElementById('newCheck').value='';renderCheck();}
+function saveListState(state){SET('trip_list_v2',state);}
+function renderCheck(){
+ const state=getListState(),base=allDefaultCheckItems(),total=base.length+RESERVATION_CHECKS.length+state.custom.length;
+ const completed=base.filter(x=>state.done[x.id]).length+RESERVATION_CHECKS.filter(x=>state.done[x.id]).length+state.custom.filter(x=>x.done).length,pct=total?Math.round(completed/total*100):0;
+ document.getElementById('checkProgress').innerHTML=`<div class="flex items-end justify-between gap-3"><div><div class="text-[11px] text-white/75">行前完成度</div><div class="text-lg font-bold mt-0.5">${completed}／${total} 項完成</div></div><div class="text-3xl font-bold">${pct}<span class="text-base">%</span></div></div><div class="h-1.5 bg-white/20 rounded-full mt-3 overflow-hidden"><div class="h-full bg-white rounded-full transition-all" style="width:${pct}%"></div></div><div class="text-[10px] text-white/70 mt-2">完成狀態只儲存在目前裝置的瀏覽器中</div>`;
+ document.getElementById('reservationList').innerHTML=RESERVATION_CHECKS.map((x,i)=>`<div class="flex items-center gap-3 py-3 ${i?'border-t border-line':''}"><label class="flex items-center gap-3 flex-1 min-w-0 cursor-pointer"><input type="checkbox" ${state.done[x.id]?'checked':''} onchange="toggleListItem('${x.id}')" class="w-4 h-4 accent-[#5b7a6b] shrink-0"><span class="min-w-0"><b class="block text-[13px] ${state.done[x.id]?'line-through text-sub':''}">${x.title}</b><span class="block text-[10px] text-sub mt-0.5">${x.detail}</span></span></label><button type="button" onclick="goDay(${x.day})" class="text-[10px] text-accent shrink-0">看行程 <i class="fa-solid fa-chevron-right ml-1"></i></button></div>`).join('');
+ document.getElementById('checklist').innerHTML=CHECK_CATEGORIES.map((c,ci)=>{
+  const done=c.items.filter(([id])=>state.done[id]).length;
+  return `<details class="group bg-card rounded-2xl shadow-soft border border-line overflow-hidden" ${ci===0?'open':''}><summary class="list-none cursor-pointer px-4 py-3 flex items-center gap-3"><i class="fa-solid ${c.icon} text-accent w-5 text-center"></i><span class="text-[13px] font-bold flex-1">${c.title}</span><span class="text-[10px] text-sub">${done}／${c.items.length}</span><i class="fa-solid fa-chevron-down text-[9px] text-sub transition group-open:rotate-180"></i></summary><div class="px-4 border-t border-line">${c.items.map(([id,t],i)=>`<label class="flex items-center gap-3 py-2.5 ${i?'border-t border-line/70':''} cursor-pointer"><input type="checkbox" ${state.done[id]?'checked':''} onchange="toggleListItem('${id}')" class="w-4 h-4 accent-[#5b7a6b] shrink-0"><span class="text-[13px] ${state.done[id]?'line-through text-sub':''}">${t}</span></label>`).join('')}</div></details>`;
+ }).join('')+(state.custom.length?`<details open class="group bg-card rounded-2xl shadow-soft border border-line overflow-hidden"><summary class="list-none cursor-pointer px-4 py-3 flex items-center gap-3"><i class="fa-solid fa-pen text-accent w-5 text-center"></i><span class="text-[13px] font-bold flex-1">自訂項目</span><span class="text-[10px] text-sub">${state.custom.filter(x=>x.done).length}／${state.custom.length}</span><i class="fa-solid fa-chevron-down text-[9px] text-sub transition group-open:rotate-180"></i></summary><div class="px-4 border-t border-line">${state.custom.map((x,i)=>`<label class="flex items-center gap-3 py-2.5 ${i?'border-t border-line/70':''} cursor-pointer"><input type="checkbox" ${x.done?'checked':''} onchange="toggleListItem('${x.id}',true)" class="w-4 h-4 accent-[#5b7a6b] shrink-0"><span class="text-[13px] flex-1 ${x.done?'line-through text-sub':''}">${escapeHTML(x.t)}</span><button type="button" onclick="event.preventDefault();event.stopPropagation();delCustomCheck('${x.id}')" class="text-sub text-[11px]" aria-label="刪除 ${escapeHTML(x.t)}"><i class="fa-solid fa-xmark"></i></button></label>`).join('')}</div></details>`:'');
+}
+function toggleListItem(id,isCustom=false){const state=getListState();if(isCustom){const item=state.custom.find(x=>x.id===id);if(item)item.done=!item.done;}else state.done[id]=!state.done[id];saveListState(state);renderCheck();}
+function delCustomCheck(id){const state=getListState();state.custom=state.custom.filter(x=>x.id!==id);saveListState(state);renderCheck();}
+function addCheck(){const input=document.getElementById('newCheck'),v=input.value.trim();if(!v)return;const state=getListState();state.custom.push({id:`custom-${Date.now()}`,t:v,done:false});saveListState(state);input.value='';renderCheck();}
 const memoEl=document.getElementById('memo');memoEl.value=LS('memo')||'';
 function saveMemo(){SET('memo',memoEl.value);renderMemo();}
+function addMemoTag(tag){const prefix=`【${tag}】 `;memoEl.value+=(memoEl.value&&!memoEl.value.endsWith('\n')?'\n':'')+prefix;memoEl.focus();memoEl.setSelectionRange(memoEl.value.length,memoEl.value.length);}
 function escapeHTML(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
 function renderMemo(){
  const txt=LS('memo')||'';if(!txt){document.getElementById('memoView').innerHTML='';return;}
