@@ -499,14 +499,27 @@ function closeLightbox(e){
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeLightbox();closeAppSheet();}});
 
-document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>{
+const TAB_META={
+ overview:{title:'旅程總覽'},plan:{title:'每日行程'},guide:{title:'景點導覽'},
+ map:{title:'旅程地圖'},lists:{title:'旅行清單'},info:{title:'實用資訊'}
+};
+function tabFromRoute(){const tab=location.hash.replace(/^#\//,'').split('/')[0];return TAB_META[tab]?tab:'overview';}
+function activateTab(tab,updateRoute=true,scroll=true){
+  if(!TAB_META[tab])tab='overview';
   document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));
   document.querySelectorAll('.tabpane').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');
-  document.getElementById(b.dataset.tab).classList.add('active');
-  if(b.dataset.tab==='map')setTimeout(initTripMap,80);
-  window.scrollTo({top:0,behavior:'smooth'});
-});
+  const button=document.querySelector(`.navbtn[data-tab="${tab}"]`);
+  button.classList.add('active');button.setAttribute('aria-current','page');
+  document.querySelectorAll('.navbtn:not(.active)').forEach(x=>x.removeAttribute('aria-current'));
+  document.getElementById(tab).classList.add('active');
+  document.title=`${TAB_META[tab].title}｜北海道 8 天 7 夜`;
+  if(updateRoute&&location.hash!==`#/${tab}`)history.pushState({tab},'',`#/${tab}`);
+  if(tab==='map')setTimeout(initTripMap,80);
+  if(scroll)window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>activateTab(b.dataset.tab));
+window.addEventListener('hashchange',()=>activateTab(tabFromRoute(),false));
+activateTab(tabFromRoute(),false,false);
 
 /* ===== PLAN ===== */
 document.getElementById('hotels').innerHTML = HOTELS.map((h,index)=>
