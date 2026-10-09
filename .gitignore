@@ -2,3 +2,6 @@
 Icon
 *.tmp
 *~$*
+*.pdf
+private-trip-notes.txt
+ReceiptPdf.pdf

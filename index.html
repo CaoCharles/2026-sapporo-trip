@@ -36,7 +36,7 @@ tailwind.config={theme:{extend:{
   .app-main{padding-bottom:env(safe-area-inset-bottom)}
   .bottom-nav{max-width:430px;padding-bottom:calc(.5rem + env(safe-area-inset-bottom))}
   .rounded-2xl,.rounded-xl{border-radius:8px!important}
-  .hero-img{aspect-ratio:16/10;object-fit:cover;object-position:center top}
+  .hero-img{aspect-ratio:3/2;object-fit:contain;object-position:center}
   .hero-zoom{cursor:zoom-in}
   .guide-photo{aspect-ratio:16/10;object-fit:cover;background:#e9eef0}
   .guide-source{border-top:1px solid #e6e1d8}
@@ -81,7 +81,7 @@ tailwind.config={theme:{extend:{
   <div class="flex items-center justify-between">
     <div>
       <div class="text-xl font-bold tracking-wide">北海道 <span class="text-accent">8</span> 天 <span class="text-accent">7</span> 夜</div>
-      <div class="text-xs text-sub mt-0.5">2026 / 11 / 21 – 11 / 28 ｜ 札幌・函館・登別・小樽</div>
+      <div class="text-xs text-sub mt-0.5">2026 / 11 / 21 – 11 / 28 ｜ 札幌・小樽・登別</div>
     </div>
     <div class="text-snow text-4xl">❄</div>
   </div>
@@ -96,10 +96,10 @@ tailwind.config={theme:{extend:{
     <div class="overview-stack mb-4">
       <figure class="bg-card rounded-2xl shadow-soft border border-line overflow-hidden">
         <button type="button" class="hero-zoom relative block w-full text-left" onclick="openLightbox()" aria-label="放大北海道 8 天 7 夜旅遊總覽圖">
-          <img src="旅遊總覽-v2.png" alt="北海道 8 天 7 夜旅遊總覽圖" class="hero-img w-full">
+          <img src="assets/trip-overview-2026-v3.jpg" alt="北海道 8 天 7 夜旅遊總覽圖" class="hero-img w-full">
           <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent pt-10 pb-2.5 px-3 text-white text-[11px] font-bold"><i class="fa-solid fa-expand mr-1"></i>點擊查看完整行程圖</span>
         </button>
-        <figcaption class="px-4 py-3"><div class="flex items-center justify-between gap-3"><div><div class="text-sm font-bold">札幌・函館・登別・小樽</div><div class="text-[12px] text-sub mt-0.5">8 天 7 夜冬季路線總覽</div></div><button type="button" onclick="openLightbox()" class="text-[11px] text-accent bg-paper border border-line rounded-full px-3 py-1.5 shrink-0"><i class="fa-solid fa-expand mr-1"></i>查看完整圖</button></div></figcaption>
+        <figcaption class="px-4 py-3"><div class="flex items-center justify-between gap-3"><div class="min-w-0"><div class="text-sm font-bold">札幌・小樽・登別</div><div class="text-[11px] text-sub mt-0.5">札幌 5 晚・小樽 1 晚・登別 1 晚</div></div><button type="button" onclick="openLightbox()" class="text-[11px] text-accent bg-paper border border-line rounded-full px-3 py-1.5 shrink-0"><i class="fa-solid fa-expand mr-1"></i>查看完整圖</button></div></figcaption>
       </figure>
     </div>
     <div class="overview-stack">
@@ -114,7 +114,7 @@ tailwind.config={theme:{extend:{
       <details open class="group bg-card rounded-2xl shadow-soft border border-line overflow-hidden">
         <summary class="list-none cursor-pointer px-3 py-3 flex items-center gap-2">
           <i class="fa-solid fa-hotel text-accent text-base"></i>
-          <span class="flex-1"><span class="block text-xs font-bold">住宿一覽</span><span class="block text-[11px] text-sub mt-0.5">札幌 2・函館 3・登別 1・小樽 1 晚</span></span>
+          <span class="flex-1"><span class="block text-xs font-bold">住宿一覽</span><span class="block text-[11px] text-sub mt-0.5">札幌 5・小樽 1・登別 1 晚</span></span>
           <span class="text-[10px] text-sub">點飯店看詳情</span><i class="fa-solid fa-chevron-down text-[10px] text-sub transition group-open:rotate-180"></i>
         </summary>
         <div id="hotels" class="text-[13px] px-4 pb-2 border-t border-line"></div>
@@ -142,7 +142,7 @@ tailwind.config={theme:{extend:{
 <!-- ============ MAP ============ -->
 <section id="map" class="tabpane">
   <h2 class="text-2xl font-bold mb-1">旅程地圖</h2>
-  <p class="text-xs text-sub mb-4">選擇日期與景點，查看最近車站的步行路線</p>
+  <p class="text-xs text-sub mb-4">車站／巴士站 → 景點</p>
   <div id="mapDayTabs" class="flex gap-2 overflow-x-auto pb-2 mb-3"></div>
   <div class="bg-card rounded-2xl shadow-soft border border-line overflow-hidden mb-4">
     <div class="px-4 py-3 flex items-center justify-between gap-3">
@@ -174,7 +174,7 @@ tailwind.config={theme:{extend:{
   </section>
   <section class="bg-card rounded-2xl shadow-soft p-4 border border-line">
     <div class="text-sm font-bold mb-2"><i class="fa-solid fa-note-sticky text-accent2 text-lg"></i> 個人備忘錄</div>
-    <p class="text-[11px] text-sub mb-2">選擇標籤快速分類；貼上網址會自動變成連結</p>
+    <p class="text-[11px] text-sub mb-2">此裝置的個人筆記</p>
     <div class="flex gap-1.5 overflow-x-auto mb-2">
       <button type="button" onclick="addMemoTag('交通')" class="shrink-0 bg-snow text-accent rounded-full px-3 py-1 text-[10px]">＋ 交通</button>
       <button type="button" onclick="addMemoTag('餐廳')" class="shrink-0 bg-snow text-accent rounded-full px-3 py-1 text-[10px]">＋ 餐廳</button>
@@ -183,7 +183,12 @@ tailwind.config={theme:{extend:{
     </div>
     <textarea id="memo" rows="5" placeholder="自由輸入… 例如訂房編號、店家網址或購物清單"
       class="w-full bg-paper rounded-xl px-3 py-2 border border-line text-sm mb-2"></textarea>
-    <button type="button" onclick="saveMemo()" class="bg-accent text-white rounded-xl px-4 py-2 text-sm font-bold"><i class="fa-solid fa-floppy-disk"></i> 儲存</button>
+    <div class="flex items-center gap-2">
+      <button type="button" onclick="saveMemo()" class="bg-accent text-white rounded-xl px-4 py-2 text-sm font-bold"><i class="fa-solid fa-floppy-disk"></i> 儲存</button>
+      <button type="button" onclick="document.getElementById('privateMemoFile').click()" class="bg-paper border border-line text-accent rounded-xl w-10 h-10" aria-label="匯入私人筆記" title="匯入私人筆記"><i class="fa-solid fa-file-import"></i></button>
+      <input id="privateMemoFile" type="file" accept=".txt,text/plain" onchange="importPrivateMemo(this)" hidden>
+    </div>
+    <div id="memoStatus" role="status" aria-live="polite" class="text-[11px] text-accent mt-2"></div>
     <div id="memoView" class="mt-3 text-[13px] leading-relaxed space-y-2"></div>
   </section>
 </section>
@@ -191,12 +196,22 @@ tailwind.config={theme:{extend:{
 <!-- ============ INFO ============ -->
 <section id="info" class="tabpane">
   <h2 class="text-2xl font-bold mb-3">實用資訊</h2>
+  <section class="mb-4 border-y border-line py-3 text-[13px]">
+    <div class="font-bold"><i class="fa-solid fa-sim-card text-accent mr-1"></i> eSIM・7 天 10GB</div>
+    <div class="text-sub mt-1">已買・預計 11/21–27 使用</div>
+    <div class="text-[12px] mt-2">確認啟用計時規則；11/28 機場 Wi-Fi 或其他上網備案。</div>
+  </section>
+  <section class="mb-4 border-b border-line pb-3">
+    <div class="text-[13px] font-bold mb-2">參考影片</div>
+    <a href="https://youtu.be/mDF7kOM_uIY?si=HsacaZ8kM2Bl2qj4" target="_blank" rel="noopener" class="block text-[12px] text-accent py-2"><i class="fa-solid fa-play mr-1"></i>札幌美食</a>
+    <a href="https://youtu.be/7eDHFIRO8R4?si=MmGMBRDlh2PtYXY1" target="_blank" rel="noopener" class="block text-[12px] text-accent py-2"><i class="fa-solid fa-play mr-1"></i>登別散步與溫泉</a>
+  </section>
   <div class="bg-card rounded-2xl shadow-soft p-4 border border-line mb-4">
     <div class="flex items-center justify-between mb-3">
       <div class="text-sm font-bold"><i class="fa-solid fa-cloud-sun text-accent text-lg"></i> 即時天氣</div>
       <button type="button" onclick="loadWeather()" class="w-8 h-8 rounded-full bg-paper border border-line text-accent" aria-label="重新整理即時天氣"><i id="weatherRefreshIcon" class="fa-solid fa-rotate-right"></i></button>
     </div>
-    <div id="weatherCities" class="grid grid-cols-4 gap-1.5 mb-3"></div>
+    <div id="weatherCities" class="grid grid-cols-3 gap-1.5 mb-3"></div>
     <div id="weatherPanel" class="bg-paper rounded-xl px-4 py-4 border border-line min-h-[166px] flex items-center justify-center" aria-live="polite">
       <div class="text-[12px] text-sub"><i class="fa-solid fa-spinner fa-spin mr-1"></i>讀取即時天氣…</div>
     </div>
@@ -234,6 +249,7 @@ tailwind.config={theme:{extend:{
     </div>
   </div>
 </section>
+<footer class="pt-4 text-right text-[10px] text-sub"><a href="assets/guide/october/SOURCES.md" target="_blank" rel="noopener">新增照片授權與資料來源</a></footer>
 
 </main>
 
@@ -256,7 +272,7 @@ tailwind.config={theme:{extend:{
 
 <div id="imageLightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="旅遊總覽圖放大預覽" onclick="closeLightbox(event)">
   <button type="button" class="lightbox-close" onclick="closeLightbox(event)" aria-label="關閉圖片預覽"><i class="fa-solid fa-xmark"></i></button>
-  <img src="旅遊總覽-v2.png" alt="北海道 8 天 7 夜旅遊總覽圖放大版">
+  <img src="assets/trip-overview-2026-v3.jpg" alt="北海道 8 天 7 夜旅遊總覽圖放大版">
 </div>
 
 <script>
@@ -265,66 +281,331 @@ const G = q => 'https://www.google.com/maps/search/?api=1&query='+encodeURICompo
 const DIR = (from,to) => 'https://www.google.com/maps/dir/?api=1&travelmode=transit&origin='+encodeURIComponent(from)+'&destination='+encodeURIComponent(to);
 
 const PHRASE_GROUPS=[
- {title:'JR・市電',icon:'fa-train-subway',sub:'D1–D8 城市移動',items:[
-  ['這班快速 Airport 會到札幌站嗎？','この快速エアポートは札幌駅に行きますか？','Does this Rapid Airport train go to Sapporo Station?','新千歲機場 → 札幌'],
-  ['指定席要在哪裡購買？','指定席はどこで買えますか？','Where can I buy a reserved-seat ticket?','JR'],
-  ['往函館的特急北斗在幾號月台？','函館行きの特急北斗は何番ホームですか？','Which platform is the Hokuto limited express for Hakodate?','札幌 → 函館'],
-  ['往湯之川溫泉的市電在哪裡搭？','湯の川温泉行きの市電はどこから乗りますか？','Where can I take the tram for Yunokawa Onsen?','函館市電'],
-  ['這班特急北斗會停登別站嗎？','この特急北斗は登別駅に停まりますか？','Does this Hokuto limited express stop at Noboribetsu Station?','函館 → 登別'],
-  ['前往小樽要在札幌站哪裡轉車？','小樽へ行くには、札幌駅でどこに乗り換えますか？','Where do I transfer at Sapporo Station for Otaru?','登別 → 小樽'],
-  ['這一節車廂是自由席嗎？','この車両は自由席ですか？','Is this car for non-reserved seats?','JR'],
-  ['列車有因為下雪延誤嗎？','雪で列車は遅れていますか？','Is the train delayed because of snow?','冬季交通']
- ]},
- {title:'問路・景點',icon:'fa-location-dot',sub:'函館、登別、小樽、札幌',items:[
-  ['最近的車站在哪裡？','一番近い駅はどこですか？','Where is the nearest station?','通用'],
-  ['五稜郭塔要往哪個方向走？','五稜郭タワーはどちらですか？','Which way is Goryokaku Tower?','函館'],
-  ['今天從函館山看得到夜景嗎？','今日、函館山から夜景は見えますか？','Can we see the night view from Mt. Hakodate today?','函館山'],
-  ['纜車今天有運行嗎？','ロープウェイは今日運行していますか？','Is the ropeway operating today?','函館山／熊牧場／藻岩山'],
-  ['今天看得到猴子泡溫泉嗎？','温泉に入っているサルは今日見られますか？','Can we see the monkeys bathing in the hot spring today?','熱帶植物園'],
-  ['地獄谷步道現在可以走嗎？','地獄谷の遊歩道は今、歩けますか？','Is the Jigokudani walking trail open now?','登別'],
-  ['小樽運河幾點開始點燈？','小樽運河のライトアップは何時からですか？','What time does the Otaru Canal illumination begin?','小樽'],
-  ['路面會不會很滑？','道は滑りやすいですか？','Is the road slippery?','雪天']
- ]},
- {title:'叫車',icon:'fa-taxi',sub:'飯店、車站與景點',items:[
-  ['請載我到這個地址','この住所までお願いします。','Please take me to this address.','出示飯店地址'],
-  ['請載我到這間飯店','このホテルまでお願いします。','Please take me to this hotel.','飯店'],
-  ['可以把行李放進後車廂嗎？','荷物をトランクに入れてもいいですか？','May I put my luggage in the trunk?','行李'],
-  ['到那裡大約需要多久？','そこまでどのくらいかかりますか？','About how long will it take to get there?','車程'],
-  ['可以刷信用卡嗎？','クレジットカードは使えますか？','Can I pay by credit card?','付款'],
-  ['請給我收據','領収書をお願いします。','May I have a receipt, please?','下車前']
- ]},
- {title:'住宿',icon:'fa-hotel',sub:'入住、行李與櫃檯',items:[
-  ['我想辦理入住','チェックインをお願いします。','I’d like to check in.','入住'],
-  ['訂房姓名是＿＿','予約名は＿＿です。','The reservation is under ___.','入住'],
-  ['入住前／退房後可以寄放行李嗎？','チェックイン前／チェックアウト後に荷物を預かっていただけますか？','Can you store our luggage before check-in / after check-out?','寄放行李'],
-  ['早餐是幾點到幾點？','朝食は何時から何時までですか？','What time is breakfast served?','早餐'],
-  ['可以幫我叫計程車嗎？','タクシーを呼んでいただけますか？','Could you call a taxi for me?','櫃檯叫車'],
-  ['我想辦理退房','チェックアウトをお願いします。','I’d like to check out.','退房']
- ]},
- {title:'餐廳・候位',icon:'fa-utensils',sub:'市場、壽司、拉麵與晚餐',items:[
-  ['兩位，請問有位子嗎？','2人ですが、席はありますか？','Do you have a table for two?','入店'],
-  ['現在大約要等多久？','今、待ち時間はどのくらいですか？','About how long is the wait now?','Toriton 候位'],
-  ['需要先拿號碼牌嗎？','先に番号券を取りますか？','Should I take a number ticket first?','候位'],
-  ['請問有什麼推薦？','おすすめは何ですか？','What do you recommend?','點餐'],
-  ['我要這個，兩份','これを二つお願いします。','Two of these, please.','點餐'],
-  ['我沒有食物過敏，什麼都可以吃','食物アレルギーはありません。何でも食べられます。','I have no food allergies and can eat anything.','飲食需求'],
-  ['芥末請另外放','わさびは別にしてください。','Please serve the wasabi on the side.','壽司'],
-  ['麻煩結帳，可以刷卡嗎？','お会計をお願いします。カードは使えますか？','The bill, please. Can I pay by card?','結帳']
- ]},
- {title:'溫泉',icon:'fa-hot-tub-person',sub:'湯之川與登別',items:[
-  ['大浴場開放到幾點？','大浴場は何時まで利用できますか？','Until what time is the public bath open?','飯店溫泉'],
-  ['露天溫泉在哪裡？','露天風呂はどこですか？','Where is the open-air bath?','飯店溫泉'],
-  ['毛巾要從房間帶過去嗎？','タオルは部屋から持って行きますか？','Should I bring the towel from my room?','入浴前'],
-  ['這裡需要脫鞋嗎？','ここで靴を脱ぎますか？','Should I take off my shoes here?','館內'],
-  ['這件浴衣尺寸可以更換嗎？','浴衣のサイズを交換できますか？','Can I change the size of this yukata?','飯店']
- ]},
- {title:'求助・醫療',icon:'fa-kit-medical',sub:'迷路、跌倒與緊急狀況',items:[
-  ['我迷路了，請幫幫我','道に迷いました。助けてください。','I’m lost. Please help me.','問路'],
-  ['附近有藥局嗎？','近くに薬局はありますか？','Is there a pharmacy nearby?','身體不適'],
-  ['我在雪地滑倒了','雪道で転びました。','I slipped and fell on the snowy road.','冬季'],
-  ['請幫我叫救護車','救急車を呼んでください。','Please call an ambulance.','緊急'],
-  ['請幫我聯絡警察','警察に連絡してください。','Please contact the police.','緊急']
- ]}
+  {
+    "title": "JR・巴士",
+    "icon": "fa-train-subway",
+    "sub": "D1–D8 城市移動",
+    "items": [
+      [
+        "這班快速 Airport 會到札幌站嗎？",
+        "この快速エアポートは札幌駅に行きますか？",
+        "Does this Rapid Airport train go to Sapporo Station?",
+        "新千歲機場 → 札幌"
+      ],
+      [
+        "指定席要在哪裡購買？",
+        "指定席はどこで買えますか？",
+        "Where can I buy a reserved-seat ticket?",
+        "JR"
+      ],
+      [
+        "往小樽的列車在幾號月台？",
+        "小樽行きの電車は何番ホームですか？",
+        "Which platform is the train to Otaru?",
+        "札幌 → 小樽"
+      ],
+      [
+        "往小樽水族館的巴士在哪裡搭？",
+        "おたる水族館行きのバスはどこから乗りますか？",
+        "Where can I take the bus to Otaru Aquarium?",
+        "小樽水族館"
+      ],
+      [
+        "這班特急北斗會停登別站嗎？",
+        "この特急北斗は登別駅に停まりますか？",
+        "Does this Hokuto limited express stop at Noboribetsu Station?",
+        "札幌 → 登別"
+      ],
+      [
+        "到登別溫泉的巴士在哪裡搭？",
+        "登別温泉行きのバスはどこから乗りますか？",
+        "Where can I take the bus to Noboribetsu Onsen?",
+        "登別站 → 溫泉街"
+      ],
+      [
+        "這一節車廂是自由席嗎？",
+        "この車両は自由席ですか？",
+        "Is this car for non-reserved seats?",
+        "JR"
+      ],
+      [
+        "列車有因為下雪延誤嗎？",
+        "雪で列車は遅れていますか？",
+        "Is the train delayed because of snow?",
+        "冬季交通"
+      ]
+    ]
+  },
+  {
+    "title": "問路・景點",
+    "icon": "fa-location-dot",
+    "sub": "札幌、小樽、登別",
+    "items": [
+      [
+        "最近的車站在哪裡？",
+        "一番近い駅はどこですか？",
+        "Where is the nearest station?",
+        "通用"
+      ],
+      [
+        "OMO 晨間散步在哪裡集合？",
+        "OMOの朝のおさんぽは、どこに集合すればいいですか？",
+        "Where is the meeting point for the OMO morning walk?",
+        "OMO5 小樽"
+      ],
+      [
+        "今天從藻岩山看得到夜景嗎？",
+        "今日、藻岩山から夜景は見えますか？",
+        "Can we see the night view from Mt. Moiwa today?",
+        "札幌"
+      ],
+      [
+        "纜車今天有運行嗎？",
+        "ロープウェイは今日運行していますか？",
+        "Is the ropeway operating today?",
+        "熊牧場／藻岩山／天狗山"
+      ],
+      [
+        "水族館回程巴士幾點出發？",
+        "水族館からの帰りのバスは何時に出ますか？",
+        "What time does the return bus from the aquarium leave?",
+        "小樽水族館"
+      ],
+      [
+        "地獄谷步道現在可以走嗎？",
+        "地獄谷の遊歩道は今、歩けますか？",
+        "Is the Jigokudani walking trail open now?",
+        "登別"
+      ],
+      [
+        "小樽運河幾點開始點燈？",
+        "小樽運河のライトアップは何時からですか？",
+        "What time does the Otaru Canal illumination begin?",
+        "小樽"
+      ],
+      [
+        "路面會不會很滑？",
+        "道は滑りやすいですか？",
+        "Is the road slippery?",
+        "雪天"
+      ]
+    ]
+  },
+  {
+    "title": "叫車",
+    "icon": "fa-taxi",
+    "sub": "飯店、車站與景點",
+    "items": [
+      [
+        "請載我到這個地址",
+        "この住所までお願いします。",
+        "Please take me to this address.",
+        "出示飯店地址"
+      ],
+      [
+        "請載我到這間飯店",
+        "このホテルまでお願いします。",
+        "Please take me to this hotel.",
+        "飯店"
+      ],
+      [
+        "可以把行李放進後車廂嗎？",
+        "荷物をトランクに入れてもいいですか？",
+        "May I put my luggage in the trunk?",
+        "行李"
+      ],
+      [
+        "到那裡大約需要多久？",
+        "そこまでどのくらいかかりますか？",
+        "About how long will it take to get there?",
+        "車程"
+      ],
+      [
+        "可以刷信用卡嗎？",
+        "クレジットカードは使えますか？",
+        "Can I pay by credit card?",
+        "付款"
+      ],
+      [
+        "請給我收據",
+        "領収書をお願いします。",
+        "May I have a receipt, please?",
+        "下車前"
+      ]
+    ]
+  },
+  {
+    "title": "住宿",
+    "icon": "fa-hotel",
+    "sub": "入住、行李與櫃檯",
+    "items": [
+      [
+        "我想辦理入住",
+        "チェックインをお願いします。",
+        "I’d like to check in.",
+        "入住"
+      ],
+      [
+        "訂房姓名是＿＿",
+        "予約名は＿＿です。",
+        "The reservation is under ___.",
+        "入住"
+      ],
+      [
+        "入住前／退房後可以寄放行李嗎？",
+        "チェックイン前／チェックアウト後に荷物を預かっていただけますか？",
+        "Can you store our luggage before check-in / after check-out?",
+        "寄放行李"
+      ],
+      [
+        "早餐是幾點到幾點？",
+        "朝食は何時から何時までですか？",
+        "What time is breakfast served?",
+        "早餐"
+      ],
+      [
+        "可以幫我叫計程車嗎？",
+        "タクシーを呼んでいただけますか？",
+        "Could you call a taxi for me?",
+        "櫃檯叫車"
+      ],
+      [
+        "我想辦理退房",
+        "チェックアウトをお願いします。",
+        "I’d like to check out.",
+        "退房"
+      ]
+    ]
+  },
+  {
+    "title": "餐廳・候位",
+    "icon": "fa-utensils",
+    "sub": "市場、壽司、拉麵與晚餐",
+    "items": [
+      [
+        "兩位，請問有位子嗎？",
+        "2人ですが、席はありますか？",
+        "Do you have a table for two?",
+        "入店"
+      ],
+      [
+        "現在大約要等多久？",
+        "今、待ち時間はどのくらいですか？",
+        "About how long is the wait now?",
+        "Toriton 候位"
+      ],
+      [
+        "需要先拿號碼牌嗎？",
+        "先に番号券を取りますか？",
+        "Should I take a number ticket first?",
+        "候位"
+      ],
+      [
+        "請問有什麼推薦？",
+        "おすすめは何ですか？",
+        "What do you recommend?",
+        "點餐"
+      ],
+      [
+        "我要這個，兩份",
+        "これを二つお願いします。",
+        "Two of these, please.",
+        "點餐"
+      ],
+      [
+        "我沒有食物過敏，什麼都可以吃",
+        "食物アレルギーはありません。何でも食べられます。",
+        "I have no food allergies and can eat anything.",
+        "飲食需求"
+      ],
+      [
+        "芥末請另外放",
+        "わさびは別にしてください。",
+        "Please serve the wasabi on the side.",
+        "壽司"
+      ],
+      [
+        "麻煩結帳，可以刷卡嗎？",
+        "お会計をお願いします。カードは使えますか？",
+        "The bill, please. Can I pay by card?",
+        "結帳"
+      ]
+    ]
+  },
+  {
+    "title": "溫泉",
+    "icon": "fa-hot-tub-person",
+    "sub": "登別・第一滝本館",
+    "items": [
+      [
+        "大浴場開放到幾點？",
+        "大浴場は何時まで利用できますか？",
+        "Until what time is the public bath open?",
+        "飯店溫泉"
+      ],
+      [
+        "露天溫泉在哪裡？",
+        "露天風呂はどこですか？",
+        "Where is the open-air bath?",
+        "飯店溫泉"
+      ],
+      [
+        "毛巾要從房間帶過去嗎？",
+        "タオルは部屋から持って行きますか？",
+        "Should I bring the towel from my room?",
+        "入浴前"
+      ],
+      [
+        "這裡需要脫鞋嗎？",
+        "ここで靴を脱ぎますか？",
+        "Should I take off my shoes here?",
+        "館內"
+      ],
+      [
+        "這件浴衣尺寸可以更換嗎？",
+        "浴衣のサイズを交換できますか？",
+        "Can I change the size of this yukata?",
+        "飯店"
+      ]
+    ]
+  },
+  {
+    "title": "求助・醫療",
+    "icon": "fa-kit-medical",
+    "sub": "迷路、跌倒與緊急狀況",
+    "items": [
+      [
+        "我迷路了，請幫幫我",
+        "道に迷いました。助けてください。",
+        "I’m lost. Please help me.",
+        "問路"
+      ],
+      [
+        "附近有藥局嗎？",
+        "近くに薬局はありますか？",
+        "Is there a pharmacy nearby?",
+        "身體不適"
+      ],
+      [
+        "我在雪地滑倒了",
+        "雪道で転びました。",
+        "I slipped and fell on the snowy road.",
+        "冬季"
+      ],
+      [
+        "請幫我叫救護車",
+        "救急車を呼んでください。",
+        "Please call an ambulance.",
+        "緊急"
+      ],
+      [
+        "請幫我聯絡警察",
+        "警察に連絡してください。",
+        "Please contact the police.",
+        "緊急"
+      ]
+    ]
+  }
 ];
 
 function renderPhraseGroups(){
@@ -375,141 +656,1311 @@ async function copyPhrase(gi,pi,button){
 }
 
 const HOTELS = [
- {day:'Day 1',city:'札幌',name:'the b sapporo',zh:'the b 札幌',ja:'the b 札幌',address:'〒060-0063 北海道札幌市中央区南3条西2-17-17',phone:'011-211-0412',check:'15:00／11:00',access:'地下鐵薄野站 1 號出口步行約 3 分',map:'the b sapporo',web:'https://www.theb-hotels.com/theb/sapporo'},
- {day:'Day 2',city:'函館湯之川',name:'Imagine Hotel & Resort Hakodate',zh:'函館湯之川 Imagine 飯店及度假村',ja:'イマジン ホテル＆リゾート函館',address:'〒042-0932 北海道函館市湯川町3丁目1-17',phone:'0138-57-9161',check:'15:00／10:00',access:'函館機場搭計程車約 5 分；湯之川電停步行約 15 分',map:'イマジン ホテル＆リゾート函館',web:'https://imaginehakodate.jp/'},
- {day:'Day 3–4',city:'函館',name:'Hotel Enoe Hakodate',zh:'函館 Enoe 飯店',ja:'ホテルエノエ函館',address:'〒040-0043 北海道函館市宝来町22-15',phone:'0138-38-9500',check:'15:00／11:00',access:'函館市電寶來町站步行約 3 分',map:'ホテルエノエ函館',web:'https://hotel-enoe.com/hakodate/'},
- {day:'Day 5',city:'登別',name:'第一滝本館',zh:'第一滝本館',ja:'第一滝本館',address:'〒059-0551 北海道登別市登別温泉町55',phone:'0143-84-2111',check:'依訂房確認資料',access:'登別溫泉巴士總站下車後步行前往',map:'第一滝本館',web:'https://takimotokan.co.jp/ja/'},
- {day:'Day 6',city:'小樽',name:'Grids Premium Hotel Otaru',zh:'小樽 Grids Premium 飯店',ja:'グリッズプレミアムホテル小樽',address:'〒047-0032 北海道小樽市稲穂1丁目3-13',phone:'0134-31-5801',check:'15:00／11:00',access:'JR 小樽站步行約 9 分',map:'グリッズプレミアムホテル小樽',web:'https://gridshotel.com/otaru/'},
- {day:'Day 7',city:'札幌',name:'Hotel Forza Sapporo Station',zh:'札幌站前 Forza 飯店',ja:'ホテルフォルツァ札幌駅前',address:'〒060-0003 北海道札幌市中央区北3条西2-1-1',phone:'011-222-3555',check:'14:00／11:00',access:'JR 札幌站南口步行約 4 分；地下鐵 24 號出口約 2 分',map:'ホテルフォルツァ札幌駅前',web:'https://www.hotelforza.jp/sapporo/ekimae/'},
+  {
+    "day": "D1・11/21–22",
+    "city": "札幌",
+    "name": "the b sapporo",
+    "zh": "the b 札幌",
+    "ja": "the b 札幌",
+    "address": "〒060-0063 北海道札幌市中央区南3条西2-17-17",
+    "phone": "011-211-0412",
+    "check": "15:00／11:00",
+    "access": "薄野站 1 號出口步行約 3 分；抵達後先寄放行李",
+    "map": "the b sapporo 北海道札幌市中央区南3条西2-17-17",
+    "mapUrl": "https://maps.app.goo.gl/NYuZvGhY7kLPnBen8",
+    "web": "https://www.theb-hotels.com/theb/sapporo",
+    "note": "札幌第一晚，晚上步行前往大通與站前燈飾。"
+  },
+  {
+    "day": "D2・11/22–23",
+    "city": "小樽",
+    "name": "OMO5 Otaru",
+    "zh": "OMO5 小樽 by 星野集團",
+    "ja": "OMO5小樽 by 星野リゾート",
+    "address": "〒047-0031 北海道小樽市色内1丁目6-31",
+    "phone": "050-3134-8095",
+    "check": "15:00／11:00",
+    "access": "JR 小樽站步行約 9 分；電話為 OMO 預約中心",
+    "map": "OMO5小樽 北海道小樽市色内1丁目6-31",
+    "mapUrl": "https://maps.app.goo.gl/37iBNYhitxtucKX89",
+    "web": "https://hoshinoresorts.com/ja/hotels/omo5otaru/",
+    "note": "晨間散步需預約；入住前參加資格與寄放行李先詢問。11/23 退房寄放，水族館後回來領行李。"
+  },
+  {
+    "day": "D3–D4・11/23–25",
+    "city": "札幌",
+    "name": "Comfort Hotel Sapporo Susukino",
+    "zh": "Comfort Hotel 札幌薄野",
+    "ja": "コンフォートホテル札幌すすきの",
+    "address": "〒064-0805 北海道札幌市中央区南5条西1丁目2-10",
+    "phone": "011-513-4111",
+    "check": "15:00／10:00（依訂房方案）",
+    "access": "豐水薄野站步行約 1 分；薄野站步行約 4 分",
+    "map": "Comfort Hotel Sapporo Susukino 北海道札幌市中央区南5条西1丁目2-10",
+    "mapUrl": "https://maps.app.goo.gl/d2xo4nYb1LXMs7Gm9",
+    "web": "https://www.choice-hotels.jp/hotel/sapporosusukino/",
+    "note": "連住兩晚，附早餐；館內有入住前／退房後自助寄物區。"
+  },
+  {
+    "day": "D5・11/25–26",
+    "city": "登別",
+    "name": "第一滝本館",
+    "zh": "登別溫泉 第一滝本館",
+    "ja": "第一滝本館",
+    "address": "〒059-0551 北海道登別市登別温泉町55",
+    "phone": "0143-84-2111",
+    "check": "依訂房確認資料；14:00 抵達先寄放",
+    "access": "JR 登別站轉道南巴士至登別溫泉，再步行前往",
+    "map": "第一滝本館 北海道登別市登別温泉町55",
+    "mapUrl": "https://maps.app.goo.gl/QkNXXiLAYWDnUCTu7",
+    "web": "https://takimotokan.co.jp/ja/",
+    "note": "此行方案附自助早餐、不可取消；晚餐與實際可進房時間以訂房單確認，優先保留泡湯時間。"
+  },
+  {
+    "day": "D6・11/26–27",
+    "city": "札幌",
+    "name": "Nest Hotel alt Sapporo Odori",
+    "zh": "Nest Hotel alt 札幌大通",
+    "ja": "ネストホテル オルト札幌大通",
+    "address": "〒060-0062 北海道札幌市中央区南2条西5丁目26-1",
+    "phone": "011-242-1122",
+    "check": "15:00／11:00",
+    "access": "大通站 3 號出口步行約 3 分，狸小路附近",
+    "map": "Nest Hotel alt Sapporo Odori 北海道札幌市中央区南2条西5丁目26-1",
+    "mapUrl": "https://maps.app.goo.gl/8gV8TXDrs1sDvBmx5",
+    "web": "https://www.nesthotel.co.jp/sapporoodori/",
+    "note": "舊名 Nest Hotel Sapporo Odori，2026 年 9 月改裝更名。已安排早餐；海鮮品項需向飯店確認。"
+  },
+  {
+    "day": "D7・11/27–28",
+    "city": "札幌",
+    "name": "Hotel Forza Sapporo Station",
+    "zh": "Forza 札幌站前",
+    "ja": "ホテルフォルツァ札幌駅前",
+    "address": "〒060-0003 北海道札幌市中央区北3条西2丁目1-1",
+    "phone": "011-222-3555",
+    "check": "14:00／11:00",
+    "access": "JR 札幌站南口步行約 4 分；地下鐵 24 號出口約 2 分",
+    "map": "ホテルフォルツァ札幌駅前 北海道札幌市中央区北3条西2丁目1-1",
+    "mapUrl": "https://maps.app.goo.gl/PoqRLyoyEKCXsjmM7",
+    "web": "https://www.hotelforza.jp/sapporo/ekimae/",
+    "note": "最後一晚靠近札幌站；11/27 先寄放行李，11/28 預留機場交通時間。"
+  }
 ];
 
-/* itinerary：每日 segments
-   spot 物件：{type:'spot'|'meal'|'go'|'flight', t, name, stay, note, map}
-   move 物件：{type:'move', t, route, opts:[{means,time,fare,note,link}]} */
 const DAYS = [
-{key:'D1',date:'11/21 六',city:'札幌',title:'抵達・札幌市中心散步',
- seg:[
-  {type:'flight',t:'14:05',name:'抵達新千歲機場'},
-  {type:'move',t:'14:45',route:'新千歲機場 → 札幌市區',from:'新千歳空港駅',to:'札幌駅',opts:[{means:'JR Rapid Airport',time:'抵達後'}]},
-  {type:'spot',t:'15:45',name:'入住 the b sapporo',map:'the b sapporo'},
-  {type:'spot',t:'16:15',name:'中島公園',map:'中島公園'}, {type:'spot',t:'16:40',name:'豐平館',map:'豊平館'},
-  {type:'spot',t:'17:00',name:'八窗庵',map:'八窓庵'}, {type:'spot',t:'17:30',name:'大通公園',map:'大通公園'},
-  {type:'spot',t:'18:00',name:'慕尼黑聖誕市集',map:'ミュンヘン・クリスマス市'},
-  {type:'meal',t:'19:30',name:'狸小路商店街／薄野晚餐',map:'狸小路商店街'},
- ],optional:[{name:'藻岩山夜景',note:'天氣晴朗、能見度良好且體力足夠時安排',map:'藻岩山'}],
- alert:'第一天主要逛中島公園、慕尼黑聖誕市集；以散步與市中心行程為主，不要排得太趕。'},
-
-{key:'D2',date:'11/22 日',city:'函館湯之川',title:'札幌 → 函館湯之川・泡湯慢遊',
- seg:[
-  {type:'move',t:'約 09:30',route:'札幌 → 函館',from:'札幌駅',to:'函館駅',opts:[{means:'特急北斗號',time:'約 13:15 抵達函館'}]},
-  {type:'move',t:'13:30',route:'函館站 → 湯之川',from:'函館駅',to:'湯の川温泉',opts:[{means:'函館市電',time:'約 14:00–15:00 抵達飯店'}]},
-  {type:'spot',t:'14:30',name:'入住 Imagine Hotel & Resort Hakodate',map:'Imagine Hotel & Resort Hakodate'},
-  {type:'spot',t:'15:00',name:'飯店海景溫泉',map:'Imagine Hotel & Resort Hakodate'},
-  {type:'spot',t:'16:00',name:'熱帶植物園',map:'函館市熱帯植物園'}, {type:'spot',t:'16:45',name:'湯倉神社',map:'湯倉神社'},
-  {type:'spot',t:'17:15',name:'湯之川散步',map:'湯の川温泉'},
- ],food:[{name:'晚餐推薦：函館麵屋一文字',map:'函館麺や一文字'}, {name:'備選：RAIMON ZUSHI',map:'RAIMON ZUSHI'}],
- alert:'熱帶植物園可能可以看到猴子泡溫泉。當天以泡湯與湯之川周邊為主，不再折返函館市中心。'},
-
-{key:'D3',date:'11/23 一',city:'函館',title:'函館・兩日彈性安排（第 1 日）',
- seg:[
-  {type:'meal',t:'08:00',name:'函館自由市場早餐',note:'也可先逛函館朝市了解物價，再到自由市場用餐',map:'函館自由市場'},
-  {type:'move',t:'09:00',route:'函館市區移動',from:'函館駅',to:'五稜郭公園前',opts:[{means:'步行與函館市電',time:'函館站至五稜郭公園前約 15 分；至十字街約 10 分'}]},
-  {type:'spot',t:'09:30',name:'五稜郭公園（柯南）',map:'五稜郭公園'}, {type:'spot',t:'10:00',name:'箱館奉行所外觀',map:'箱館奉行所'},
-  {type:'spot',t:'10:30',name:'五稜郭塔（柯南）',note:'白天景色與夜間點燈皆可安排',map:'五稜郭タワー'},
-  {type:'spot',t:'12:30',name:'八幡坂（柯南）',map:'八幡坂'}, {type:'spot',t:'13:00',name:'船魂神社',map:'船魂神社'},
-  {type:'spot',t:'13:30',name:'元町公園',map:'元町公園'}, {type:'spot',t:'14:00',name:'舊函館區公會堂',note:'二樓看海景',map:'旧函館区公会堂'},
-  {type:'spot',t:'14:45',name:'舊北海道廳函館支廳',map:'旧北海道庁函館支庁庁舎'},
-  {type:'spot',t:'15:15',name:'元町教堂群（柯南）',note:'羅馬天主教堂、聖約翰教堂、俄羅斯東正教堂',map:'元町教会群'},
-  {type:'spot',t:'16:00',name:'金森紅磚倉庫（柯南）',map:'金森赤レンガ倉庫'}, {type:'spot',t:'16:45',name:'函館明治館',map:'函館明治館'},
-  {type:'spot',t:'17:30',name:'函館山夜景（柯南）',note:'從十字街站步行至纜車站約 10 分；依能見度決定 11/23 或 11/24 上山',map:'函館山ロープウェイ'},
- ],optional:[{name:'船見公園盪鞦韆',map:'船見公園'}, {name:'山中大神社',map:'山中大神社'}, {name:'摩周丸紀念船',map:'摩周丸'}],
- conan:[{name:'Lucky Pierrot 小丑漢堡',map:'ラッキーピエロ'}],
- alert:'11/23 與 11/24 為同一組彈性規劃；當天未完成的景點順延至 11/24，不需要為了全部走完而趕行程。'},
-
-{key:'D4',date:'11/24 二',city:'函館',title:'函館・兩日彈性安排（第 2 日）',
- seg:[
-  {type:'move',t:'09:30',route:'函館市區移動',opts:[{means:'函館市電與步行',time:'各區交通時間沿用 11/23 資訊'}]},
-  {type:'spot',t:'10:00',name:'延續 11/23 未完成的函館景點'}, {type:'spot',t:'15:00',name:'保留咖啡廳與休息時間'},
-  {type:'spot',t:'16:30',name:'依天氣安排函館山夜景',map:'函館山ロープウェイ'}, {type:'spot',t:'18:30',name:'補看五稜郭塔白天景色或夜間點燈',map:'五稜郭タワー'},
- ],optional:[{name:'摩周丸紀念船',map:'摩周丸'}, {name:'船見公園盪鞦韆',map:'船見公園'}, {name:'山中大神社',map:'山中大神社'}],
- alert:'11/23 與 11/24 為同一組彈性規劃，依天氣與進度調整即可。'},
-
-{key:'D5',date:'11/25 三',city:'登別',title:'函館 → 登別溫泉',
- seg:[
-  {type:'move',t:'08:30',route:'函館 → 登別',from:'函館駅',to:'登別駅',opts:[{means:'特急北斗號',time:'車程約 2.5 小時'}]},
-  {type:'move',t:'11:15',route:'登別站 → 登別溫泉',from:'登別駅',to:'登別温泉',opts:[{means:'道南巴士',time:'車程約 15 分'}]},
-  {type:'spot',t:'12:00',name:'登別熊牧場',note:'含纜車與參觀時間，建議預留約 2 小時',map:'のぼりべつクマ牧場'},
-  {type:'spot',t:'14:30',name:'入住第一滝本館',map:'第一滝本館'},
-  {type:'spot',t:'15:30',name:'地獄谷',map:'登別地獄谷'},
-  {type:'spot',t:'16:30',name:'登別溫泉街散步',map:'登別温泉極楽通り'},
-  {type:'meal',t:'18:00',name:'晚餐與飯店泡湯',map:'第一滝本館'},
- ],optional:[{name:'大湯沼、天然足湯',note:'距離較遠，視天候、積雪與體力安排',map:'大湯沼'}],
- alert:'地獄谷主要步道不長，若只走展望台與周邊步道，建議約 45–60 分鐘；之後可把登別溫泉街納入行程，順遊閻魔堂、鬼像與商店街。熊牧場排在今天的前提是搭較早的北斗號並控制函館退房時間；如此隔天可睡晚一點、充分泡湯後再前往小樽。'},
-
-{key:'D6',date:'11/26 四',city:'小樽',title:'登別 → 小樽・運河夜景',
- seg:[
-  {type:'spot',t:'09:30',name:'睡晚一點'}, {type:'spot',t:'10:00',name:'飯店泡湯',map:'第一滝本館'},
-  {type:'move',t:'12:00',route:'登別 → 小樽',from:'登別駅',to:'小樽駅',opts:[{means:'JR（札幌轉車）',time:'約 3.5 小時'}]},
-  {type:'spot',t:'15:30',name:'入住 Grids Premium Hotel Otaru',map:'Grids Premium Hotel Otaru'},
-  {type:'spot',t:'17:00',name:'小樽運河夜景與運河點燈',map:'小樽運河'}, {type:'meal',t:'18:30',name:'倉庫群散步與晚餐',map:'小樽運河'},
- ],optional:[
-  {name:'堺町通',map:'小樽堺町通り商店街'}, {name:'小樽音樂盒堂',map:'小樽オルゴール堂'},
-  {name:'北一硝子',map:'北一硝子三号館'}, {name:'舊手宮線',map:'旧国鉄手宮線'},
-  {name:'水天宮',map:'小樽水天宮'}, {name:'小樽文學館',map:'市立小樽文学館'}
- ],alert:'第六天在小樽，主要逛小樽運河與運河點燈。下方景點先不排時間，當天依抵達時間、體力與點燈狀況決定逛到哪裡；天狗山纜車於此日期預計停駛。'},
-
-{key:'D7',date:'11/27 五',city:'札幌',title:'小樽 → 札幌・市區重點',
- seg:[
-  {type:'move',t:'09:00',route:'小樽 → 札幌',from:'小樽駅',to:'札幌駅',opts:[{means:'JR',time:'車程約 40–50 分'}]},
-  {type:'move',t:'10:00',route:'札幌市區移動',opts:[{means:'地鐵、市電與步行',time:'市區移動'}]},
-  {type:'spot',t:'10:30',name:'北海道大學',map:'北海道大学'}, {type:'spot',t:'11:30',name:'札幌時計台',map:'札幌時計台'},
-  {type:'spot',t:'12:00',name:'北海道廳紅磚舍',map:'北海道庁旧本庁舎'}, {type:'spot',t:'13:00',name:'札幌場外市場－根室杉山水產',map:'札幌場外市場 根室杉山水産'},
-  {type:'spot',t:'15:00',name:'入住 Hotel Forza Sapporo Station',map:'Hotel Forza Sapporo Station'},
-  {type:'meal',t:'16:00',name:'Toriton',note:'先取號碼牌；推薦星鰻，利用等候時間安排附近景點',map:'回転寿しトリトン'},
-  {type:'spot',t:'18:00',name:'藻岩山夜景',note:'天氣好、能見度佳時前往；可利用免費接駁車',map:'藻岩山'}
- ],optional:[{name:'圓山公園',map:'円山公園'}, {name:'圓山動物園',map:'札幌市円山動物園'}, {name:'北海道神宮',map:'北海道神宮'},
-  {name:'狸小路商店街',map:'狸小路商店街'}, {name:'薄野',map:'すすきの'}, {name:'二條市場',map:'二条市場'},
-  {name:'AOAO水族館',map:'AOAO SAPPORO'}, {name:'定山溪',map:'定山渓温泉'}, {name:'JR Tower展望室',map:'JRタワー展望室'},
-  {name:'札幌電視塔',map:'さっぽろテレビ塔'}, {name:'札幌伏見稻荷神社',map:'札幌伏見稲荷神社'}, {name:'北菓樓',map:'北菓楼'}],
- alert:'第七天主要逛北海道大學和周邊景點。圓山區景點標註為「有時間可逛」，不要全部塞進主要時間軸。'},
-
-{key:'D8',date:'11/28 六',city:'返程',title:'札幌 → 新千歲機場 → 返台',
- seg:[
-  {type:'meal',name:'早餐吃飽，附近簡單晃晃'},
-  {type:'move',route:'札幌 → 新千歲機場',from:'札幌駅',to:'新千歳空港駅',opts:[{means:'建議 11:00 前往機場',time:'建議約 12:00–12:30 抵達機場'}]},
-  {type:'flight',name:'15:20 新千歲機場起飛'}
- ],alert:'第八天吃飽後，早上在附近晃晃，11 點前往機場。上午不排固定景點，並預留機場報到、安檢與午餐時間。'},
+  {
+    "key": "D1",
+    "date": "11/21 六",
+    "city": "札幌",
+    "title": "抵達・聖誕市集與札幌燈飾",
+    "seg": [
+      {
+        "type": "flight",
+        "t": "14:05",
+        "name": "抵達新千歲機場",
+        "note": "現有航班時間，出發前再確認；入境與領行李保留彈性"
+      },
+      {
+        "type": "move",
+        "t": "入境後",
+        "route": "新千歲機場 → 札幌／薄野",
+        "from": "新千歳空港駅",
+        "to": "the b sapporo 北海道札幌市中央区南3条西2-17-17",
+        "opts": [
+          {
+            "means": "JR 快速 Airport＋地下鐵／步行",
+            "time": "依當日班次",
+            "note": "先安頓行李，晚上走市中心燈飾路線"
+          }
+        ]
+      },
+      {
+        "type": "spot",
+        "t": "抵達後",
+        "name": "入住 the b sapporo",
+        "map": "the b sapporo 北海道札幌市中央区南3条西2-17-17",
+        "ja": "the b 札幌",
+        "note": "放行李、稍作休息",
+        "stay": "約 20 分"
+      },
+      {
+        "type": "spot",
+        "t": "17:00",
+        "name": "慕尼黑聖誕市集",
+        "map": "ミュンヘン・クリスマス市 大通公園2丁目 札幌",
+        "ja": "ミュンヘン・クリスマス市",
+        "note": "2026/11/20–12/25；先用餐再賞燈",
+        "stay": "60–90 分"
+      },
+      {
+        "type": "spot",
+        "t": "18:30",
+        "name": "大通 White Illumination",
+        "map": "大通公園 札幌",
+        "ja": "さっぽろホワイトイルミネーション",
+        "note": "由市集往大通燈飾區散步",
+        "stay": "30–45 分"
+      },
+      {
+        "type": "spot",
+        "t": "19:15",
+        "name": "北3條廣場 Akapla",
+        "map": "札幌市北3条広場 アカプラ",
+        "ja": "札幌市北3条広場",
+        "note": "往北3條廣場，沿路避寒休息",
+        "stay": "20–30 分"
+      },
+      {
+        "type": "spot",
+        "t": "19:45",
+        "name": "札幌站前通 White Illumination",
+        "map": "札幌駅前通 札幌",
+        "ja": "札幌駅前通",
+        "note": "沿站前通向札幌站走",
+        "stay": "20–30 分"
+      },
+      {
+        "type": "spot",
+        "t": "20:15",
+        "name": "JR 札幌站南口",
+        "map": "札幌駅 南口",
+        "ja": "札幌駅 南口",
+        "note": "看看南口燈飾後回飯店",
+        "stay": "20–30 分"
+      }
+    ],
+    "alert": "抵達日以燈飾散步為主；各會場時間以 2026 公告為準，班機延誤時縮短路線。",
+    "optional": [
+      {
+        "name": "狸小路商店街",
+        "map": "狸小路商店街 札幌",
+        "note": ""
+      },
+      {
+        "name": "札幌電視塔",
+        "map": "さっぽろテレビ塔 札幌",
+        "note": ""
+      }
+    ]
+  },
+  {
+    "key": "D2",
+    "date": "11/22 日",
+    "city": "小樽",
+    "title": "札幌 → 小樽・街區慢遊與 OMO 夜晚",
+    "seg": [
+      {
+        "type": "go",
+        "t": "早上",
+        "name": "the b 退房・提早前往小樽",
+        "note": "若已預約 10:30 OMO 活動，預留搭車、步行、寄物與報到時間"
+      },
+      {
+        "type": "move",
+        "t": "早上",
+        "route": "札幌 → 小樽",
+        "from": "札幌駅",
+        "to": "小樽駅",
+        "opts": [
+          {
+            "means": "JR 快速／普通列車",
+            "time": "依當日班次",
+            "note": "選擇能在 OMO 活動報到前抵達的車次"
+          }
+        ]
+      },
+      {
+        "type": "spot",
+        "t": "活動前",
+        "name": "OMO5 Otaru 寄放行李",
+        "map": "OMO5小樽 北海道小樽市色内1丁目6-31",
+        "ja": "OMO5小樽 by 星野リゾート",
+        "note": "先確認入住前參加資格、寄放行李與活動報到",
+        "stay": "20–30 分"
+      },
+      {
+        "type": "spot",
+        "t": "10:30",
+        "name": "OMO 朝の堺町通りさんぽ",
+        "map": "OMO5小樽 北海道小樽市色内1丁目6-31",
+        "ja": "朝の堺町通りさんぽ",
+        "note": "10:30–11:30，免費但需預約；參加資格待飯店確認",
+        "stay": "60 分"
+      },
+      {
+        "type": "meal",
+        "t": "11:45",
+        "name": "小樽海鮮午餐",
+        "map": "小樽三角市場 北海道小樽市稲穂3丁目10-16",
+        "ja": "小樽三角市場 北海道小樽市稲穂3丁目10-16",
+        "note": "鱗友朝市一般週日休市；可改三角市場。想吃鱗友的食堂需先確認個別店家營業",
+        "stay": "60–90 分"
+      },
+      {
+        "type": "spot",
+        "t": "13:00",
+        "name": "色內歷史建築・小樽文學館",
+        "map": "市立小樽文学館 北海道小樽市色内1丁目9-5",
+        "ja": "市立小樽文学館",
+        "note": "沿色內街區散步，文學館依開館狀況決定是否入館",
+        "stay": "60 分"
+      },
+      {
+        "type": "spot",
+        "t": "14:00",
+        "name": "舊手宮線",
+        "map": "旧国鉄手宮線 小樽",
+        "ja": "旧国鉄手宮線",
+        "note": "白天走鐵道步道",
+        "stay": "20–30 分"
+      },
+      {
+        "type": "spot",
+        "t": "14:30",
+        "name": "堺町通",
+        "map": "小樽堺町通り商店街",
+        "ja": "小樽堺町通り",
+        "note": "先逛店家；若晨間活動已走過可減少重複",
+        "stay": "45–60 分"
+      },
+      {
+        "type": "spot",
+        "t": "15:15",
+        "name": "北一硝子",
+        "map": "北一硝子三号館 北海道小樽市堺町7-26",
+        "ja": "北一硝子三号館",
+        "note": "玻璃店與咖啡廳，可依購物時間調整",
+        "stay": "30–45 分"
+      },
+      {
+        "type": "spot",
+        "t": "16:00",
+        "name": "小樽音樂盒堂",
+        "map": "小樽オルゴール堂 本館 北海道小樽市住吉町4-1",
+        "ja": "小樽オルゴール堂 本館",
+        "note": "店家優先，水天宮視天色與路況擇一",
+        "stay": "30–45 分"
+      },
+      {
+        "type": "spot",
+        "t": "17:00",
+        "name": "小樽運河・青之運河",
+        "map": "小樽運河 浅草橋",
+        "ja": "小樽運河",
+        "note": "2026/11/1–2027/1/31；日落至 22:30 點燈",
+        "stay": "45–60 分"
+      },
+      {
+        "type": "spot",
+        "t": "18:30",
+        "name": "Whisky Aroma Guide",
+        "map": "OMO5小樽 北海道小樽市色内1丁目6-31",
+        "ja": "Whisky Aroma Guide",
+        "note": "18:00–20:00，住客免費、不需預約；聞香體驗，晚餐自行安排",
+        "stay": "20–30 分"
+      },
+      {
+        "type": "spot",
+        "t": "20:30",
+        "name": "灯る小樽ナイトラウンジ",
+        "map": "OMO5小樽 北海道小樽市色内1丁目6-31",
+        "ja": "灯る小樽ナイトラウンジ",
+        "note": "20:00–23:00，入場免費、飲食另付費。原記錄演奏時段 20:30／21:00／21:30／22:00／22:30，當日節目需櫃檯確認",
+        "stay": "彈性"
+      },
+      {
+        "type": "spot",
+        "t": "回房前",
+        "name": "Music Box Library",
+        "map": "OMO5小樽 北海道小樽市色内1丁目6-31",
+        "ja": "オルゴールライブラリー",
+        "note": "免費、不需預約，可借音樂盒回房間",
+        "stay": "10–15 分"
+      }
+    ],
+    "alert": "鱗友朝市一般週日休市，11/22 不直接排為必去；OMO 晨間活動需預約並確認入住前參加資格。",
+    "optional": [
+      {
+        "name": "鱗友朝市",
+        "map": "鱗友朝市 北海道小樽市色内3丁目10-15",
+        "note": "保留原想法：市場週日休市，食堂是否獨立營業需另確認"
+      },
+      {
+        "name": "水天宮",
+        "map": "水天宮 北海道小樽市相生町3-1",
+        "note": "坡道多，日落前且路面安全再去"
+      },
+      {
+        "name": "天狗山纜車",
+        "map": "小樽天狗山ロープウェイ",
+        "note": "需要額外搭車，與市區景點擇一；查運行與能見度"
+      }
+    ]
+  },
+  {
+    "key": "D3",
+    "date": "11/23 一",
+    "city": "小樽・札幌",
+    "title": "小樽水族館 → 札幌・彈性夜景",
+    "seg": [
+      {
+        "type": "go",
+        "t": "08:00",
+        "name": "早餐・OMO 退房寄放行李",
+        "note": "水族館回程一定先回飯店拿行李；今天日本國定假日，預留人潮與巴士候車"
+      },
+      {
+        "type": "move",
+        "t": "09:00 前後",
+        "route": "小樽 → 小樽水族館",
+        "from": "小樽駅",
+        "to": "おたる水族館",
+        "opts": [
+          {
+            "means": "北海道中央巴士／計程車",
+            "time": "依當日班次",
+            "note": "先確認來回巴士；不拖大行李進水族館"
+          }
+        ]
+      },
+      {
+        "type": "spot",
+        "t": "上午",
+        "name": "小樽水族館",
+        "map": "おたる水族館 北海道小樽市祝津3丁目303",
+        "ja": "おたる水族館",
+        "note": "11/23 營業 09:00–16:00，15:30 最後入館；11/24–12/11 休館，不能延到隔天",
+        "stay": "3–4 小時"
+      },
+      {
+        "type": "move",
+        "t": "下午",
+        "route": "水族館 → OMO 拿行李",
+        "from": "おたる水族館",
+        "to": "OMO5小樽 北海道小樽市色内1丁目6-31",
+        "opts": [
+          {
+            "means": "巴士＋步行／計程車",
+            "time": "依當日班次",
+            "note": "確認領回全部行李後再去小樽站"
+          }
+        ]
+      },
+      {
+        "type": "move",
+        "t": "領行李後",
+        "route": "小樽 → 札幌",
+        "from": "小樽駅",
+        "to": "札幌駅",
+        "opts": [
+          {
+            "means": "JR 快速／普通列車",
+            "time": "依當日班次",
+            "note": "到札幌後入住 Comfort Hotel"
+          }
+        ]
+      },
+      {
+        "type": "spot",
+        "t": "抵達後",
+        "name": "入住 Comfort Hotel Sapporo Susukino",
+        "map": "Comfort Hotel Sapporo Susukino 北海道札幌市中央区南5条西1丁目2-10",
+        "ja": "コンフォートホテル札幌すすきの",
+        "note": "連住兩晚，附早餐",
+        "stay": "約 20 分"
+      },
+      {
+        "type": "spot",
+        "t": "晚上",
+        "name": "慕尼黑聖誕市集",
+        "map": "ミュンヘン・クリスマス市 大通公園2丁目 札幌",
+        "ja": "ミュンヘン・クリスマス市",
+        "note": "水族館後不趕路；若到札幌較早且能見度好，可改藻岩山",
+        "stay": "60–90 分"
+      }
+    ],
+    "alert": "11/23 是小樽水族館今年一般營業最後一天，日期固定保留；回札幌夜間只選市集或藻岩山其中一個。",
+    "optional": [
+      {
+        "name": "藻岩山夜景",
+        "map": "もいわ山ロープウェイ 山麓駅 札幌",
+        "note": "能見度好、抵達較早再去；否則留到 11/24"
+      }
+    ]
+  },
+  {
+    "key": "D4",
+    "date": "11/24 二",
+    "city": "札幌",
+    "title": "圓山・北海道神宮・Toriton・夜景候補",
+    "seg": [
+      {
+        "type": "meal",
+        "t": "08:00",
+        "name": "Comfort 飯店早餐",
+        "map": "Comfort Hotel Sapporo Susukino 北海道札幌市中央区南5条西1丁目2-10",
+        "ja": "Comfort Hotel Sapporo Susukino 北海道札幌市中央区南5条西1丁目2-10",
+        "note": "附早餐，依飯店當日供應時段",
+        "stay": "60–90 分"
+      },
+      {
+        "type": "move",
+        "t": "09:00",
+        "route": "薄野 → 圓山公園",
+        "from": "豊水すすきの駅",
+        "to": "円山公園駅",
+        "opts": [
+          {
+            "means": "地下鐵轉東西線",
+            "time": "依當日班次",
+            "note": "圓山公園與神宮一起走"
+          }
+        ]
+      },
+      {
+        "type": "spot",
+        "t": "09:30",
+        "name": "圓山公園",
+        "map": "円山公園 札幌",
+        "ja": "円山公園",
+        "note": "看路況安排散步",
+        "stay": "30–45 分"
+      },
+      {
+        "type": "spot",
+        "t": "10:15",
+        "name": "北海道神宮",
+        "map": "北海道神宮 札幌",
+        "ja": "北海道神宮",
+        "note": "與公園順遊",
+        "stay": "45–60 分"
+      },
+      {
+        "type": "spot",
+        "t": "11:15",
+        "name": "圓山動物園",
+        "map": "札幌市円山動物園",
+        "ja": "札幌市円山動物園",
+        "note": "有入園意願再安排；查閉園時間，至少保留數小時",
+        "stay": "2–3 小時"
+      },
+      {
+        "type": "meal",
+        "t": "下午",
+        "name": "Toriton",
+        "map": "回転寿しトリトン 円山店 札幌",
+        "ja": "回転寿しトリトン 円山店 札幌",
+        "note": "暫以圓山店接續動線；先取號確認候位，再決定附近行程。星鰻列入想吃清單",
+        "stay": "60–90 分"
+      },
+      {
+        "type": "spot",
+        "t": "傍晚候補",
+        "name": "藻岩山夜景",
+        "map": "もいわ山ロープウェイ 山麓駅 札幌",
+        "ja": "もいわ山ロープウェイ",
+        "note": "依能見度決定；免費接駁車與纜車運行先查官方公告",
+        "stay": "90–120 分"
+      }
+    ],
+    "alert": "公園、神宮與動物園不必全走完；Toriton 候位與夜景依現場調整。",
+    "optional": [
+      {
+        "name": "中島公園",
+        "map": "中島公園 札幌",
+        "note": "若想改市中心半日，與豐平館、八窗庵一起安排"
+      },
+      {
+        "name": "豐平館",
+        "map": "豊平館 札幌",
+        "note": "開館與入館時間先查"
+      },
+      {
+        "name": "八窗庵",
+        "map": "八窓庵 札幌",
+        "note": "冬季開放狀況待確認"
+      },
+      {
+        "name": "AOAO水族館",
+        "map": "AOAO SAPPORO 札幌",
+        "note": "天候不佳的室內備案"
+      },
+      {
+        "name": "札幌伏見稻荷神社",
+        "map": "札幌伏見稲荷神社",
+        "note": ""
+      },
+      {
+        "name": "定山溪",
+        "map": "定山渓温泉",
+        "note": "需獨立半日以上，與圓山路線擇一"
+      }
+    ]
+  },
+  {
+    "key": "D5",
+    "date": "11/25 三",
+    "city": "登別",
+    "title": "札幌 → 登別・第一滝本館泡湯",
+    "seg": [
+      {
+        "type": "meal",
+        "t": "08:00",
+        "name": "Comfort 飯店早餐",
+        "map": "Comfort Hotel Sapporo Susukino 北海道札幌市中央区南5条西1丁目2-10",
+        "ja": "Comfort Hotel Sapporo Susukino 北海道札幌市中央区南5条西1丁目2-10",
+        "note": "吃完早餐退房，整理行李",
+        "stay": "60–90 分"
+      },
+      {
+        "type": "move",
+        "t": "上午",
+        "route": "札幌 → 登別溫泉",
+        "from": "札幌駅",
+        "to": "登別温泉バスターミナル",
+        "opts": [
+          {
+            "means": "JR 特急＋道南巴士",
+            "time": "依當日班次與轉乘",
+            "note": "另可評估一日遊：需確認登別可下車、行李與抵達時間，尚未預訂"
+          }
+        ]
+      },
+      {
+        "type": "spot",
+        "t": "14:00 預計",
+        "name": "入住第一滝本館",
+        "map": "第一滝本館 北海道登別市登別温泉町55",
+        "ja": "第一滝本館",
+        "note": "14:00 先抵達／寄放，正式進房依訂房單；附自助早餐、不可取消",
+        "stay": "約 30 分"
+      },
+      {
+        "type": "spot",
+        "t": "下午",
+        "name": "地獄谷",
+        "map": "登別地獄谷",
+        "ja": "登別地獄谷",
+        "note": "先走主要展望區，依路況選步道",
+        "stay": "45–60 分"
+      },
+      {
+        "type": "spot",
+        "t": "下午",
+        "name": "泉源公園",
+        "map": "泉源公園 登別温泉",
+        "ja": "泉源公園",
+        "note": "順路看看泉源與溫泉街",
+        "stay": "15–20 分"
+      },
+      {
+        "type": "spot",
+        "t": "傍晚前",
+        "name": "閻魔堂・極樂通商店街",
+        "map": "閻魔堂 登別温泉",
+        "ja": "閻魔堂",
+        "note": "閻魔堂後沿極樂通散步，找晚餐",
+        "stay": "30–45 分"
+      },
+      {
+        "type": "spot",
+        "t": "晚上",
+        "name": "第一滝本館泡湯",
+        "map": "第一滝本館 北海道登別市登別温泉町55",
+        "ja": "第一滝本館",
+        "note": "保留充足大浴場時間；晚餐是否包含需看方案",
+        "stay": "慢慢泡"
+      }
+    ],
+    "alert": "登別以泡湯為主；大湯沼、天然足湯只在白天且步道安全時考慮，不排天黑後。",
+    "optional": [
+      {
+        "name": "大湯沼、天然足湯",
+        "map": "大湯沼川天然足湯 登別",
+        "note": "先確認封路、結冰與天色；不勉強走林間步道"
+      }
+    ]
+  },
+  {
+    "key": "D6",
+    "date": "11/26 四",
+    "city": "登別・札幌",
+    "title": "熊牧場・觀景台 → 札幌大通",
+    "seg": [
+      {
+        "type": "meal",
+        "t": "早上",
+        "name": "第一滝本館自助早餐",
+        "map": "第一滝本館 北海道登別市登別温泉町55",
+        "ja": "第一滝本館 北海道登別市登別温泉町55",
+        "note": "早餐後退房寄放行李，約好領回時間",
+        "stay": "60–90 分"
+      },
+      {
+        "type": "spot",
+        "t": "上午",
+        "name": "登別熊牧場",
+        "map": "のぼりべつクマ牧場 登別",
+        "ja": "のぼりべつクマ牧場",
+        "note": "纜車與觀景台，強風時查運行；回飯店領行李再離開",
+        "stay": "2–3 小時"
+      },
+      {
+        "type": "go",
+        "t": "中午前後",
+        "name": "回第一滝本館拿行李",
+        "note": "拿齊行李，再前往登別溫泉巴士站"
+      },
+      {
+        "type": "move",
+        "t": "下午",
+        "route": "登別溫泉 → 札幌",
+        "from": "登別温泉バスターミナル",
+        "to": "札幌駅",
+        "opts": [
+          {
+            "means": "道南巴士＋JR 特急",
+            "time": "依當日班次",
+            "note": "今天直接回札幌，不去小樽"
+          }
+        ]
+      },
+      {
+        "type": "spot",
+        "t": "抵達後",
+        "name": "入住 Nest Hotel alt Sapporo Odori",
+        "map": "Nest Hotel alt Sapporo Odori 北海道札幌市中央区南2条西5丁目26-1",
+        "ja": "ネストホテル オルト札幌大通",
+        "note": "舊名 Nest Hotel Sapporo Odori；早餐已安排，海鮮品項待確認",
+        "stay": "約 20 分"
+      },
+      {
+        "type": "spot",
+        "t": "晚上",
+        "name": "狸小路商店街",
+        "map": "狸小路商店街 札幌",
+        "ja": "狸小路商店街",
+        "note": "飯店附近購物、晚餐；疲累就早休息",
+        "stay": "60–90 分"
+      }
+    ],
+    "optional": [
+      {
+        "name": "薄野",
+        "map": "すすきの 札幌",
+        "note": ""
+      },
+      {
+        "name": "AOAO水族館",
+        "map": "AOAO SAPPORO 札幌",
+        "note": "室內備案"
+      }
+    ]
+  },
+  {
+    "key": "D7",
+    "date": "11/27 五",
+    "city": "札幌",
+    "title": "換飯店・市場・北海道大學與市區",
+    "seg": [
+      {
+        "type": "meal",
+        "t": "早上",
+        "name": "Nest 飯店早餐",
+        "map": "Nest Hotel alt Sapporo Odori 北海道札幌市中央区南2条西5丁目26-1",
+        "ja": "Nest Hotel alt Sapporo Odori 北海道札幌市中央区南2条西5丁目26-1",
+        "note": "依訂房方案享用早餐，海鮮品項先確認",
+        "stay": "60–90 分"
+      },
+      {
+        "type": "spot",
+        "t": "退房後",
+        "name": "Hotel Forza Sapporo Station 寄放行李",
+        "map": "ホテルフォルツァ札幌駅前 北海道札幌市中央区北3条西2丁目1-1",
+        "ja": "ホテルフォルツァ札幌駅前",
+        "note": "正式入住 14:00 起；先寄物再出門",
+        "stay": "20–30 分"
+      },
+      {
+        "type": "meal",
+        "t": "上午",
+        "name": "札幌場外市場－根室杉山水產",
+        "map": "根室杉山水産 札幌市中央卸売市場 場外市場",
+        "ja": "根室杉山水産 札幌市中央卸売市場 場外市場",
+        "note": "市場放上午，早餐吃飽可改輕食或購物",
+        "stay": "60–90 分"
+      },
+      {
+        "type": "spot",
+        "t": "中午前後",
+        "name": "北海道大學",
+        "map": "北海道大学 正門 札幌",
+        "ja": "北海道大学",
+        "note": "散步與拍照，視積雪縮短路線",
+        "stay": "60–90 分"
+      },
+      {
+        "type": "spot",
+        "t": "下午",
+        "name": "北海道廳紅磚舍",
+        "map": "北海道庁旧本庁舎 札幌",
+        "ja": "北海道庁旧本庁舎",
+        "note": "由札幌站往大通順遊",
+        "stay": "45–60 分"
+      },
+      {
+        "type": "spot",
+        "t": "下午",
+        "name": "札幌時計台",
+        "map": "札幌市時計台",
+        "ja": "札幌市時計台",
+        "note": "外觀拍照或依開館時間入內",
+        "stay": "20–30 分"
+      },
+      {
+        "type": "spot",
+        "t": "14:00 後",
+        "name": "入住 Hotel Forza Sapporo Station",
+        "map": "ホテルフォルツァ札幌駅前 北海道札幌市中央区北3条西2丁目1-1",
+        "ja": "ホテルフォルツァ札幌駅前",
+        "note": "行李放回房間，晚間購物或室內展望",
+        "stay": "約 20 分"
+      }
+    ],
+    "optional": [
+      {
+        "name": "JR Tower展望室",
+        "map": "JRタワー展望室 タワー・スリーエイト 札幌",
+        "note": ""
+      },
+      {
+        "name": "二條市場",
+        "map": "二条市場 札幌",
+        "note": "與場外市場擇一"
+      },
+      {
+        "name": "北菓樓",
+        "map": "北菓楼 札幌本館",
+        "note": ""
+      },
+      {
+        "name": "札幌電視塔",
+        "map": "さっぽろテレビ塔 札幌",
+        "note": ""
+      },
+      {
+        "name": "Toriton",
+        "map": "回転寿しトリトン 円山店 札幌",
+        "note": "11/24 沒吃到再安排，需預留交通與候位"
+      }
+    ]
+  },
+  {
+    "key": "D8",
+    "date": "11/28 六",
+    "city": "札幌・返程",
+    "title": "札幌 → 新千歲機場 → 台北",
+    "seg": [
+      {
+        "type": "go",
+        "t": "早上",
+        "name": "早餐・Forza 退房",
+        "note": "早餐是否包含依方案；確認護照、行李與機票"
+      },
+      {
+        "type": "move",
+        "t": "約 11:00",
+        "route": "札幌 → 新千歲機場",
+        "from": "札幌駅",
+        "to": "新千歳空港駅",
+        "opts": [
+          {
+            "means": "JR 快速 Airport",
+            "time": "依當日班次",
+            "note": "以 12:20 前到機場為目標；雪天再提早，航班時間先確認"
+          }
+        ]
+      },
+      {
+        "type": "flight",
+        "t": "15:20",
+        "name": "新千歲機場起飛・返台",
+        "note": "沿用現有網站時間，實際班機以機票與航空公司通知為準"
+      }
+    ],
+    "alert": "行李提領與後續航段處理，請在出發前向航空公司確認；個人回程待辦放在裝置備忘錄。"
+  }
 ];
 
 const GUIDE = [
- {name:'函館山夜景',ja:'函館山ロープウェイ',city:'函館',day:'D3–D4',dayIndex:2,status:'彈性安排',stay:'60–90 分',station:'十字街電停',walk:'約 10 分',setting:'戶外',best:'日落後 30 分',winter:'強風或能見度不佳時改至另一天',sub:'世界三大夜景之一',img:'assets/guide/hakodate-night.jpg',map:'函館山ロープウェイ',mapQuery:'Mt. Hakodate Ropeway, Hakodate, Hokkaido, Japan',source:'Wikimedia Commons / Lombroso / Public domain',gallery:[
-  {img:'assets/guide/hakodate-night.jpg',source:'Lombroso・Public domain'},{img:'assets/guide/gallery/hakodate-night-2.jpg',source:'MaedaAkihiko・CC BY-SA 4.0'},{img:'assets/guide/gallery/hakodate-night-3.jpg',source:'663highland・CC BY 2.5'}],
-  body:'函館因兩側被海灣夾住、形成獨特的「扇形」地貌，入夜後街燈勾勒出彎曲海岸線，被譽為與香港、那不勒斯齊名的世界三大夜景。最佳觀景時間是日落後 30 分鐘的「藍調時刻」，天空尚有餘藍、街燈已亮。冷知識：日文有「百萬美元夜景」之說，據傳源於計算當晚點燈的電費。'},
- {name:'五稜郭',ja:'五稜郭タワー',city:'函館',day:'D3–D4',dayIndex:2,status:'主行程',stay:'90–120 分',station:'五稜郭公園前電停',walk:'約 15 分',setting:'室內＋戶外',best:'白天',winter:'積雪時公園步道較滑，塔內可避寒',sub:'日本首座西式星形要塞',img:'assets/guide/goryokaku.jpg',map:'五稜郭タワー',mapQuery:'Goryokaku Tower, Hakodate, Hokkaido, Japan',source:'Wikimedia Commons / J o / CC BY-SA 2.5',gallery:[
-  {img:'assets/guide/goryokaku.jpg',source:'J o・CC BY-SA 2.5'},{img:'assets/guide/gallery/goryokaku-2.jpg',source:'掬茶・CC BY-SA 4.0'},{img:'assets/guide/gallery/goryokaku-3.jpg',source:'Goryokaku-Tower・CC BY 4.0'}],
-  body:'建於 1864 年，是日本最早仿歐洲稜堡式設計的星形城郭，五個尖角能消除射擊死角。這裡是日本「最後的內戰」戊辰戰爭・箱館戰爭的舞台，舊幕府軍在此最終投降。如今護城河環繞、春櫻冬雪皆美，登五稜郭塔可俯瞰完整星形。'},
- {name:'登別地獄谷',ja:'登別地獄谷',city:'登別',day:'D5',dayIndex:4,status:'主行程',stay:'45–60 分',station:'登別溫泉巴士總站',walk:'約 10 分',setting:'戶外',best:'下午',winter:'步道結冰時只走展望台周邊，不勉強前往大湯沼',sub:'北海道第一溫泉的源頭',img:'assets/guide/jigokudani.jpg',map:'登別地獄谷',mapQuery:'Noboribetsu Jigokudani Valley, Noboribetsu, Hokkaido, Japan',source:'Wikimedia Commons / 663highland / CC BY-SA 3.0',gallery:[
-  {img:'assets/guide/jigokudani.jpg',source:'663highland・CC BY-SA 3.0'},{img:'assets/guide/gallery/jigokudani-2.jpg',source:'Calistemon・CC BY-SA 4.0'},{img:'assets/guide/gallery/jigokudani-3.jpg',source:'Calistemon・CC BY-SA 4.0'}],
-  body:'約一萬年前火山爆發形成的爆裂火口遺跡，直徑約 450 公尺，地表不斷噴出硫磺蒸氣與滾燙泉水，每分鐘湧出約 3,000 公升溫泉，供應整個登別溫泉街。「地獄」之名來自其荒涼地貌與硫磺味，江戶時代被視為「鬼的居所」，因此溫泉街處處可見鬼像。'},
- {name:'小樽運河',ja:'小樽運河',city:'小樽',day:'D6',dayIndex:5,status:'主行程',stay:'60–90 分',station:'小樽站',walk:'約 10 分',setting:'戶外',best:'日落後點燈',winter:'運河邊可能結冰，穿防滑鞋並注意風雪',sub:'大正浪漫的石造倉庫群',img:'assets/guide/otaru-canal.jpg',map:'小樽運河',mapQuery:'Otaru Canal, Otaru, Hokkaido, Japan',source:'Wikimedia Commons / 663highland / CC BY 2.5',gallery:[
-  {img:'assets/guide/otaru-canal.jpg',source:'663highland・CC BY 2.5'},{img:'assets/guide/gallery/otaru-canal-2.jpg',source:'Haha169・CC BY-SA 4.0'},{img:'assets/guide/gallery/otaru-canal-3.jpg',source:'逃亡者・Public domain'}],
-  body:'1923 年完工，曾是北海道海運與金融重鎮的卸貨水道，沿岸石造倉庫見證小樽「北方華爾街」的繁華。隨海運沒落一度面臨填平危機，靠居民保存運動留下半側水道，改造成步道與煤氣燈。冬季「青之運河」與雪燈之路點燈時，水面倒映藍光，浪漫至極。'},
+  {
+    "name": "慕尼黑聖誕市集",
+    "ja": "ミュンヘン・クリスマス市",
+    "city": "札幌",
+    "day": "D1・D3",
+    "dayIndex": 0,
+    "status": "主行程",
+    "stay": "60–90 分",
+    "station": "大通站",
+    "walk": "依出口",
+    "setting": "戶外",
+    "best": "晚上",
+    "winter": "市集 2026/11/20–12/25；保暖並安排室內休息",
+    "sub": "大通公園 2 丁目",
+    "map": "ミュンヘン・クリスマス市 大通公園2丁目 札幌",
+    "gallery": [
+      {
+        "img": "assets/guide/october/christmas-market.jpg",
+        "source": "t-konno・CC BY-SA 3.0"
+      }
+    ],
+    "body": "第一晚先逛聖誕市集，再沿大通公園、Akapla 與站前通散步至札幌站南口。11/23 回札幌後也可再訪，與藻岩山夜景擇一。",
+    "img": "assets/guide/october/christmas-market.jpg",
+    "source": "t-konno・CC BY-SA 3.0",
+    "mapQuery": "ミュンヘン・クリスマス市 大通公園2丁目 札幌"
+  },
+  {
+    "name": "北3條廣場 Akapla",
+    "ja": "札幌市北3条広場",
+    "city": "札幌",
+    "day": "D1",
+    "dayIndex": 0,
+    "status": "主行程",
+    "stay": "20–30 分",
+    "station": "札幌站／大通站",
+    "walk": "依出口",
+    "setting": "戶外",
+    "best": "晚上",
+    "winter": "燈飾內容與各會場時間依 2026 公告；照片為白天廣場實景",
+    "sub": "從大通到札幌站的散步中繼",
+    "map": "札幌市北3条広場 アカプラ",
+    "gallery": [
+      {
+        "img": "assets/guide/october/akapla.jpg",
+        "source": "Braveheart・CC BY-SA 4.0（白天實景）"
+      }
+    ],
+    "body": "札幌北3條廣場位於紅磚廳舍東側。第一晚由大通往北走，經此廣場後接札幌站前通與 JR 南口。",
+    "img": "assets/guide/october/akapla.jpg",
+    "source": "Braveheart・CC BY-SA 4.0（白天實景）",
+    "mapQuery": "札幌市北3条広場 アカプラ"
+  },
+  {
+    "name": "OMO5 小樽",
+    "ja": "OMO5小樽 by 星野リゾート",
+    "city": "小樽",
+    "day": "D2",
+    "dayIndex": 1,
+    "status": "主行程",
+    "stay": "住宿與活動",
+    "station": "小樽站",
+    "walk": "約 9 分",
+    "setting": "室內＋戶外",
+    "best": "10:30／18:00／20:00",
+    "winter": "晨間散步需預約；入住前參加資格待確認，照片為南館前身歷史照片",
+    "sub": "住一晚，留時間享受館內活動",
+    "map": "OMO5小樽 北海道小樽市色内1丁目6-31",
+    "gallery": [
+      {
+        "img": "assets/guide/october/omo-south-history.jpg",
+        "source": "山本昂左衛門・CC BY-SA 4.0（南館前身歷史照片）"
+      }
+    ],
+    "body": "10:30–11:30 晨間堺町散步需預約；18:00–20:00 Whisky Aroma Guide 免費且免預約；20:00–23:00 夜間 Lounge 入場免費、飲食付費。Music Box Library 可借音樂盒回房。演奏時段請以櫃檯當日節目為準。",
+    "img": "assets/guide/october/omo-south-history.jpg",
+    "source": "山本昂左衛門・CC BY-SA 4.0（南館前身歷史照片）",
+    "mapQuery": "OMO5小樽 北海道小樽市色内1丁目6-31"
+  },
+  {
+    "name": "小樽水族館",
+    "ja": "おたる水族館",
+    "city": "小樽",
+    "day": "D3",
+    "dayIndex": 2,
+    "status": "主行程",
+    "stay": "3–4 小時",
+    "station": "小樽水族館巴士站",
+    "walk": "下車後步行",
+    "setting": "室內＋戶外",
+    "best": "09:00–16:00",
+    "winter": "11/23 最後入館 15:30；11/24–12/11 休館，保留當日安排",
+    "sub": "11/23 的固定主行程",
+    "map": "おたる水族館 北海道小樽市祝津3丁目303",
+    "gallery": [
+      {
+        "img": "assets/guide/october/otaru-aquarium.jpg",
+        "source": "NipponiaNippon・CC BY-SA 3.0"
+      }
+    ],
+    "body": "早餐後退房並將行李留在 OMO，搭巴士前往祝津的水族館。參觀後回 OMO 領行李，再搭 JR 回札幌。11/23 為日本國定假日，預留人潮與回程巴士候車時間。",
+    "img": "assets/guide/october/otaru-aquarium.jpg",
+    "source": "NipponiaNippon・CC BY-SA 3.0",
+    "mapQuery": "おたる水族館 北海道小樽市祝津3丁目303"
+  },
+  {
+    "name": "小樽運河",
+    "ja": "小樽運河",
+    "city": "小樽",
+    "day": "D2",
+    "dayIndex": 1,
+    "status": "主行程",
+    "stay": "60–90 分",
+    "station": "小樽站",
+    "walk": "約 10 分",
+    "setting": "戶外",
+    "best": "日落後點燈",
+    "winter": "2026/11/1–2027/1/31；日落至 22:30 點燈，運河邊注意防滑",
+    "sub": "大正浪漫的石造倉庫群",
+    "img": "assets/guide/otaru-canal.jpg",
+    "map": "小樽運河",
+    "mapQuery": "Otaru Canal, Otaru, Hokkaido, Japan",
+    "source": "Wikimedia Commons / 663highland / CC BY 2.5",
+    "gallery": [
+      {
+        "img": "assets/guide/otaru-canal.jpg",
+        "source": "663highland・CC BY 2.5"
+      },
+      {
+        "img": "assets/guide/gallery/otaru-canal-2.jpg",
+        "source": "Haha169・CC BY-SA 4.0"
+      },
+      {
+        "img": "assets/guide/gallery/otaru-canal-3.jpg",
+        "source": "逃亡者・Public domain"
+      }
+    ],
+    "body": "白天先逛色內街區、堺町通與玻璃店，黃昏再回運河。青之運河之後接 OMO 香氣體驗與夜間 Lounge，避免把購物都留到晚上。"
+  },
+  {
+    "name": "北海道神宮",
+    "ja": "北海道神宮",
+    "city": "札幌",
+    "day": "D4",
+    "dayIndex": 3,
+    "status": "主行程",
+    "stay": "45–60 分",
+    "station": "圓山公園站",
+    "walk": "依出口與積雪",
+    "setting": "戶外",
+    "best": "白天",
+    "winter": "積雪時慢行；與動物園行程依體力調整",
+    "sub": "與圓山公園一起走",
+    "map": "北海道神宮 札幌",
+    "gallery": [
+      {
+        "img": "assets/plan-gallery/extras/hokkaido-jingu-1.jpg",
+        "source": "Daigaku2051・CC BY-SA 3.0"
+      },
+      {
+        "img": "assets/plan-gallery/extras/hokkaido-jingu-2.jpg",
+        "source": "danobrienmuzyka・CC BY-SA 2.0"
+      }
+    ],
+    "body": "11/24 將圓山公園、北海道神宮安排在同一區。動物園可視時間選擇入園，Toriton 先取號確認候位，傍晚藻岩山依能見度決定。",
+    "img": "assets/plan-gallery/extras/hokkaido-jingu-1.jpg",
+    "source": "Daigaku2051・CC BY-SA 3.0",
+    "mapQuery": "北海道神宮 札幌"
+  },
+  {
+    "name": "藻岩山夜景",
+    "ja": "もいわ山ロープウェイ",
+    "city": "札幌",
+    "day": "D3–D4",
+    "dayIndex": 3,
+    "status": "彈性安排",
+    "stay": "90–120 分",
+    "station": "纜車入口電停",
+    "walk": "接駁車／步行依現場",
+    "setting": "室內＋戶外",
+    "best": "天氣晴朗的傍晚",
+    "winter": "強風時可能停駛；查纜車、接駁車與能見度",
+    "sub": "11/23 或 11/24 擇一",
+    "map": "もいわ山ロープウェイ 山麓駅 札幌",
+    "gallery": [
+      {
+        "img": "assets/plan-gallery/moiwa-night-1.jpg",
+        "source": "Sorah Fukumori・CC BY 3.0"
+      },
+      {
+        "img": "assets/plan-gallery/moiwa-night-2.jpg",
+        "source": "Sorah Fukumori・CC BY 3.0"
+      }
+    ],
+    "body": "水族館回札幌若時間充裕，可以與聖誕市集二選一。若抵達較晚或能見度差，保留到隔天；天氣不好則改 JR Tower 室內展望。",
+    "img": "assets/plan-gallery/moiwa-night-1.jpg",
+    "source": "Sorah Fukumori・CC BY 3.0",
+    "mapQuery": "もいわ山ロープウェイ 山麓駅 札幌"
+  },
+  {
+    "name": "登別地獄谷",
+    "ja": "登別地獄谷",
+    "city": "登別",
+    "day": "D5",
+    "dayIndex": 4,
+    "status": "主行程",
+    "stay": "45–60 分",
+    "station": "登別溫泉巴士總站",
+    "walk": "約 10 分",
+    "setting": "戶外",
+    "best": "下午",
+    "winter": "步道結冰時只走展望台周邊，不勉強前往大湯沼",
+    "sub": "北海道第一溫泉的源頭",
+    "img": "assets/guide/jigokudani.jpg",
+    "map": "登別地獄谷",
+    "mapQuery": "Noboribetsu Jigokudani Valley, Noboribetsu, Hokkaido, Japan",
+    "source": "Wikimedia Commons / 663highland / CC BY-SA 3.0",
+    "gallery": [
+      {
+        "img": "assets/guide/jigokudani.jpg",
+        "source": "663highland・CC BY-SA 3.0"
+      },
+      {
+        "img": "assets/guide/gallery/jigokudani-2.jpg",
+        "source": "Calistemon・CC BY-SA 4.0"
+      },
+      {
+        "img": "assets/guide/gallery/jigokudani-3.jpg",
+        "source": "Calistemon・CC BY-SA 4.0"
+      }
+    ],
+    "body": "約一萬年前火山爆發形成的爆裂火口遺跡，直徑約 450 公尺，地表不斷噴出硫磺蒸氣與滾燙泉水，每分鐘湧出約 3,000 公升溫泉，供應整個登別溫泉街。「地獄」之名來自其荒涼地貌與硫磺味，江戶時代被視為「鬼的居所」，因此溫泉街處處可見鬼像。"
+  },
+  {
+    "name": "登別熊牧場",
+    "ja": "のぼりべつクマ牧場",
+    "city": "登別",
+    "day": "D6",
+    "dayIndex": 5,
+    "status": "主行程",
+    "stay": "2–3 小時",
+    "station": "登別溫泉巴士總站",
+    "walk": "依纜車入口動線",
+    "setting": "室內＋戶外",
+    "best": "上午",
+    "winter": "強風可能影響纜車；確認當日運行，行李先留飯店",
+    "sub": "看完觀景台再回札幌",
+    "map": "のぼりべつクマ牧場 登別",
+    "gallery": [
+      {
+        "img": "assets/guide/addons/bear-park.jpg",
+        "source": "Ted Chi・CC BY 2.0"
+      }
+    ],
+    "body": "第一滝本館早餐後退房寄物，上午搭纜車前往熊牧場與觀景台。結束後回飯店拿行李，再轉巴士與 JR 回札幌大通。",
+    "img": "assets/guide/addons/bear-park.jpg",
+    "source": "Ted Chi・CC BY 2.0",
+    "mapQuery": "のぼりべつクマ牧場 登別"
+  }
 ];
 
 const LEGACY_DEFAULT_CHECK=['護照（效期6個月以上）','機票／登機證','日幣現金','信用卡','網卡／eSIM','防滑雪靴','保暖外套・發熱衣','行動電源','常備藥品','轉接插頭（日本可免）','飯店訂房確認單','JR PASS／車票'];
 const CHECK_CATEGORIES=[
- {id:'documents',title:'證件與付款',icon:'fa-passport',items:[['passport','護照（效期 6 個月以上）'],['flight-doc','機票／電子登機資料'],['hotel-doc','六間飯店訂房確認資料'],['insurance','旅遊平安險／不便險'],['cash','日幣現金與零錢'],['cards','信用卡與海外交易確認']]},
- {id:'transport',title:'交通與網路',icon:'fa-train-subway',items:[['esim','eSIM／網卡設定'],['suica','Suica／交通 IC 卡'],['offline-map','下載北海道離線地圖'],['jr-pass','確認是否需要 JR Pass'],['rail-ticket','整理 JR 指定席與車票'],['route-capture','儲存重要轉乘截圖']]},
- {id:'winter',title:'北海道冬季',icon:'fa-snowflake',items:[['boots','防滑雪靴'],['coat','保暖外套與發熱衣'],['gloves','手套、毛帽與圍巾'],['warmers','暖暖包'],['waterproof','防水外層／折傘'],['lip-care','護唇膏與保濕用品']]},
- {id:'carry',title:'隨身用品',icon:'fa-bag-shopping',items:[['powerbank','行動電源'],['cables','充電線與插頭'],['medicine','常備藥品'],['tissues','衛生紙／濕紙巾'],['bottle','保溫瓶'],['luggage-tag','行李吊牌']]},
- {id:'departure',title:'出發當日',icon:'fa-plane-departure',items:[['flight-status','確認班機狀態'],['weather-check','確認北海道天氣與穿著'],['jr-status','確認 JR 運行資訊'],['phone-charge','手機與行動電源充滿'],['passport-final','護照放入隨身包'],['home-check','門窗、電器與垃圾確認']]}
+  {
+    "id": "documents",
+    "title": "證件與付款",
+    "icon": "fa-passport",
+    "items": [
+      [
+        "passport",
+        "護照（效期 6 個月以上）"
+      ],
+      [
+        "flight-doc",
+        "機票／電子登機資料"
+      ],
+      [
+        "hotel-doc",
+        "六間飯店訂房確認資料"
+      ],
+      [
+        "insurance",
+        "旅遊平安險／不便險"
+      ],
+      [
+        "cash",
+        "日幣現金與零錢"
+      ],
+      [
+        "cards",
+        "信用卡與海外交易確認"
+      ]
+    ]
+  },
+  {
+    "id": "transport",
+    "title": "交通與網路",
+    "icon": "fa-train-subway",
+    "items": [
+      [
+        "esim",
+        "eSIM 已買：確認啟用與 11/28 上網"
+      ],
+      [
+        "suica",
+        "Suica／交通 IC 卡"
+      ],
+      [
+        "offline-map",
+        "下載北海道離線地圖"
+      ],
+      [
+        "jr-pass",
+        "比較單買車票與 JR Pass"
+      ],
+      [
+        "rail-ticket",
+        "整理 JR 指定席與車票"
+      ],
+      [
+        "route-capture",
+        "儲存重要轉乘截圖"
+      ]
+    ]
+  },
+  {
+    "id": "winter",
+    "title": "北海道冬季",
+    "icon": "fa-snowflake",
+    "items": [
+      [
+        "boots",
+        "防滑雪靴"
+      ],
+      [
+        "coat",
+        "保暖外套與發熱衣"
+      ],
+      [
+        "gloves",
+        "手套、毛帽與圍巾"
+      ],
+      [
+        "warmers",
+        "暖暖包"
+      ],
+      [
+        "waterproof",
+        "防水外層／折傘"
+      ],
+      [
+        "lip-care",
+        "護唇膏與保濕用品"
+      ]
+    ]
+  },
+  {
+    "id": "carry",
+    "title": "隨身用品",
+    "icon": "fa-bag-shopping",
+    "items": [
+      [
+        "powerbank",
+        "行動電源"
+      ],
+      [
+        "cables",
+        "充電線與插頭"
+      ],
+      [
+        "medicine",
+        "常備藥品"
+      ],
+      [
+        "tissues",
+        "衛生紙／濕紙巾"
+      ],
+      [
+        "bottle",
+        "保溫瓶"
+      ],
+      [
+        "luggage-tag",
+        "行李吊牌"
+      ]
+    ]
+  },
+  {
+    "id": "departure",
+    "title": "出發當日",
+    "icon": "fa-plane-departure",
+    "items": [
+      [
+        "flight-status",
+        "確認班機狀態"
+      ],
+      [
+        "weather-check",
+        "確認北海道天氣與穿著"
+      ],
+      [
+        "jr-status",
+        "確認 JR 運行資訊"
+      ],
+      [
+        "phone-charge",
+        "手機與行動電源充滿"
+      ],
+      [
+        "passport-final",
+        "護照放入隨身包"
+      ],
+      [
+        "home-check",
+        "門窗、電器與垃圾確認"
+      ]
+    ]
+  }
 ];
 const RESERVATION_CHECKS=[
- {id:'reserve-hotels',title:'確認六間住宿訂房',detail:'札幌・函館・登別・小樽',day:0},
- {id:'reserve-hokuto-1',title:'預訂札幌 → 函館 特急北斗',detail:'D2・11/22',day:1},
- {id:'reserve-hokuto-2',title:'預訂函館 → 登別 特急北斗',detail:'D5・11/25',day:4},
- {id:'reserve-otaru',title:'確認登別 → 小樽轉乘',detail:'D6・札幌轉車',day:5},
- {id:'reserve-return',title:'確認回程班機與機場交通',detail:'D8・15:20 起飛',day:7}
+  {
+    "id": "reserve-hotels",
+    "title": "核對六筆住宿・七晚",
+    "detail": "札幌 5 晚／小樽 1 晚／登別 1 晚",
+    "day": 0
+  },
+  {
+    "id": "reserve-omo-morning",
+    "title": "預約 OMO 晨間散步",
+    "detail": "11/22・10:30–11:30；入住前參加資格待確認",
+    "day": 1
+  },
+  {
+    "id": "reserve-rinyu",
+    "title": "確認鱗友朝市／食堂營業",
+    "detail": "11/22 週日一般休市；三角市場備選",
+    "day": 1
+  },
+  {
+    "id": "reserve-aquarium-bus",
+    "title": "查小樽水族館來回巴士",
+    "detail": "11/23 營業最後一天；回 OMO 拿行李",
+    "day": 2
+  },
+  {
+    "id": "reserve-noboribetsu-out",
+    "title": "確認札幌 → 登別交通",
+    "detail": "11/25・JR＋巴士／可下車的一日遊待評估",
+    "day": 4
+  },
+  {
+    "id": "reserve-noboribetsu-back",
+    "title": "確認熊牧場與回札幌交通",
+    "detail": "11/26・纜車運行、領行李、巴士與 JR",
+    "day": 5
+  },
+  {
+    "id": "reserve-hotel-change",
+    "title": "確認札幌換飯店寄物",
+    "detail": "11/27・Nest → Forza",
+    "day": 6
+  },
+  {
+    "id": "reserve-return",
+    "title": "確認回程班機・行李與後續航段",
+    "detail": "11/28 航班以機票為準；事先詢問航空公司",
+    "day": 7
+  }
 ];
 
 /* ===== TAB SWITCH ===== */
@@ -550,39 +2001,66 @@ activateTab(tabFromRoute(),false,false);
 document.getElementById('hotels').innerHTML = HOTELS.map((h,index)=>
  `<button type="button" onclick="openHotelSheet(${index})" class="w-full flex items-center gap-3 text-left py-3 border-b border-line last:border-0"><span class="w-8 text-center text-accent shrink-0"><i class="fa-solid fa-hotel"></i></span><span class="flex-1 min-w-0"><span class="block text-[10px] text-sub tracking-wide">${h.day}・${h.city}</span><b class="block text-[13px] truncate mt-0.5">${h.zh}</b><span class="block text-[10px] text-sub truncate mt-0.5">${h.ja}</span></span><i class="fa-solid fa-chevron-right text-[9px] text-sub/70"></i></button>`).join('');
 
-function hotelIndexForName(name){return HOTELS.findIndex(h=>name.includes(h.name)||name.includes(h.ja));}
+function hotelIndexForName(name){return HOTELS.findIndex(h=>name.includes(h.name)||name.includes(h.ja)||name.includes(h.zh));}
 function openHotelSheet(index){
  const h=HOTELS[index],walk=`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(h.map)}&travelmode=walking`;
  document.getElementById('appSheetContent').innerHTML=`<div class="flex items-start gap-3"><div class="flex-1"><div class="text-[11px] text-accent font-bold">${h.day}・${h.city}住宿</div><h3 class="text-xl font-bold mt-1">${h.zh}</h3><div class="text-[13px] text-accent mt-1">${h.ja}</div><div class="text-[11px] text-sub mt-1">${h.name}</div></div><button type="button" onclick="closeAppSheet()" class="w-9 h-9 rounded-full bg-paper border border-line text-sub shrink-0"><i class="fa-solid fa-xmark"></i></button></div>
   <div class="bg-snow/50 border border-line rounded-2xl px-4 py-4 mt-4"><div class="text-[10px] text-sub">給司機看的日文資訊</div><div class="text-[14px] font-bold mt-2">${h.ja}</div><div class="text-[12px] leading-relaxed mt-1 select-all">${h.address}</div><div class="grid grid-cols-2 gap-2 mt-3"><button type="button" onclick="copyQuickText('${h.ja.replaceAll("'","\\'")}\\n${h.address.replaceAll("'","\\'")}',this)" class="bg-card border border-line text-accent rounded-xl py-2.5 text-[11px] font-bold"><i class="fa-regular fa-copy mr-1"></i>複製叫車資訊</button><button type="button" onclick="speakJapaneseText('${h.ja.replaceAll("'","\\'")}',this)" class="bg-accent text-white rounded-xl py-2.5 text-[11px] font-bold"><i class="fa-solid fa-volume-high mr-1"></i>播放飯店名</button></div></div>
   <div class="grid grid-cols-2 gap-2 mt-3 text-[11px]"><div class="bg-paper border border-line rounded-xl px-3 py-2.5"><span class="text-sub">入住／退房</span><b class="block mt-1">${h.check}</b></div><div class="bg-paper border border-line rounded-xl px-3 py-2.5"><span class="text-sub">電話</span><a href="tel:+81${h.phone.replace(/^0/,'').replaceAll('-','')}" class="block mt-1 font-bold text-accent">${h.phone}</a></div></div>
   <div class="bg-paper border border-line rounded-xl px-3 py-2.5 mt-2"><div class="text-[10px] text-sub">前往方式</div><div class="text-[12px] font-bold mt-1">${h.access}</div></div>
-  <div class="grid grid-cols-2 gap-2 mt-4"><a href="tel:+81${h.phone.replace(/^0/,'').replaceAll('-','')}" class="bg-alert text-white rounded-xl py-3 text-[12px] font-bold text-center"><i class="fa-solid fa-phone mr-1"></i>撥打飯店</a><button type="button" onclick="copyQuickText('${h.phone}',this)" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold"><i class="fa-regular fa-copy mr-1"></i>複製電話</button><a href="${G(h.map)}" target="_blank" rel="noopener" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold text-center"><i class="fa-solid fa-location-dot mr-1"></i>查看地點</a><a href="${walk}" target="_blank" rel="noopener" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold text-center"><i class="fa-solid fa-location-arrow mr-1"></i>前往導航</a></div>
+  ${h.note?`<div class="border-l-2 border-accent pl-3 mt-3 text-[12px] leading-relaxed">${h.note}</div>`:''}
+  <div class="grid grid-cols-2 gap-2 mt-4"><a href="tel:+81${h.phone.replace(/^0/,'').replaceAll('-','')}" class="bg-alert text-white rounded-xl py-3 text-[12px] font-bold text-center"><i class="fa-solid fa-phone mr-1"></i>撥打飯店</a><button type="button" onclick="copyQuickText('${h.phone}',this)" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold"><i class="fa-regular fa-copy mr-1"></i>複製電話</button><a href="${h.mapUrl||G(h.map)}" target="_blank" rel="noopener" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold text-center"><i class="fa-solid fa-location-dot mr-1"></i>查看地點</a><a href="${walk}" target="_blank" rel="noopener" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold text-center"><i class="fa-solid fa-location-arrow mr-1"></i>前往導航</a></div>
   <a href="${h.web}" target="_blank" rel="noopener" class="block text-center text-[11px] text-accent mt-4"><i class="fa-solid fa-arrow-up-right-from-square mr-1"></i>飯店官方網站</a>`;
  document.getElementById('appSheet').classList.add('open');document.body.classList.add('modal-open');
 }
 
 const ICON={flight:['fa-plane','bg-accent'],meal:['fa-utensils','bg-accent'],
   spot:['fa-location-dot','bg-accent'],go:['fa-person-walking-luggage','bg-accent'],move:['fa-train-subway','bg-sub']};
-const SPOT_STAYS={
- '入住 the b sapporo':'辦理入住約 20 分','中島公園':'20–30 分','豐平館':'15–20 分','八窗庵':'10–15 分','大通公園':'約 30 分','慕尼黑聖誕市集':'60–90 分','狸小路商店街／薄野晚餐':'60–90 分',
- '入住 Imagine Hotel & Resort Hakodate':'辦理入住約 20 分','飯店海景溫泉':'約 45 分','熱帶植物園':'45–60 分','湯倉神社':'20–30 分','湯之川散步':'約 30 分',
- '函館自由市場早餐':'60–90 分','五稜郭公園（柯南）':'30–45 分','箱館奉行所外觀':'約 15 分','五稜郭塔（柯南）':'45–60 分','八幡坂（柯南）':'15–20 分','船魂神社':'15–20 分','元町公園':'20–30 分','舊函館區公會堂':'30–45 分','舊北海道廳函館支廳':'約 15 分','元町教堂群（柯南）':'30–45 分','金森紅磚倉庫（柯南）':'45–60 分','函館明治館':'30–45 分','函館山夜景（柯南）':'60–90 分',
- '延續 11/23 未完成的函館景點':'彈性安排','保留咖啡廳與休息時間':'約 90 分','依天氣安排函館山夜景':'60–90 分','補看五稜郭塔白天景色或夜間點燈':'45–60 分',
- '登別熊牧場':'約 2 小時','入住第一滝本館':'辦理入住約 20 分','地獄谷':'45–60 分','登別溫泉街散步':'30–45 分','晚餐與飯店泡湯':'彈性安排',
- '睡晚一點':'彈性安排','飯店泡湯':'約 45 分','入住 Grids Premium Hotel Otaru':'辦理入住約 20 分','小樽運河夜景與運河點燈':'60–90 分','倉庫群散步與晚餐':'60–90 分',
- '北海道大學':'60–90 分','札幌時計台':'20–30 分','北海道廳紅磚舍':'30–45 分','札幌場外市場－根室杉山水產':'60–90 分','入住 Hotel Forza Sapporo Station':'辦理入住約 20 分','Toriton':'候位＋用餐約 90 分','藻岩山夜景':'90–120 分'
-};
+const SPOT_STAYS={};
+
 const DAY_INFO=[
- {pace:'步行較多・戶外為主',transport:'JR＋地鐵／步行',hotel:'the b sapporo'},
- {pace:'移動日・溫泉慢遊',transport:'特急北斗＋市電',hotel:'Imagine Hotel & Resort Hakodate'},
- {pace:'景點密集・彈性調整',transport:'市電＋步行',hotel:'Hotel Enoe Hakodate'},
- {pace:'兩日彈性・保留休息',transport:'市電＋步行',hotel:'Hotel Enoe Hakodate'},
- {pace:'戶外步道・注意積雪',transport:'特急北斗＋巴士',hotel:'第一滝本館'},
- {pace:'上午放鬆・下午移動',transport:'JR（札幌轉車）',hotel:'Grids Premium Hotel Otaru'},
- {pace:'市區景點・步行較多',transport:'JR＋地鐵／市電',hotel:'Hotel Forza Sapporo Station'},
- {pace:'返程日・預留機場時間',transport:'JR Rapid Airport',hotel:'—'}
+  {
+    "pace": "抵達日・夜間散步",
+    "transport": "JR＋地下鐵／步行",
+    "hotel": "the b sapporo"
+  },
+  {
+    "pace": "早出發・活動與街區",
+    "transport": "JR＋步行",
+    "hotel": "OMO5 Otaru"
+  },
+  {
+    "pace": "水族館主行程・下午移動",
+    "transport": "巴士／JR",
+    "hotel": "Comfort Hotel Sapporo Susukino"
+  },
+  {
+    "pace": "圓山半日・夜景彈性",
+    "transport": "地鐵／市電／步行",
+    "hotel": "Comfort Hotel Sapporo Susukino"
+  },
+  {
+    "pace": "移動與泡湯優先",
+    "transport": "JR＋道南巴士",
+    "hotel": "第一滝本館"
+  },
+  {
+    "pace": "熊牧場・下午回札幌",
+    "transport": "纜車／巴士／JR",
+    "hotel": "Nest Hotel alt Sapporo Odori"
+  },
+  {
+    "pace": "換飯店・市區補逛",
+    "transport": "地鐵／步行",
+    "hotel": "Hotel Forza Sapporo Station"
+  },
+  {
+    "pace": "返程・預留機場時間",
+    "transport": "JR 快速 Airport",
+    "hotel": "—"
+  }
 ];
+
 let curDay=0;
 function renderDayTabs(){
  document.getElementById('daytabs').innerHTML=DAYS.map((d,i)=>
@@ -612,51 +2090,258 @@ function moveCard(s){
        ${s.t?`<span class="text-[12px] font-bold text-ink bg-paper border border-line rounded-full px-2 py-0.5">${s.t}</span>`:''}
        <span class="text-[13px] font-bold">🚉 ${s.route}</span>
      </div>${opts}
-     ${s.from?`<a href="${DIR(s.from,s.to)}" target="_blank" class="flex items-center justify-center gap-1 text-[12px] text-white bg-accent rounded-lg py-1.5 mt-2.5 font-bold"><i class="fa-solid fa-route"></i> 查路線班次（${s.from}→${s.to}）</a>`:''}
+     ${s.from?`<a href="${DIR(s.from,s.to)}" target="_blank" rel="noopener" class="flex items-center justify-center gap-1 text-[12px] text-white bg-accent rounded-lg py-2.5 mt-2.5 font-bold"><i class="fa-solid fa-route"></i> 查看交通路線</a>`:''}
    </div></div>`;
 }
 const PLAN_JA={
- '入住 the b sapporo':'ザ ビー 札幌','中島公園':'中島公園','豐平館':'豊平館','八窗庵':'八窓庵','大通公園':'大通公園','慕尼黑聖誕市集':'ミュンヘン・クリスマス市','狸小路商店街／薄野晚餐':'狸小路商店街・すすきの',
- '入住 Imagine Hotel & Resort Hakodate':'イマジン ホテル＆リゾート函館','飯店海景溫泉':'イマジン ホテル＆リゾート函館','熱帶植物園':'函館市熱帯植物園','湯倉神社':'湯倉神社','湯之川散步':'湯の川温泉',
- '函館自由市場早餐':'はこだて自由市場','五稜郭公園（柯南）':'五稜郭公園','箱館奉行所外觀':'箱館奉行所','五稜郭塔（柯南）':'五稜郭タワー','八幡坂（柯南）':'八幡坂','船魂神社':'船魂神社','元町公園':'元町公園','舊函館區公會堂':'旧函館区公会堂','舊北海道廳函館支廳':'旧北海道庁函館支庁庁舎','元町教堂群（柯南）':'元町教会群','金森紅磚倉庫（柯南）':'金森赤レンガ倉庫','函館明治館':'函館明治館','函館山夜景（柯南）':'函館山ロープウェイ',
- '依天氣安排函館山夜景':'函館山ロープウェイ','補看五稜郭塔白天景色或夜間點燈':'五稜郭タワー','登別熊牧場':'のぼりべつクマ牧場','入住第一滝本館':'第一滝本館','地獄谷':'登別地獄谷','登別溫泉街散步':'登別温泉極楽通り','晚餐與飯店泡湯':'第一滝本館',
- '飯店泡湯':'第一滝本館','入住 Grids Premium Hotel Otaru':'グリッズプレミアムホテル小樽','小樽運河夜景與運河點燈':'小樽運河','倉庫群散步與晚餐':'小樽運河','北海道大學':'北海道大学','札幌時計台':'札幌市時計台','北海道廳紅磚舍':'北海道庁旧本庁舎','札幌場外市場－根室杉山水產':'札幌市中央卸売市場 場外市場・根室杉山水産','入住 Hotel Forza Sapporo Station':'ホテルフォルツァ札幌駅前','Toriton':'回転寿しトリトン','藻岩山夜景':'もいわ山ロープウェイ',
- '晚餐推薦：函館麵屋一文字':'函館麺や一文字','備選：RAIMON ZUSHI':'雷門鮨 湯川店','Lucky Pierrot 小丑漢堡':'ラッキーピエロ'
+  "入住 the b sapporo": "the b 札幌",
+  "慕尼黑聖誕市集": "ミュンヘン・クリスマス市",
+  "大通 White Illumination": "さっぽろホワイトイルミネーション",
+  "北3條廣場 Akapla": "札幌市北3条広場",
+  "札幌站前通 White Illumination": "札幌駅前通",
+  "JR 札幌站南口": "札幌駅 南口",
+  "OMO5 Otaru 寄放行李": "OMO5小樽 by 星野リゾート",
+  "OMO 朝の堺町通りさんぽ": "朝の堺町通りさんぽ",
+  "小樽海鮮午餐": "小樽三角市場 北海道小樽市稲穂3丁目10-16",
+  "色內歷史建築・小樽文學館": "市立小樽文学館",
+  "舊手宮線": "旧国鉄手宮線",
+  "堺町通": "小樽堺町通り",
+  "北一硝子": "北一硝子三号館",
+  "小樽音樂盒堂": "小樽オルゴール堂 本館",
+  "小樽運河・青之運河": "小樽運河",
+  "Whisky Aroma Guide": "Whisky Aroma Guide",
+  "灯る小樽ナイトラウンジ": "灯る小樽ナイトラウンジ",
+  "Music Box Library": "オルゴールライブラリー",
+  "小樽水族館": "おたる水族館",
+  "入住 Comfort Hotel Sapporo Susukino": "コンフォートホテル札幌すすきの",
+  "Comfort 飯店早餐": "Comfort Hotel Sapporo Susukino 北海道札幌市中央区南5条西1丁目2-10",
+  "圓山公園": "円山公園",
+  "北海道神宮": "北海道神宮",
+  "圓山動物園": "札幌市円山動物園",
+  "Toriton": "回転寿しトリトン 円山店 札幌",
+  "藻岩山夜景": "もいわ山ロープウェイ",
+  "入住第一滝本館": "第一滝本館",
+  "地獄谷": "登別地獄谷",
+  "泉源公園": "泉源公園",
+  "閻魔堂・極樂通商店街": "閻魔堂",
+  "第一滝本館泡湯": "第一滝本館",
+  "第一滝本館自助早餐": "第一滝本館 北海道登別市登別温泉町55",
+  "登別熊牧場": "のぼりべつクマ牧場",
+  "入住 Nest Hotel alt Sapporo Odori": "ネストホテル オルト札幌大通",
+  "狸小路商店街": "狸小路商店街",
+  "Nest 飯店早餐": "Nest Hotel alt Sapporo Odori 北海道札幌市中央区南2条西5丁目26-1",
+  "Hotel Forza Sapporo Station 寄放行李": "ホテルフォルツァ札幌駅前",
+  "札幌場外市場－根室杉山水產": "根室杉山水産 札幌市中央卸売市場 場外市場",
+  "北海道大學": "北海道大学",
+  "北海道廳紅磚舍": "北海道庁旧本庁舎",
+  "札幌時計台": "札幌市時計台",
+  "入住 Hotel Forza Sapporo Station": "ホテルフォルツァ札幌駅前"
 };
+
 const PLAN_ADDRESS={
- '入住 the b sapporo':'〒060-0063 北海道札幌市中央区南3条西2丁目17-17','中島公園':'〒064-0931 北海道札幌市中央区中島公園1','豐平館':'〒064-0931 北海道札幌市中央区中島公園1-20','八窗庵':'〒064-0931 北海道札幌市中央区中島公園1-20','大通公園':'〒060-0042 北海道札幌市中央区大通西1〜12丁目','慕尼黑聖誕市集':'北海道札幌市中央区大通西2丁目','狸小路商店街／薄野晚餐':'北海道札幌市中央区南2・3条西1〜7丁目',
- '入住 Imagine Hotel & Resort Hakodate':'〒042-0932 北海道函館市湯川町3丁目1-17','飯店海景溫泉':'〒042-0932 北海道函館市湯川町3丁目1-17','熱帶植物園':'〒042-0932 北海道函館市湯川町3丁目1-15','湯倉神社':'〒042-0932 北海道函館市湯川町2丁目28-1','湯之川散步':'北海道函館市湯川町',
- '函館自由市場早餐':'〒040-0032 北海道函館市新川町1-2','五稜郭公園（柯南）':'〒040-0001 北海道函館市五稜郭町44','箱館奉行所外觀':'〒040-0001 北海道函館市五稜郭町44-3','五稜郭塔（柯南）':'〒040-0001 北海道函館市五稜郭町43-9','八幡坂（柯南）':'北海道函館市末広町','船魂神社':'〒040-0054 北海道函館市元町7-2','元町公園':'〒040-0054 北海道函館市元町12-18','舊函館區公會堂':'〒040-0054 北海道函館市元町11-13','舊北海道廳函館支廳':'〒040-0054 北海道函館市元町12-18','元町教堂群（柯南）':'北海道函館市元町','金森紅磚倉庫（柯南）':'〒040-0053 北海道函館市末広町14-12','函館明治館':'〒040-0065 北海道函館市豊川町11-17','函館山夜景（柯南）':'〒040-0054 北海道函館市元町19-7','依天氣安排函館山夜景':'〒040-0054 北海道函館市元町19-7','補看五稜郭塔白天景色或夜間點燈':'〒040-0001 北海道函館市五稜郭町43-9',
- '登別熊牧場':'〒059-0551 北海道登別市登別温泉町224','入住第一滝本館':'〒059-0551 北海道登別市登別温泉町55','地獄谷':'〒059-0551 北海道登別市登別温泉町無番地','登別溫泉街散步':'北海道登別市登別温泉町','晚餐與飯店泡湯':'〒059-0551 北海道登別市登別温泉町55','飯店泡湯':'〒059-0551 北海道登別市登別温泉町55',
- '入住 Grids Premium Hotel Otaru':'〒047-0032 北海道小樽市稲穂1丁目3-13','小樽運河夜景與運河點燈':'〒047-0007 北海道小樽市港町5','倉庫群散步與晚餐':'〒047-0007 北海道小樽市港町5',
- '北海道大學':'〒060-0808 北海道札幌市北区北8条西5丁目','札幌時計台':'〒060-0001 北海道札幌市中央区北1条西2丁目','北海道廳紅磚舍':'〒060-0003 北海道札幌市中央区北3条西6丁目','札幌場外市場－根室杉山水產':'〒060-0011 北海道札幌市中央区北11条西21丁目2-3','入住 Hotel Forza Sapporo Station':'〒060-0003 北海道札幌市中央区北3条西2丁目1-1','藻岩山夜景':'〒064-0942 北海道札幌市中央区伏見5丁目3-7',
- '函館山夜景':'〒040-0054 北海道函館市元町19-7','五稜郭':'〒040-0001 北海道函館市五稜郭町43-9','登別地獄谷':'〒059-0551 北海道登別市登別温泉町無番地','小樽運河':'〒047-0007 北海道小樽市港町5',
- '摩周丸紀念船':'〒040-0063 北海道函館市若松町12番地先','小樽音樂盒堂':'〒047-0015 北海道小樽市住吉町4-1','圓山動物園':'〒064-0959 北海道札幌市中央区宮ケ丘3-1','北海道神宮':'〒064-8505 北海道札幌市中央区宮ケ丘474','二條市場':'〒060-0053 北海道札幌市中央区南3条東1〜2丁目','札幌電視塔':'〒060-0042 北海道札幌市中央区大通西1丁目'
+  "入住 the b sapporo": "〒060-0063 北海道札幌市中央区南3条西2丁目17-17",
+  "慕尼黑聖誕市集": "北海道札幌市中央区大通西2丁目",
+  "札幌電視塔": "〒060-0042 北海道札幌市中央区大通西1丁目",
+  "小樽音樂盒堂": "〒047-0015 北海道小樽市住吉町4-1",
+  "藻岩山夜景": "〒064-0942 北海道札幌市中央区伏見5丁目3-7",
+  "北海道神宮": "〒064-8505 北海道札幌市中央区宮ケ丘474",
+  "圓山動物園": "〒064-0959 北海道札幌市中央区宮ケ丘3-1",
+  "中島公園": "〒064-0931 北海道札幌市中央区中島公園1",
+  "豐平館": "〒064-0931 北海道札幌市中央区中島公園1-20",
+  "八窗庵": "〒064-0931 北海道札幌市中央区中島公園1-20",
+  "入住第一滝本館": "〒059-0551 北海道登別市登別温泉町55",
+  "地獄谷": "〒059-0551 北海道登別市登別温泉町無番地",
+  "登別熊牧場": "〒059-0551 北海道登別市登別温泉町224",
+  "札幌場外市場－根室杉山水產": "〒060-0011 北海道札幌市中央区北11条西21丁目2-3",
+  "北海道大學": "〒060-0808 北海道札幌市北区北8条西5丁目",
+  "北海道廳紅磚舍": "〒060-0003 北海道札幌市中央区北3条西6丁目",
+  "札幌時計台": "〒060-0001 北海道札幌市中央区北1条西2丁目",
+  "入住 Hotel Forza Sapporo Station": "〒060-0003 北海道札幌市中央区北3条西2丁目1-1",
+  "二條市場": "〒060-0053 北海道札幌市中央区南3条東1〜2丁目",
+  "北3條廣場 Akapla": "北海道札幌市中央区北3条西4丁目",
+  "小樽水族館": "〒047-0047 北海道小樽市祝津3丁目303",
+  "鱗友朝市": "〒047-0031 北海道小樽市色内3丁目10-15",
+  "OMO 朝の堺町通りさんぽ": "〒047-0031 北海道小樽市色内1丁目6-31",
+  "小樽運河・青之運河": "北海道小樽市港町・浅草橋",
+  "Toriton": "北海道札幌市中央区北4条西23丁目2-17（圓山店，分店待最終確認）",
+  "Whisky Aroma Guide": "〒047-0031 北海道小樽市色内1丁目6-31",
+  "灯る小樽ナイトラウンジ": "〒047-0031 北海道小樽市色内1丁目6-31",
+  "Music Box Library": "〒047-0031 北海道小樽市色内1丁目6-31"
 };
+
 const PLAN_MEDIA={
- '中島公園':[{img:'assets/plan-gallery/nakajima-winter-1.jpg',source:'t-konno・CC BY-SA 3.0'},{img:'assets/plan-gallery/nakajima-winter-2.jpg',source:'t-konno・CC BY-SA 3.0'}],
- '大通公園':[{img:'assets/guide/addons/sapporo-illumination.jpg',source:'Sorah Fukumori・CC BY 3.0'}],
- '慕尼黑聖誕市集':[{img:'assets/guide/addons/sapporo-illumination.jpg',source:'Sorah Fukumori・CC BY 3.0'}],
- '五稜郭公園（柯南）':[{img:'assets/guide/goryokaku.jpg',source:'J o・CC BY-SA 2.5'},{img:'assets/guide/gallery/goryokaku-2.jpg',source:'掬茶・CC BY-SA 4.0'},{img:'assets/guide/gallery/goryokaku-3.jpg',source:'Goryokaku-Tower・CC BY 4.0'}],
- '五稜郭塔（柯南）':[{img:'assets/guide/gallery/goryokaku-2.jpg',source:'掬茶・CC BY-SA 4.0'},{img:'assets/guide/goryokaku.jpg',source:'J o・CC BY-SA 2.5'}],
- '函館山夜景（柯南）':[{img:'assets/guide/hakodate-night.jpg',source:'Lombroso・Public domain'},{img:'assets/guide/gallery/hakodate-night-2.jpg',source:'MaedaAkihiko・CC BY-SA 4.0'}],
- '依天氣安排函館山夜景':[{img:'assets/guide/hakodate-night.jpg',source:'Lombroso・Public domain'},{img:'assets/guide/gallery/hakodate-night-2.jpg',source:'MaedaAkihiko・CC BY-SA 4.0'}],
- '金森紅磚倉庫（柯南）':[{img:'assets/guide/addons/kanemori.jpg',source:'Suicasmo・CC BY-SA 4.0'}],
- '登別熊牧場':[{img:'assets/guide/addons/bear-park.jpg',source:'Ted Chi・CC BY 2.0'}],
- '地獄谷':[{img:'assets/guide/jigokudani.jpg',source:'663highland・CC BY-SA 3.0'},{img:'assets/guide/gallery/jigokudani-2.jpg',source:'Calistemon・CC BY-SA 4.0'}],
- '小樽運河夜景與運河點燈':[{img:'assets/guide/otaru-canal.jpg',source:'663highland・CC BY 2.5'},{img:'assets/guide/gallery/otaru-canal-2.jpg',source:'Haha169・CC BY-SA 4.0'},{img:'assets/guide/gallery/otaru-canal-3.jpg',source:'逃亡者・Public domain'}],
- '北海道大學':[{img:'assets/plan-gallery/hokkaido-university-winter-1.jpg',source:'ノボホショコロトソ・CC BY 4.0'},{img:'assets/plan-gallery/hokkaido-university-winter-2.jpg',source:'ノボホショコロトソ・CC BY 4.0'}],
- '藻岩山夜景':[{img:'assets/plan-gallery/moiwa-night-1.jpg',source:'Sorah Fukumori・CC BY 3.0'},{img:'assets/plan-gallery/moiwa-night-2.jpg',source:'Sorah Fukumori・CC BY 3.0'}],
- '摩周丸紀念船':[{img:'assets/plan-gallery/extras/mashumaru-1.jpg',source:'Wikimedia Commons・CC BY 4.0'},{img:'assets/plan-gallery/extras/mashumaru-2.jpg',source:'Wikimedia Commons・CC BY-SA 2.0'}],
- 'Lucky Pierrot 小丑漢堡':[{img:'assets/plan-gallery/extras/lucky-pierrot-1.jpg',source:'Wikimedia Commons・CC BY-SA 2.0'},{img:'assets/plan-gallery/extras/lucky-pierrot-2.jpg',source:'Wikimedia Commons・Public domain'}],
- '小樽音樂盒堂':[{img:'assets/plan-gallery/extras/otaru-music-box-1.jpg',source:'Wikimedia Commons・CC BY-SA 3.0'},{img:'assets/plan-gallery/extras/otaru-music-box-2.jpg',source:'Wikimedia Commons・CC BY-SA 4.0'}],
- '圓山公園':[{img:'assets/plan-gallery/extras/maruyama-park-1.jpg',source:'ブルーノ・プラス・CC BY-SA 4.0'},{img:'assets/plan-gallery/extras/maruyama-park-2.jpg',source:'t-konno・CC BY-SA 3.0'}],
- '圓山動物園':[{img:'assets/plan-gallery/extras/maruyama-zoo-1.jpg',source:'Ozizo・CC0'},{img:'assets/plan-gallery/extras/maruyama-zoo-2.jpg',source:'藤木一博・CC BY-SA 4.0'}],
- '北海道神宮':[{img:'assets/plan-gallery/extras/hokkaido-jingu-1.jpg',source:'Daigaku2051・CC BY-SA 3.0'},{img:'assets/plan-gallery/extras/hokkaido-jingu-2.jpg',source:'danobrienmuzyka・CC BY-SA 2.0'}],
- '二條市場':[{img:'assets/plan-gallery/extras/nijo-market-1.jpg',source:'Wing1990hk・CC BY 3.0'},{img:'assets/plan-gallery/extras/nijo-market-2.jpg',source:'K. Takeda・CC BY-SA 3.0'}],
- '札幌電視塔':[{img:'assets/plan-gallery/extras/sapporo-tv-1.jpg',source:'Ermell・CC BY-SA 4.0'},{img:'assets/plan-gallery/extras/sapporo-tv-2.jpg',source:'ノボホショコロトソ・CC BY 4.0'}],
- 'JR Tower展望室':[{img:'assets/guide/addons/jr-tower.jpg',source:'663highland・CC BY 2.5'}],
- '大湯沼、天然足湯':[{img:'assets/guide/addons/oyunuma-footbath.jpg',source:'Choi2451・CC BY-SA 3.0'}]
+  "慕尼黑聖誕市集": [
+    {
+      "img": "assets/guide/october/christmas-market.jpg",
+      "source": "t-konno・CC BY-SA 3.0"
+    }
+  ],
+  "札幌電視塔": [
+    {
+      "img": "assets/plan-gallery/extras/sapporo-tv-1.jpg",
+      "source": "Ermell・CC BY-SA 4.0"
+    },
+    {
+      "img": "assets/plan-gallery/extras/sapporo-tv-2.jpg",
+      "source": "ノボホショコロトソ・CC BY 4.0"
+    }
+  ],
+  "小樽音樂盒堂": [
+    {
+      "img": "assets/plan-gallery/extras/otaru-music-box-1.jpg",
+      "source": "Wikimedia Commons・CC BY-SA 3.0"
+    },
+    {
+      "img": "assets/plan-gallery/extras/otaru-music-box-2.jpg",
+      "source": "Wikimedia Commons・CC BY-SA 4.0"
+    }
+  ],
+  "藻岩山夜景": [
+    {
+      "img": "assets/plan-gallery/moiwa-night-1.jpg",
+      "source": "Sorah Fukumori・CC BY 3.0"
+    },
+    {
+      "img": "assets/plan-gallery/moiwa-night-2.jpg",
+      "source": "Sorah Fukumori・CC BY 3.0"
+    }
+  ],
+  "圓山公園": [
+    {
+      "img": "assets/plan-gallery/extras/maruyama-park-1.jpg",
+      "source": "ブルーノ・プラス・CC BY-SA 4.0"
+    },
+    {
+      "img": "assets/plan-gallery/extras/maruyama-park-2.jpg",
+      "source": "t-konno・CC BY-SA 3.0"
+    }
+  ],
+  "北海道神宮": [
+    {
+      "img": "assets/plan-gallery/extras/hokkaido-jingu-1.jpg",
+      "source": "Daigaku2051・CC BY-SA 3.0"
+    },
+    {
+      "img": "assets/plan-gallery/extras/hokkaido-jingu-2.jpg",
+      "source": "danobrienmuzyka・CC BY-SA 2.0"
+    }
+  ],
+  "圓山動物園": [
+    {
+      "img": "assets/plan-gallery/extras/maruyama-zoo-1.jpg",
+      "source": "Ozizo・CC0"
+    },
+    {
+      "img": "assets/plan-gallery/extras/maruyama-zoo-2.jpg",
+      "source": "藤木一博・CC BY-SA 4.0"
+    }
+  ],
+  "中島公園": [
+    {
+      "img": "assets/plan-gallery/nakajima-winter-1.jpg",
+      "source": "t-konno・CC BY-SA 3.0"
+    },
+    {
+      "img": "assets/plan-gallery/nakajima-winter-2.jpg",
+      "source": "t-konno・CC BY-SA 3.0"
+    }
+  ],
+  "地獄谷": [
+    {
+      "img": "assets/guide/jigokudani.jpg",
+      "source": "663highland・CC BY-SA 3.0"
+    },
+    {
+      "img": "assets/guide/gallery/jigokudani-2.jpg",
+      "source": "Calistemon・CC BY-SA 4.0"
+    }
+  ],
+  "大湯沼、天然足湯": [
+    {
+      "img": "assets/guide/addons/oyunuma-footbath.jpg",
+      "source": "Choi2451・CC BY-SA 3.0"
+    }
+  ],
+  "登別熊牧場": [
+    {
+      "img": "assets/guide/addons/bear-park.jpg",
+      "source": "Ted Chi・CC BY 2.0"
+    }
+  ],
+  "北海道大學": [
+    {
+      "img": "assets/plan-gallery/hokkaido-university-winter-1.jpg",
+      "source": "ノボホショコロトソ・CC BY 4.0"
+    },
+    {
+      "img": "assets/plan-gallery/hokkaido-university-winter-2.jpg",
+      "source": "ノボホショコロトソ・CC BY 4.0"
+    }
+  ],
+  "JR Tower展望室": [
+    {
+      "img": "assets/guide/addons/jr-tower.jpg",
+      "source": "663highland・CC BY 2.5"
+    }
+  ],
+  "二條市場": [
+    {
+      "img": "assets/plan-gallery/extras/nijo-market-1.jpg",
+      "source": "Wing1990hk・CC BY 3.0"
+    },
+    {
+      "img": "assets/plan-gallery/extras/nijo-market-2.jpg",
+      "source": "K. Takeda・CC BY-SA 3.0"
+    }
+  ],
+  "北3條廣場 Akapla": [
+    {
+      "img": "assets/guide/october/akapla.jpg",
+      "source": "Braveheart・CC BY-SA 4.0（白天實景）"
+    }
+  ],
+  "小樽水族館": [
+    {
+      "img": "assets/guide/october/otaru-aquarium.jpg",
+      "source": "NipponiaNippon・CC BY-SA 3.0"
+    }
+  ],
+  "OMO 朝の堺町通りさんぽ": [
+    {
+      "img": "assets/guide/october/omo-south-history.jpg",
+      "source": "山本昂左衛門・CC BY-SA 4.0（南館前身歷史照片）"
+    }
+  ],
+  "小樽運河・青之運河": [
+    {
+      "img": "assets/guide/otaru-canal.jpg",
+      "source": "663highland・CC BY 2.5"
+    },
+    {
+      "img": "assets/guide/gallery/otaru-canal-2.jpg",
+      "source": "Haha169・CC BY-SA 4.0"
+    },
+    {
+      "img": "assets/guide/gallery/otaru-canal-3.jpg",
+      "source": "逃亡者・Public domain"
+    }
+  ],
+  "大通 White Illumination": [
+    {
+      "img": "assets/guide/addons/sapporo-illumination.jpg",
+      "source": "Sorah Fukumori・CC BY 3.0"
+    }
+  ]
+};
+
+const PLAN_WEB={
+ '慕尼黑聖誕市集':'https://www.sapporo.travel/zh-tw/event/event-list/munich_christmas_market/',
+ 'OMO 朝の堺町通りさんぽ':'https://hoshinoresorts.com/ja/hotels/omo5otaru/activities/10799/',
+ 'Whisky Aroma Guide':'https://hoshinoresorts.com/en/hotels/omo5otaru/activities/15386/',
+ '灯る小樽ナイトラウンジ':'https://hoshinoresorts.com/jp/cards/3s-zeejc4/',
+ '小樽運河・青之運河':'https://otaru.gr.jp/citizen/winter-bluecanal-2026',
+ '小樽水族館':'https://otaru-aq.jp/guide/openningtime',
+ '登別熊牧場':'https://bearpark.jp/information/'
 };
 function planJapanese(s){return s.ja||PLAN_JA[s.name]||s.map||'';}
 function openSpotSheet(index){
@@ -667,6 +2352,7 @@ function openSpotSheet(index){
   ${gallery}
   <div class="grid grid-cols-2 gap-2 mt-4 text-[11px]"><div class="bg-paper border border-line rounded-xl px-3 py-2"><span class="text-sub">建議停留</span><b class="block mt-0.5">${duration}</b></div><div class="bg-paper border border-line rounded-xl px-3 py-2"><span class="text-sub">類型</span><b class="block mt-0.5">${s.type==='meal'?'餐飲':s.type==='flight'?'航班':hasMap?'景點／住宿':'彈性項目'}</b></div></div>
   ${s.note?`<div class="bg-snow/50 border border-line rounded-xl px-3 py-2.5 text-[12px] text-sub mt-3">${s.note}</div>`:''}
+  ${PLAN_WEB[s.name]?`<a href="${PLAN_WEB[s.name]}" target="_blank" rel="noopener" class="block mt-3 text-[12px] text-accent font-bold py-2"><i class="fa-solid fa-arrow-up-right-from-square mr-1"></i>官方活動／營業資訊</a>`:''}
   ${address?`<div class="bg-paper border border-line rounded-xl px-3 py-2.5 mt-3"><div class="text-[10px] text-sub">詳細地址（日文）</div><div class="text-[12px] font-bold leading-relaxed mt-1 select-all">${address}</div><button type="button" onclick="copySheetAddress(${index},this)" class="inline-flex items-center gap-1 text-[11px] text-accent font-bold mt-2"><i class="fa-regular fa-copy"></i><span>複製地址</span></button></div>`:hasMap?`<div class="bg-paper border border-line rounded-xl px-3 py-2.5 text-[11px] text-sub mt-3"><i class="fa-solid fa-circle-info text-accent mr-1"></i>此地點沒有單一固定門牌，請以 Google Maps 最新標示為準。</div>`:''}
   ${ja?`<div class="grid grid-cols-2 gap-2 mt-4"><button type="button" onclick="speakJapaneseText('${ja.replaceAll("'","\\'")}',this)" class="bg-accent text-white rounded-xl py-3 text-[12px] font-bold"><i class="fa-solid fa-volume-high mr-1"></i>播放日文</button><button type="button" onclick="copyPlanName(${index},this)" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold"><i class="fa-regular fa-copy mr-1"></i>複製日文</button></div>`:''}
   ${hasMap?`<div class="grid grid-cols-2 gap-2 mt-2"><a href="${G(s.map)}" target="_blank" rel="noopener" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold text-center"><i class="fa-solid fa-location-dot mr-1"></i>查看地點</a><a href="${walk}" target="_blank" rel="noopener" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold text-center"><i class="fa-solid fa-location-arrow mr-1"></i>步行導航</a></div>`:''}`;
@@ -745,14 +2431,56 @@ function sideList(title, items, icon,kind){
    }).join('')}</div></div>`;
 }
 const OPTIONAL_META={
- '藻岩山':{area:'夜景備案',tip:'戶外・約 90 分・天氣好再去'},
- '船見公園盪鞦韆':{area:'函館備案',tip:'戶外・約 20 分'},'山中大神社':{area:'函館備案',tip:'戶外・約 20 分'},'摩周丸紀念船':{area:'函館站周邊',tip:'室內・約 45–60 分'},
- '大湯沼、天然足湯':{area:'登別郊外',tip:'戶外・積雪時不勉強前往'},
- '圓山公園':{area:'圓山區',tip:'戶外・約 30 分'},'圓山動物園':{area:'圓山區',tip:'至少半天・不適合臨時加入'},'北海道神宮':{area:'圓山區',tip:'與圓山公園順遊・約 45 分'},
- '狸小路商店街':{area:'市中心',tip:'晚餐後順路・室內外皆有'},'薄野':{area:'市中心',tip:'適合晚上・餐飲選擇多'},'二條市場':{area:'市中心',tip:'適合早上・約 45–60 分'},'AOAO水族館':{area:'市中心',tip:'室內避寒・約 60–90 分'},
- 'JR Tower展望室':{area:'札幌站周邊',tip:'室內夜景・約 45–60 分'},'札幌電視塔':{area:'市中心',tip:'大通公園順遊・約 30–45 分'},'北菓樓':{area:'市中心',tip:'室內購物・約 20–30 分'},
- '札幌伏見稻荷神社':{area:'伏見區',tip:'需另外搭車・戶外'},'定山溪':{area:'郊區',tip:'距離遠・不適合臨時加入'}
+  "鱗友朝市": {
+    "area": "市場候補",
+    "tip": "11/22 週日休市；食堂需另確認"
+  },
+  "水天宮": {
+    "area": "小樽市區",
+    "tip": "坡道・日落前路況安全再去"
+  },
+  "天狗山纜車": {
+    "area": "小樽郊外",
+    "tip": "額外搭車・與市區行程擇一"
+  },
+  "藻岩山夜景": {
+    "area": "札幌夜景",
+    "tip": "能見度好再上山"
+  },
+  "中島公園": {
+    "area": "札幌半日備案",
+    "tip": "與豐平館、八窗庵一起安排"
+  },
+  "豐平館": {
+    "area": "札幌半日備案",
+    "tip": "日間・開館時間待確認"
+  },
+  "八窗庵": {
+    "area": "札幌半日備案",
+    "tip": "冬季開放狀況待確認"
+  },
+  "AOAO水族館": {
+    "area": "市中心",
+    "tip": "室內避寒"
+  },
+  "JR Tower展望室": {
+    "area": "札幌站周邊",
+    "tip": "室內夜景"
+  },
+  "定山溪": {
+    "area": "郊區",
+    "tip": "需獨立半日以上，與市區路線擇一"
+  },
+  "大湯沼、天然足湯": {
+    "area": "登別步道",
+    "tip": "白天・先確認積雪與封路"
+  },
+  "Toriton": {
+    "area": "餐飲",
+    "tip": "先取號・預留交通與候位"
+  }
 };
+
 async function copyQuickText(text,button){
  try{await navigator.clipboard.writeText(text);}catch(e){const area=document.createElement('textarea');area.value=text;area.style.position='fixed';area.style.opacity='0';document.body.appendChild(area);area.select();document.execCommand('copy');area.remove();}
  const old=button.innerHTML;button.innerHTML='<i class="fa-solid fa-check"></i>';setTimeout(()=>button.innerHTML=old,1400);
@@ -794,36 +2522,302 @@ function renderDay(){
 
 /* ===== TRIP MAP ===== */
 const MAP_DAYS=[
- {key:'D1',date:'11/21',city:'札幌',routes:[
-  {station:'中島公園站',stationJa:'中島公園駅',stationCoord:[43.0483303,141.3551210],spot:'中島公園',spotJa:'中島公園',spotCoord:[43.0452856,141.3524454]},
-  {station:'大通站',stationJa:'大通駅',stationCoord:[43.0602455,141.3521469],spot:'大通公園／聖誕市集',spotJa:'大通公園／ミュンヘン・クリスマス市',spotCoord:[43.0599018,141.3475101]},
- ]},
- {key:'D2',date:'11/22',city:'函館湯之川',routes:[
-  {station:'湯之川溫泉電停',stationJa:'湯の川温泉 電停',stationCoord:[41.7800403,140.7851715],spot:'函館市熱帶植物園',spotJa:'函館市熱帯植物園',spotCoord:[41.7741492,140.7893215]},
-  {station:'湯之川溫泉電停',stationJa:'湯の川温泉 電停',stationCoord:[41.7800403,140.7851715],spot:'湯倉神社',spotJa:'湯倉神社',spotCoord:[41.7820825,140.7910153]},
- ]},
- {key:'D3',date:'11/23',city:'函館',routes:[
-  {station:'五稜郭公園前電停',stationJa:'五稜郭公園前 電停',stationCoord:[41.7892382,140.7523010],spot:'五稜郭塔',spotJa:'五稜郭タワー',spotCoord:[41.7945919,140.7539587]},
-  {station:'十字街電停',stationJa:'十字街 電停',stationCoord:[41.7643446,140.7192811],spot:'函館山纜車山麓站',spotJa:'函館山ロープウェイ 山麓駅',spotCoord:[41.7609207,140.7141770]},
- ]},
- {key:'D4',date:'11/24',city:'函館',routes:[
-  {station:'十字街電停',stationJa:'十字街 電停',stationCoord:[41.7643446,140.7192811],spot:'金森紅磚倉庫',spotJa:'金森赤レンガ倉庫',spotCoord:[41.7663069,140.7168435]},
-  {station:'末廣町電停',stationJa:'末広町 電停',stationCoord:[41.76710,140.71415],spot:'舊函館區公會堂',spotJa:'旧函館区公会堂',spotCoord:[41.76525,140.71010]},
- ]},
- {key:'D5',date:'11/25',city:'登別',routes:[
-  {station:'登別溫泉巴士總站',stationJa:'登別温泉バスターミナル',stationCoord:[42.49255,141.14370],spot:'登別地獄谷',spotJa:'登別地獄谷',spotCoord:[42.4975716,141.1453349]},
- ]},
- {key:'D6',date:'11/26',city:'小樽',routes:[
-  {station:'小樽站',stationJa:'小樽駅',stationCoord:[43.1973436,140.9941512],spot:'小樽運河・淺草橋',spotJa:'小樽運河・浅草橋',spotCoord:[43.19855,141.00385]},
- ]},
- {key:'D7',date:'11/27',city:'札幌',routes:[
-  {station:'札幌站',stationJa:'札幌駅',stationCoord:[43.0686555,141.3507870],spot:'北海道大學正門',spotJa:'北海道大学 正門',spotCoord:[43.07162,141.34880]},
-  {station:'纜車入口電停',stationJa:'ロープウェイ入口 電停',stationCoord:[43.0338219,141.3373357],spot:'藻岩山纜車山麓站',spotJa:'もいわ山ロープウェイ 山麓駅',spotCoord:[43.02925,141.32220]},
- ]},
- {key:'D8',date:'11/28',city:'札幌',routes:[
-  {station:'札幌站',stationJa:'札幌駅',stationCoord:[43.0686555,141.3507870],spot:'Hotel Forza Sapporo Station',spotJa:'ホテルフォルツァ札幌駅前',spotCoord:[43.06480,141.35375]},
- ]},
+  {
+    "key": "D1",
+    "date": "11/21",
+    "city": "札幌",
+    "routes": [
+      {
+        "station": "大通站",
+        "stationJa": "大通駅",
+        "stationCoord": [
+          43.0602455,
+          141.3521469
+        ],
+        "spot": "慕尼黑聖誕市集",
+        "spotJa": "ミュンヘン・クリスマス市 大通公園2丁目",
+        "spotCoord": [
+          43.0604,
+          141.3511
+        ]
+      },
+      {
+        "station": "札幌站",
+        "stationJa": "札幌駅",
+        "stationCoord": [
+          43.0686555,
+          141.350787
+        ],
+        "spot": "北3條廣場 Akapla",
+        "spotJa": "札幌市北3条広場",
+        "spotCoord": [
+          43.06416667,
+          141.35027778
+        ]
+      },
+      {
+        "station": "札幌站",
+        "stationJa": "札幌駅",
+        "stationCoord": [
+          43.0686555,
+          141.350787
+        ],
+        "spot": "札幌站南口",
+        "spotJa": "札幌駅 南口",
+        "spotCoord": [
+          43.0677,
+          141.3508
+        ]
+      }
+    ]
+  },
+  {
+    "key": "D2",
+    "date": "11/22",
+    "city": "小樽",
+    "routes": [
+      {
+        "station": "小樽站",
+        "stationJa": "小樽駅",
+        "stationCoord": [
+          43.1973436,
+          140.9941512
+        ],
+        "spot": "OMO5 小樽",
+        "spotJa": "OMO5小樽 by 星野リゾート",
+        "spotCoord": [
+          43.1986758,
+          141.0000424
+        ]
+      },
+      {
+        "station": "小樽站",
+        "stationJa": "小樽駅",
+        "stationCoord": [
+          43.1973436,
+          140.9941512
+        ],
+        "spot": "小樽運河・淺草橋",
+        "spotJa": "小樽運河 浅草橋",
+        "spotCoord": [
+          43.19855,
+          141.00385
+        ]
+      },
+      {
+        "station": "南小樽站",
+        "stationJa": "南小樽駅",
+        "stationCoord": [
+          43.1868,
+          141.0078
+        ],
+        "spot": "小樽音樂盒堂",
+        "spotJa": "小樽オルゴール堂 本館",
+        "spotCoord": [
+          43.1906,
+          141.0075
+        ]
+      }
+    ]
+  },
+  {
+    "key": "D3",
+    "date": "11/23",
+    "city": "小樽・札幌",
+    "routes": [
+      {
+        "station": "小樽水族館巴士站",
+        "stationJa": "おたる水族館 バス停",
+        "stationCoord": [
+          43.2366711,
+          141.0132536
+        ],
+        "spot": "小樽水族館",
+        "spotJa": "おたる水族館",
+        "spotCoord": [
+          43.23680556,
+          141.01125
+        ]
+      },
+      {
+        "station": "小樽站",
+        "stationJa": "小樽駅",
+        "stationCoord": [
+          43.1973436,
+          140.9941512
+        ],
+        "spot": "OMO5 小樽・領行李",
+        "spotJa": "OMO5小樽 by 星野リゾート",
+        "spotCoord": [
+          43.1986758,
+          141.0000424
+        ]
+      }
+    ]
+  },
+  {
+    "key": "D4",
+    "date": "11/24",
+    "city": "札幌",
+    "routes": [
+      {
+        "station": "圓山公園站",
+        "stationJa": "円山公園駅",
+        "stationCoord": [
+          43.0554,
+          141.3199
+        ],
+        "spot": "北海道神宮",
+        "spotJa": "北海道神宮",
+        "spotCoord": [
+          43.0543,
+          141.3077
+        ]
+      },
+      {
+        "station": "纜車入口電停",
+        "stationJa": "ロープウェイ入口 電停",
+        "stationCoord": [
+          43.0338219,
+          141.3373357
+        ],
+        "spot": "藻岩山纜車山麓站",
+        "spotJa": "もいわ山ロープウェイ 山麓駅",
+        "spotCoord": [
+          43.02925,
+          141.3222
+        ]
+      }
+    ]
+  },
+  {
+    "key": "D5",
+    "date": "11/25",
+    "city": "登別",
+    "routes": [
+      {
+        "station": "登別溫泉巴士總站",
+        "stationJa": "登別温泉バスターミナル",
+        "stationCoord": [
+          42.49255,
+          141.1437
+        ],
+        "spot": "第一滝本館",
+        "spotJa": "第一滝本館",
+        "spotCoord": [
+          42.4951825,
+          141.1448378
+        ]
+      },
+      {
+        "station": "登別溫泉巴士總站",
+        "stationJa": "登別温泉バスターミナル",
+        "stationCoord": [
+          42.49255,
+          141.1437
+        ],
+        "spot": "登別地獄谷",
+        "spotJa": "登別地獄谷",
+        "spotCoord": [
+          42.4975716,
+          141.1453349
+        ]
+      }
+    ]
+  },
+  {
+    "key": "D6",
+    "date": "11/26",
+    "city": "登別・札幌",
+    "routes": [
+      {
+        "station": "登別溫泉巴士總站",
+        "stationJa": "登別温泉バスターミナル",
+        "stationCoord": [
+          42.49255,
+          141.1437
+        ],
+        "spot": "登別熊牧場纜車入口",
+        "spotJa": "のぼりべつクマ牧場 ロープウェイ",
+        "spotCoord": [
+          42.4930899,
+          141.1443366
+        ]
+      },
+      {
+        "station": "大通站",
+        "stationJa": "大通駅",
+        "stationCoord": [
+          43.0602455,
+          141.3521469
+        ],
+        "spot": "Nest Hotel alt 札幌大通",
+        "spotJa": "ネストホテル オルト札幌大通",
+        "spotCoord": [
+          43.0579046,
+          141.3502938
+        ]
+      }
+    ]
+  },
+  {
+    "key": "D7",
+    "date": "11/27",
+    "city": "札幌",
+    "routes": [
+      {
+        "station": "札幌站",
+        "stationJa": "札幌駅",
+        "stationCoord": [
+          43.0686555,
+          141.350787
+        ],
+        "spot": "Forza 札幌站前",
+        "spotJa": "ホテルフォルツァ札幌駅前",
+        "spotCoord": [
+          43.0648,
+          141.35375
+        ]
+      },
+      {
+        "station": "札幌站",
+        "stationJa": "札幌駅",
+        "stationCoord": [
+          43.0686555,
+          141.350787
+        ],
+        "spot": "北海道大學正門",
+        "spotJa": "北海道大学 正門",
+        "spotCoord": [
+          43.07162,
+          141.3488
+        ]
+      }
+    ]
+  },
+  {
+    "key": "D8",
+    "date": "11/28",
+    "city": "札幌・新千歲機場",
+    "routes": [
+      {
+        "station": "札幌站",
+        "stationJa": "札幌駅",
+        "stationCoord": [
+          43.0686555,
+          141.350787
+        ],
+        "spot": "Forza 札幌站前",
+        "spotJa": "ホテルフォルツァ札幌駅前",
+        "spotCoord": [
+          43.0648,
+          141.35375
+        ]
+      }
+    ]
+  }
 ];
+
 let tripMap=null,mapLayers=null,mapDayIndex=0,mapRouteIndex=0,mapRouteToken=0,lastRouteRequest=0;
 const mapRouteCache=new Map();
 function initTripMap(){
@@ -930,7 +2924,7 @@ async function selectMapRoute(index,skipList){
 }
 
 /* ===== GUIDE ===== */
-const GUIDE_CITIES=['全部','札幌','函館','登別','小樽'];
+const GUIDE_CITIES=['全部','札幌','小樽','登別'];
 let guideCity='全部';
 function guideStatusClass(status){return status==='主行程'?'bg-accent text-white':'bg-snow text-accent';}
 function renderGuideFilters(){
@@ -973,26 +2967,75 @@ function renderGuides(){
 
 /* ===== 11月底・各城市加碼景點 ===== */
 const SPOTS=[
- {city:'札幌',note:'白色燈樹節 11/21 起點燈',items:[
-   {n:'大通公園 白色燈樹節',w:'11/21–12/25 點燈，約80萬顆 LED，16:30 後最美',map:'さっぽろホワイトイルミネーション 大通公園',img:'assets/guide/addons/sapporo-illumination.jpg',source:'Sorah Fukumori・CC BY 3.0'},
-   {n:'JR Tower 展望室 T38',w:'160m 高室內展望，下雪天也能賞夜景',map:'JRタワー展望室 タワー・スリーエイト',img:'assets/guide/addons/jr-tower.jpg',source:'663highland・CC BY 2.5'},
-   {n:'白色戀人公園',w:'室內參觀＋庭園聖誕燈飾，避寒首選',map:'白い恋人パーク',img:'assets/guide/addons/shiroi-koibito.jpg',source:'ダブルで・Public domain'},
- ]},
- {city:'函館',note:'日落早，夜景時間更長',items:[
-   {n:'湯之川溫泉 足湯',w:'市電可達，免費足湯暖手腳',map:'湯の川温泉 足湯',img:'assets/guide/addons/yunokawa-footbath.jpg',source:'OraMAAG・CC BY 4.0'},
-   {n:'元町教會群（夜間點燈）',w:'坡道教會打燈，冬夜浪漫',map:'カトリック元町教会',img:'assets/guide/addons/motomachi-church.jpg',source:'663highland・CC BY 2.5'},
-   {n:'金森紅磚倉庫',w:'室內購物美食＋海灣夜景，避寒好去處',map:'金森赤レンガ倉庫',img:'assets/guide/addons/kanemori.jpg',source:'Suicasmo・CC BY-SA 4.0'},
- ]},
- {city:'登別',note:'下雪天的室內備案',items:[
-   {n:'登別尼克斯海洋公園',w:'室內水族館＋冬季點燈遊行，全天候',map:'登別マリンパークニクス',img:'assets/guide/addons/nixe.jpg',source:'欅・CC BY-SA 3.0'},
-   {n:'登別熊牧場',w:'纜車上山看棕熊，雪景纜車',map:'のぼりべつクマ牧場',img:'assets/guide/addons/bear-park.jpg',source:'Ted Chi・CC BY 2.0'},
-   {n:'大湯沼川 天然足湯',w:'林間溪流足湯，雪中泡腳（注意結冰）',map:'大湯沼川天然足湯',img:'assets/guide/addons/oyunuma-footbath.jpg',source:'Choi2451・CC BY-SA 3.0'},
- ]},
- {city:'小樽',note:'小樽雪物語・青之運河 11 月起',items:[
-   {n:'青之運河（雪物語）',w:'11 月起萬顆藍 LED 點亮運河，日落後最美',map:'小樽運河',img:'assets/guide/addons/otaru-blue-canal.jpg',source:'663highland・CC BY 2.5'},
-   {n:'小樽藝術村',w:'玻璃與彩繪玻璃美術館，室內溫暖',map:'小樽芸術村',img:'assets/guide/addons/otaru-art-base.jpg',source:'663highland・CC BY-SA 4.0'},
- ]},
+  {
+    "city": "札幌",
+    "note": "2026 市集 11/20–12/25；各燈飾會場另查公告",
+    "items": [
+      {
+        "n": "大通公園 白色燈樹節",
+        "w": "11/20 起活動；大通、Akapla、站前通與南口分區確認點燈時間",
+        "map": "さっぽろホワイトイルミネーション 大通公園",
+        "img": "assets/guide/addons/sapporo-illumination.jpg",
+        "source": "Sorah Fukumori・CC BY 3.0"
+      },
+      {
+        "n": "JR Tower 展望室 T38",
+        "w": "160m 高室內展望，下雪天也能賞夜景",
+        "map": "JRタワー展望室 タワー・スリーエイト",
+        "img": "assets/guide/addons/jr-tower.jpg",
+        "source": "663highland・CC BY 2.5"
+      },
+      {
+        "n": "白色戀人公園",
+        "w": "室內參觀＋庭園聖誕燈飾，避寒首選",
+        "map": "白い恋人パーク",
+        "img": "assets/guide/addons/shiroi-koibito.jpg",
+        "source": "ダブルで・Public domain"
+      }
+    ]
+  },
+  {
+    "city": "登別",
+    "note": "登別白天步道・11/26 熊牧場",
+    "items": [
+      {
+        "n": "登別熊牧場",
+        "w": "纜車上山看棕熊，雪景纜車",
+        "map": "のぼりべつクマ牧場",
+        "img": "assets/guide/addons/bear-park.jpg",
+        "source": "Ted Chi・CC BY 2.0"
+      },
+      {
+        "n": "大湯沼川 天然足湯",
+        "w": "林間溪流足湯，雪中泡腳（注意結冰）",
+        "map": "大湯沼川天然足湯",
+        "img": "assets/guide/addons/oyunuma-footbath.jpg",
+        "source": "Choi2451・CC BY-SA 3.0"
+      }
+    ]
+  },
+  {
+    "city": "小樽",
+    "note": "青之運河 2026/11/1–2027/1/31",
+    "items": [
+      {
+        "n": "青之運河（雪物語）",
+        "w": "日落～22:30；11/22 商店街之後看運河",
+        "map": "小樽運河",
+        "img": "assets/guide/addons/otaru-blue-canal.jpg",
+        "source": "663highland・CC BY 2.5"
+      },
+      {
+        "n": "小樽藝術村",
+        "w": "玻璃與彩繪玻璃美術館，室內溫暖",
+        "map": "小樽芸術村",
+        "img": "assets/guide/addons/otaru-art-base.jpg",
+        "source": "663highland・CC BY-SA 4.0"
+      }
+    ]
+  }
 ];
+
 function openSeasonSheet(cityIndex,itemIndex){
  const city=SPOTS[cityIndex],s=city.items[itemIndex],walk=`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(s.map)}&travelmode=walking`;
  document.getElementById('appSheetContent').innerHTML=`<div class="flex items-start gap-3"><div class="flex-1"><div class="text-[11px] text-accent font-bold">${city.city}・11 月季節推薦</div><h3 class="text-xl font-bold mt-1">${s.n}</h3><div class="text-[13px] text-accent mt-1">${s.map}</div></div><button type="button" onclick="closeAppSheet()" class="w-9 h-9 rounded-full bg-paper border border-line text-sub shrink-0"><i class="fa-solid fa-xmark"></i></button></div>
@@ -1021,7 +3064,6 @@ renderGuideFilters();renderGuides();renderSeasonSpots();
 /* ===== LIVE WEATHER ===== */
 const WEATHER_CITIES={
  sapporo:{label:'札幌',lat:43.0618,lon:141.3545},
- hakodate:{label:'函館',lat:41.7687,lon:140.7288},
  noboribetsu:{label:'登別',lat:42.4128,lon:141.1066},
  otaru:{label:'小樽',lat:43.1907,lon:140.9947},
 };
@@ -1113,7 +3155,17 @@ function toggleListItem(id,isCustom=false){const state=getListState();if(isCusto
 function delCustomCheck(id){const state=getListState();state.custom=state.custom.filter(x=>x.id!==id);saveListState(state);renderCheck();}
 function addCheck(){const input=document.getElementById('newCheck'),v=input.value.trim();if(!v)return;const state=getListState();state.custom.push({id:`custom-${Date.now()}`,t:v,done:false});saveListState(state);input.value='';renderCheck();}
 const memoEl=document.getElementById('memo');memoEl.value=LS('memo')||'';
-function saveMemo(){SET('memo',memoEl.value);renderMemo();}
+function saveMemo(){SET('memo',memoEl.value);renderMemo();document.getElementById('memoStatus').textContent=_hasLS?'已儲存於此裝置':'目前只能暫存，關閉後不會保留';}
+async function importPrivateMemo(input){
+ const file=input.files[0];if(!file)return;
+ try{
+  if(file.size>100000)throw new Error('請選擇 100KB 以下的文字筆記');
+  const text=await file.text();
+  memoEl.value+=(memoEl.value.trim()?'\n\n':'')+text;
+  saveMemo();
+ }catch(error){document.getElementById('memoStatus').textContent=error.message;}
+ finally{input.value='';}
+}
 function addMemoTag(tag){const prefix=`【${tag}】 `;memoEl.value+=(memoEl.value&&!memoEl.value.endsWith('\n')?'\n':'')+prefix;memoEl.focus();memoEl.setSelectionRange(memoEl.value.length,memoEl.value.length);}
 function escapeHTML(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
 function renderMemo(){
