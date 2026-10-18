@@ -6,6 +6,13 @@ const { execFileSync } = require('node:child_process');
 
 const root = path.resolve(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const poster = 'assets/trip-overview-2026-v4.jpg';
+assert.ok(html.includes('src="' + poster + '"'));
+assert.ok(!html.includes('trip-overview-2026-v3.jpg'));
+assert.ok(html.includes('id="imageLightboxScroll"'));
+assert.ok(html.includes('id="imageZoomIn"') && html.includes('id="imageZoomOut"'));
+assert.ok(html.includes('href="' + poster + '" download='));
+assert.ok(!html.includes('user-scalable=no'));
 function data(name) {
   const match = html.match(new RegExp('^const ' + name + '\\s*=\\s*(\\[[\\s\\S]*?\\n\\]);', 'm'));
   assert.ok(match, name + ' must be a structured array');

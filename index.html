@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#dbe8f6">
 <title>北海道 8 天 7 夜 ｜ 旅遊小幫手</title>
 <link rel="icon" href="assets/favicon-32.png?v=2" type="image/png" sizes="32x32">
@@ -36,15 +36,19 @@ tailwind.config={theme:{extend:{
   .app-main{padding-bottom:env(safe-area-inset-bottom)}
   .bottom-nav{max-width:430px;padding-bottom:calc(.5rem + env(safe-area-inset-bottom))}
   .rounded-2xl,.rounded-xl{border-radius:8px!important}
-  .hero-img{aspect-ratio:3/2;object-fit:contain;object-position:center}
+  .hero-img{aspect-ratio:4/3;object-fit:cover;object-position:center top}
   .hero-zoom{cursor:zoom-in}
   .guide-photo{aspect-ratio:16/10;object-fit:cover;background:#e9eef0}
   .guide-source{border-top:1px solid #e6e1d8}
-  .lightbox{position:fixed;inset:0;z-index:60;display:none;background:rgba(30,28,25,.92);padding:calc(1rem + env(safe-area-inset-top)) 1rem calc(1rem + env(safe-area-inset-bottom));}
-  .lightbox.open{display:flex;align-items:center;justify-content:center;animation:fade .18s ease}
-  .lightbox img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;box-shadow:0 10px 40px rgba(0,0,0,.35)}
-  .lightbox-close{position:absolute;top:calc(.75rem + env(safe-area-inset-top));right:1rem;width:44px;height:44px;border-radius:999px;background:rgba(255,253,249,.94);color:#3a3631;display:flex;align-items:center;justify-content:center;font-size:20px}
-  body.modal-open{overflow:hidden;touch-action:none}
+  .lightbox{position:fixed;inset:0;z-index:60;display:none;background:rgba(30,28,25,.96);padding:calc(.75rem + env(safe-area-inset-top)) .75rem calc(.75rem + env(safe-area-inset-bottom));}
+  .lightbox.open{display:flex;flex-direction:column;align-items:center;animation:fade .18s ease}
+  .lightbox-toolbar{width:100%;max-width:900px;display:flex;align-items:center;gap:4px;padding-bottom:10px;color:#fffdf9;flex-shrink:0}
+  .lightbox-tool{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:rgba(255,253,249,.12);flex-shrink:0}
+  .lightbox-tool:disabled{opacity:.35}
+  .lightbox-tool:focus-visible{outline:2px solid #fffdf9;outline-offset:2px}
+  .lightbox-scroll{width:100%;max-width:900px;flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;touch-action:pan-x pan-y pinch-zoom}
+  .lightbox img{display:block;width:100%;height:auto;max-width:none;max-height:none;border-radius:8px}
+  body.modal-open{overflow:hidden}
   .overview-stack{display:grid;gap:16px}
   .flight-grid{display:grid;gap:12px}
   .daytabs-sticky{position:sticky;top:78px;z-index:20;background:rgba(246,244,239,.96);backdrop-filter:blur(12px);margin-left:-16px;margin-right:-16px;padding:8px 16px 6px;border-bottom:1px solid #e6e1d8}
@@ -96,8 +100,8 @@ tailwind.config={theme:{extend:{
     <div class="overview-stack mb-4">
       <figure class="bg-card rounded-2xl shadow-soft border border-line overflow-hidden">
         <button type="button" class="hero-zoom relative block w-full text-left" onclick="openLightbox()" aria-label="放大北海道 8 天 7 夜旅遊總覽圖">
-          <img src="assets/trip-overview-2026-v3.jpg" alt="北海道 8 天 7 夜旅遊總覽圖" class="hero-img w-full">
-          <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent pt-10 pb-2.5 px-3 text-white text-[11px] font-bold"><i class="fa-solid fa-expand mr-1"></i>點擊查看完整行程圖</span>
+          <img src="assets/trip-overview-2026-v4.jpg" alt="北海道 8 天 7 夜最新行程 Q 版長圖" class="hero-img w-full" width="875" height="1797" fetchpriority="high">
+          <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent pt-10 pb-2.5 px-3 text-white text-[11px] font-bold"><i class="fa-solid fa-expand mr-1"></i>查看完整長圖</span>
         </button>
         <figcaption class="px-4 py-3"><div class="flex items-center justify-between gap-3"><div class="min-w-0"><div class="text-sm font-bold">札幌・小樽・登別</div><div class="text-[11px] text-sub mt-0.5">札幌 5 晚・小樽 1 晚・登別 1 晚</div></div><button type="button" onclick="openLightbox()" class="text-[11px] text-accent bg-paper border border-line rounded-full px-3 py-1.5 shrink-0"><i class="fa-solid fa-expand mr-1"></i>查看完整圖</button></div></figcaption>
       </figure>
@@ -271,8 +275,17 @@ tailwind.config={theme:{extend:{
 </div>
 
 <div id="imageLightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="旅遊總覽圖放大預覽" onclick="closeLightbox(event)">
-  <button type="button" class="lightbox-close" onclick="closeLightbox(event)" aria-label="關閉圖片預覽"><i class="fa-solid fa-xmark"></i></button>
-  <img src="assets/trip-overview-2026-v3.jpg" alt="北海道 8 天 7 夜旅遊總覽圖放大版">
+  <div class="lightbox-toolbar" onclick="event.stopPropagation()">
+    <span class="flex-1 min-w-0 text-sm font-bold">行程圖</span>
+    <button id="imageZoomOut" type="button" class="lightbox-tool" onclick="zoomLightbox(-0.5)" aria-label="縮小圖片" title="縮小圖片" disabled><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+    <output id="imageZoomLabel" class="w-10 text-center text-[11px] shrink-0" aria-live="polite">100%</output>
+    <button id="imageZoomIn" type="button" class="lightbox-tool" onclick="zoomLightbox(0.5)" aria-label="放大圖片" title="放大圖片"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+    <a href="assets/trip-overview-2026-v4.jpg" download="北海道8天7夜-最新行程.jpg" class="lightbox-tool" aria-label="下載完整行程圖" title="下載完整行程圖"><i class="fa-solid fa-download"></i></a>
+    <button id="imageLightboxClose" type="button" class="lightbox-tool" onclick="closeLightbox(event)" aria-label="關閉圖片預覽" title="關閉圖片預覽"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div id="imageLightboxScroll" class="lightbox-scroll" tabindex="0" role="region" aria-label="完整長版行程圖" onclick="event.stopPropagation()">
+    <img id="imageLightboxImage" src="assets/trip-overview-2026-v4.jpg" alt="11月21日至28日札幌、小樽與登別八天最新行程長圖" width="875" height="1797">
+  </div>
 </div>
 
 <script>
@@ -1964,16 +1977,38 @@ const RESERVATION_CHECKS=[
 ];
 
 /* ===== TAB SWITCH ===== */
+let imageZoom=1,lightboxTrigger=null;
 function openLightbox(){
+ lightboxTrigger=document.activeElement;
  document.getElementById('imageLightbox').classList.add('open');
  document.body.classList.add('modal-open');
+ imageZoom=1;zoomLightbox(0);
+ const scroller=document.getElementById('imageLightboxScroll');scroller.scrollTop=0;scroller.scrollLeft=0;
+ document.getElementById('imageLightboxClose').focus();
+}
+function zoomLightbox(step){
+ const scroller=document.getElementById('imageLightboxScroll'),previous=imageZoom;
+ const x=(scroller.scrollLeft+scroller.clientWidth/2)/previous,y=(scroller.scrollTop+scroller.clientHeight/2)/previous;
+ imageZoom=Math.max(1,Math.min(3,imageZoom+step));
+ document.getElementById('imageLightboxImage').style.width=`${imageZoom*100}%`;
+ scroller.scrollLeft=x*imageZoom-scroller.clientWidth/2;scroller.scrollTop=y*imageZoom-scroller.clientHeight/2;
+ document.getElementById('imageZoomLabel').textContent=`${imageZoom*100}%`;
+ document.getElementById('imageZoomOut').disabled=imageZoom===1;document.getElementById('imageZoomIn').disabled=imageZoom===3;
 }
 function closeLightbox(e){
- if(e && e.target.closest && e.target.closest('img'))return;
+ if(!document.getElementById('imageLightbox').classList.contains('open'))return;
  document.getElementById('imageLightbox').classList.remove('open');
  document.body.classList.remove('modal-open');
+ if(lightboxTrigger?.isConnected)lightboxTrigger.focus({preventScroll:true});
 }
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeLightbox();closeAppSheet();}});
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape'){closeLightbox();closeAppSheet();}
+ if(e.key==='Tab'&&document.getElementById('imageLightbox').classList.contains('open')){
+  const controls=[...document.querySelectorAll('#imageLightbox button:not(:disabled),#imageLightbox a[href],#imageLightboxScroll')],first=controls[0],last=controls[controls.length-1];
+  if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+  else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+ }
+});
 
 const TAB_META={
  overview:{title:'旅程總覽'},plan:{title:'每日行程'},guide:{title:'景點導覽'},
