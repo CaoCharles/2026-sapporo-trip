@@ -50,6 +50,14 @@ tailwind.config={theme:{extend:{
   .lightbox img{display:block;width:100%;height:auto;max-width:none;max-height:none;border-radius:8px}
   body.modal-open{overflow:hidden}
   .overview-stack{display:grid;gap:16px}
+  .breakfast-banner{display:grid;grid-template-columns:32px minmax(0,1fr);gap:10px;padding:12px;margin-bottom:12px;border-left:3px solid;letter-spacing:0}
+  .breakfast-hotel{background:#edf4ef;border-color:#397152;color:#28563d}
+  .breakfast-unconfirmed{background:#fff4df;border-color:#b17a25;color:#79521d}
+  .breakfast-outside{background:#edf0f3;border-color:#697b8c;color:#405361}
+  .breakfast-banner strong{display:block;font-size:15px;line-height:1.5}
+  .breakfast-note{font-size:11px;line-height:1.7;margin-top:4px}
+  .showtime-table{width:100%;table-layout:fixed;border-collapse:collapse;font-size:12px}
+  .showtime-table th,.showtime-table td{padding:9px 6px;text-align:left;border-bottom:1px solid #e6e1d8}
   .flight-grid{display:grid;gap:12px}
   .daytabs-sticky{position:sticky;top:78px;z-index:20;background:rgba(246,244,239,.96);backdrop-filter:blur(12px);margin-left:-16px;margin-right:-16px;padding:8px 16px 6px;border-bottom:1px solid #e6e1d8}
   .app-sheet{position:fixed;inset:0;z-index:70;display:none;align-items:flex-end;justify-content:center;background:rgba(30,28,25,.38)}
@@ -766,7 +774,7 @@ const DAYS = [
     "key": "D1",
     "date": "11/21 六",
     "city": "札幌",
-    "title": "抵達・聖誕市集與札幌燈飾",
+    "title": "抵達・恭平豬排與札幌燈飾",
     "seg": [
       {
         "type": "flight",
@@ -798,17 +806,26 @@ const DAYS = [
         "stay": "約 20 分"
       },
       {
+        "type": "meal",
+        "t": "訂位時間待確認",
+        "name": "恭平豬排（とんかつ恭平）",
+        "map": "とんかつ恭平 北海道札幌市中央区南2条西7丁目2 新生会ビル2F",
+        "ja": "とんかつ恭平",
+        "stay": "約 60 分",
+        "note": "列入 11/21 用餐計畫；訂位是否完成與時間待確認，網站沒有代為訂位。確認後再調整燈飾順序。"
+      },
+      {
         "type": "spot",
-        "t": "17:00",
+        "t": "用餐前後／晚上",
         "name": "慕尼黑聖誕市集",
         "map": "ミュンヘン・クリスマス市 大通公園2丁目 札幌",
         "ja": "ミュンヘン・クリスマス市",
-        "note": "2026/11/20–12/25；先用餐再賞燈",
+        "note": "2026/11/20–12/25；與恭平豬排錯開，以散步或小吃為主。",
         "stay": "60–90 分"
       },
       {
         "type": "spot",
-        "t": "18:30",
+        "t": "用餐前後／晚上",
         "name": "大通 White Illumination",
         "map": "大通公園 札幌",
         "ja": "さっぽろホワイトイルミネーション",
@@ -817,7 +834,7 @@ const DAYS = [
       },
       {
         "type": "spot",
-        "t": "19:15",
+        "t": "用餐前後／晚上",
         "name": "北3條廣場 Akapla",
         "map": "札幌市北3条広場 アカプラ",
         "ja": "札幌市北3条広場",
@@ -826,7 +843,7 @@ const DAYS = [
       },
       {
         "type": "spot",
-        "t": "19:45",
+        "t": "用餐前後／晚上",
         "name": "札幌站前通 White Illumination",
         "map": "札幌駅前通 札幌",
         "ja": "札幌駅前通",
@@ -835,7 +852,7 @@ const DAYS = [
       },
       {
         "type": "spot",
-        "t": "20:15",
+        "t": "用餐前後／晚上",
         "name": "JR 札幌站南口",
         "map": "札幌駅 南口",
         "ja": "札幌駅 南口",
@@ -843,7 +860,7 @@ const DAYS = [
         "stay": "20–30 分"
       }
     ],
-    "alert": "抵達日以燈飾散步為主；各會場時間以 2026 公告為準，班機延誤時縮短路線。",
+    "alert": "恭平豬排的訂位狀態與時間待確認；燈飾依用餐、入境與交通時間銜接，不視為已完成訂位。",
     "optional": [
       {
         "name": "狸小路商店街",
@@ -861,7 +878,7 @@ const DAYS = [
     "key": "D2",
     "date": "11/22 日",
     "city": "小樽",
-    "title": "札幌 → 小樽・街區慢遊與 OMO 夜晚",
+    "title": "OMO 小樽導覽・三角市場螃蟹與運河",
     "seg": [
       {
         "type": "go",
@@ -903,11 +920,11 @@ const DAYS = [
       },
       {
         "type": "meal",
-        "t": "11:45",
-        "name": "小樽海鮮午餐",
+        "t": "OMO 導覽結束後",
+        "name": "三角市場吃螃蟹",
         "map": "小樽三角市場 北海道小樽市稲穂3丁目10-16",
-        "ja": "小樽三角市場 北海道小樽市稲穂3丁目10-16",
-        "note": "鱗友朝市一般週日休市；可改三角市場。想吃鱗友的食堂需先確認個別店家營業",
+        "ja": "小樽三角市場",
+        "note": "10:30–11:30 OMO 導覽後前往三角市場。店家未指定，先確認蟹種、重量計價、料理方式與候位，這餐是午餐。",
         "stay": "60–90 分"
       },
       {
@@ -992,13 +1009,8 @@ const DAYS = [
         "stay": "10–15 分"
       }
     ],
-    "alert": "鱗友朝市一般週日休市，11/22 不直接排為必去；OMO 晨間活動需預約並確認入住前參加資格。",
+    "alert": "先確認 OMO 晨間活動預約與入住前參加資格；導覽結束後到三角市場吃螃蟹，下午街區順序依結束地點調整。",
     "optional": [
-      {
-        "name": "鱗友朝市",
-        "map": "鱗友朝市 北海道小樽市色内3丁目10-15",
-        "note": "保留原想法：市場週日休市，食堂是否獨立營業需另確認"
-      },
       {
         "name": "水天宮",
         "map": "水天宮 北海道小樽市相生町3-1",
@@ -1015,13 +1027,13 @@ const DAYS = [
     "key": "D3",
     "date": "11/23 一",
     "city": "小樽・札幌",
-    "title": "小樽水族館 → 札幌・彈性夜景",
+    "title": "水族館・祝津夕景・青塚食堂 → 札幌",
     "seg": [
       {
         "type": "go",
         "t": "08:00",
-        "name": "早餐・OMO 退房寄放行李",
-        "note": "水族館回程一定先回飯店拿行李；今天日本國定假日，預留人潮與巴士候車"
+        "name": "OMO 退房寄放行李・早餐待確認",
+        "note": "早餐是否包含待確認；水族館與祝津行程結束後回 OMO 領行李，再去札幌。"
       },
       {
         "type": "move",
@@ -1039,30 +1051,97 @@ const DAYS = [
       },
       {
         "type": "spot",
-        "t": "上午",
+        "t": "09:30–14:30 參考",
         "name": "小樽水族館",
         "map": "おたる水族館 北海道小樽市祝津3丁目303",
         "ja": "おたる水族館",
-        "note": "11/23 營業 09:00–16:00，15:30 最後入館；11/24–12/11 休館，不能延到隔天",
-        "stay": "3–4 小時"
+        "note": "最優先：本館 1 樓鼠海豚、戶外海獸公園。以 11:00 起戶外連場為主，中午回室內用餐取暖，魚類與迴游水槽穿插。11/23 營業 09:00–16:00，最後入館 15:30；11/24–12/11 休館。",
+        "stay": "約 4–5 小時",
+        "details": [
+          {
+            "title": "必看 1｜鼠海豚・ほのぼのプール",
+            "where": "本館 1 樓 C 區",
+            "stay": "10–15 分",
+            "body": "找「ネズミイルカのほのぼのプール」。觀察北海道沿岸的小型鯨類，不需等固定表演。館方介紹為全球圈養數量較少的物種。"
+          },
+          {
+            "title": "必看 2｜戶外海獸公園",
+            "where": "海岸戶外區，含坡道",
+            "stay": "連場約 60 分＋觀察時間",
+            "body": "集中看海象、海豹、企鵝與北海獅，也看牠們在海岸池活動。想看的「鮭魚是飲料」以現場演出為準。帶帽子、手套，約 12:00 後回室內吃午餐取暖。"
+          },
+          {
+            "title": "北海道的魚｜狼魚・大章魚・花魚",
+            "where": "本館北方魚類等展示區",
+            "stay": "20–30 分",
+            "body": "找オオカミウオ、ミズダコ與ホッケ，觀察牙齒、吸盤和活魚樣貌。帝王蟹展示也可留意；物種與展出位置可能調整，以當日標示為準。"
+          },
+          {
+            "title": "海洋全景迴游水槽",
+            "where": "本館 1 樓 B 區",
+            "stay": "10–20 分",
+            "body": "在戶外活動和午餐空檔看群游魚類；鼠海豚區就在同層，不必把所有室內區排成趕場。"
+          }
+        ],
+        "showtimes": [
+          {
+            "name": "海象",
+            "am": "11:00",
+            "pm": "14:00"
+          },
+          {
+            "name": "海豹",
+            "am": "11:20",
+            "pm": "14:20"
+          },
+          {
+            "name": "企鵝",
+            "am": "11:30",
+            "pm": "14:30"
+          },
+          {
+            "name": "北海獅",
+            "am": "11:50",
+            "pm": "14:50"
+          }
+        ],
+        "showtimeNote": "2026/10/16–11/23 官方公告，每場約 10 分；天候或動物狀況可能變更或取消。室內海豚／南美海獅另有 10:30、13:00、15:10 場次，預留室內外移動時間。"
+      },
+      {
+        "type": "spot",
+        "t": "日落前／天候許可",
+        "name": "祝津全景展望台・傍晚海景",
+        "ja": "祝津パノラマ展望台",
+        "map": "祝津パノラマ展望台 小樽",
+        "stay": "30–45 分",
+        "note": "預留上坡與返回時間；積雪、結冰或強風時跳過。11 月不保證看到太陽落入海面，保留為夕景而非保證海上落日。"
+      },
+      {
+        "type": "meal",
+        "t": "傍晚",
+        "name": "青塚食堂",
+        "ja": "民宿 青塚食堂",
+        "map": "青塚食堂 北海道小樽市祝津3丁目210",
+        "stay": "60–90 分",
+        "note": "官方一般營業 10:00–19:00、18:00 最後點餐；當月休假及臨時變更另查，出發前可致電 0134-22-8034。用餐後回 OMO 拿行李，再回札幌入住。"
       },
       {
         "type": "move",
-        "t": "下午",
-        "route": "水族館 → OMO 拿行李",
-        "from": "おたる水族館",
+        "t": "用餐後",
+        "route": "祝津／青塚食堂 → OMO 拿行李",
+        "from": "青塚食堂 北海道小樽市祝津3丁目210",
         "to": "OMO5小樽 北海道小樽市色内1丁目6-31",
         "opts": [
           {
             "means": "巴士＋步行／計程車",
             "time": "依當日班次",
-            "note": "確認領回全部行李後再去小樽站"
+            "note": "晚間班次先查，回 OMO 領齊行李後再去小樽站。"
           }
         ]
       },
       {
         "type": "move",
-        "t": "領行李後",
+        "t": "領行李後／晚上",
         "route": "小樽 → 札幌",
         "from": "小樽駅",
         "to": "札幌駅",
@@ -1082,23 +1161,14 @@ const DAYS = [
         "ja": "コンフォートホテル札幌すすきの",
         "note": "連住兩晚，附早餐",
         "stay": "約 20 分"
-      },
-      {
-        "type": "spot",
-        "t": "晚上",
-        "name": "慕尼黑聖誕市集",
-        "map": "ミュンヘン・クリスマス市 大通公園2丁目 札幌",
-        "ja": "ミュンヘン・クリスマス市",
-        "note": "水族館後不趕路；若到札幌較早且能見度好，可改藻岩山",
-        "stay": "60–90 分"
       }
     ],
-    "alert": "11/23 是小樽水族館今年一般營業最後一天，日期固定保留；回札幌夜間只選市集或藻岩山其中一個。",
+    "alert": "鼠海豚＋海獸公園優先，上午活動後回室內取暖。展望台依風雪路況取捨；青塚食堂一般 18:00 最後點餐，晚間巴士與回 OMO 領行李務必留時間。",
     "optional": [
       {
-        "name": "藻岩山夜景",
-        "map": "もいわ山ロープウェイ 山麓駅 札幌",
-        "note": "能見度好、抵達較早再去；否則留到 11/24"
+        "name": "慕尼黑聖誕市集",
+        "map": "ミュンヘン・クリスマス市 大通公園2丁目 札幌",
+        "note": "回札幌仍有體力且營業時間允許才補逛，不再固定排夜景。"
       }
     ]
   },
@@ -1106,7 +1176,7 @@ const DAYS = [
     "key": "D4",
     "date": "11/24 二",
     "city": "札幌",
-    "title": "圓山・北海道神宮・Toriton・夜景候補",
+    "title": "先取 Toriton 號碼牌・圓山神宮・茶屋",
     "seg": [
       {
         "type": "meal",
@@ -1119,66 +1189,97 @@ const DAYS = [
       },
       {
         "type": "move",
-        "t": "09:00",
-        "route": "薄野 → 圓山公園",
+        "t": "上午",
+        "route": "薄野 → Toriton 圓山店",
         "from": "豊水すすきの駅",
-        "to": "円山公園駅",
+        "to": "回転寿しトリトン 円山店 北海道札幌市中央区北4条西23丁目2-17",
         "opts": [
           {
-            "means": "地下鐵轉東西線",
+            "means": "地鐵／步行，依候位調整",
             "time": "依當日班次",
-            "note": "圓山公園與神宮一起走"
+            "note": "圓山店靠近西28丁目站，先到店確認取號，再安排圓山公園站周邊。"
           }
         ]
       },
       {
         "type": "spot",
-        "t": "09:30",
+        "t": "開店前後",
+        "name": "Toriton 圓山店・先取號",
+        "ja": "回転寿しトリトン 円山店",
+        "map": "回転寿しトリトン 円山店 北海道札幌市中央区北4条西23丁目2-17",
+        "stay": "先確認候位",
+        "note": "官方 11:00 開門，未公告提前發號時間；先現場確認，不假設早上已能抽號。問清楚叫號、過號與回店規則；等待短就先吃，不硬走神宮整圈。"
+      },
+      {
+        "type": "spot",
+        "t": "候位時間允許",
         "name": "圓山公園",
-        "map": "円山公園 札幌",
         "ja": "円山公園",
-        "note": "看路況安排散步",
-        "stay": "30–45 分"
+        "map": "円山公園 札幌",
+        "stay": "30–45 分",
+        "note": "圓山公園站 → 圓山公園 → 北海道神宮。取號後能否離開、何時返回，以店家規則為準。"
       },
       {
         "type": "spot",
-        "t": "10:15",
+        "t": "順遊",
         "name": "北海道神宮",
-        "map": "北海道神宮 札幌",
         "ja": "北海道神宮",
-        "note": "與公園順遊",
-        "stay": "45–60 分"
-      },
-      {
-        "type": "spot",
-        "t": "11:15",
-        "name": "圓山動物園",
-        "map": "札幌市円山動物園",
-        "ja": "札幌市円山動物園",
-        "note": "有入園意願再安排；查閉園時間，至少保留數小時",
-        "stay": "2–3 小時"
+        "map": "北海道神宮 札幌",
+        "stay": "45–60 分",
+        "note": "與公園、六花亭一起走；時間不足優先返回 Toriton。"
       },
       {
         "type": "meal",
-        "t": "下午",
+        "t": "神宮散步後",
+        "name": "六花亭 神宮茶屋店",
+        "ja": "六花亭 神宮茶屋店",
+        "map": "六花亭 神宮茶屋店 北海道札幌市中央区宮ケ丘474-48",
+        "stay": "20–30 分",
+        "note": "六花亭官方列此店 09:00–17:00，當日變更仍需確認；別和另一間「神宮茶屋」混淆。候位快到就先回 Toriton。"
+      },
+      {
+        "type": "meal",
+        "t": "依叫號時間",
         "name": "Toriton",
-        "map": "回転寿しトリトン 円山店 札幌",
-        "ja": "回転寿しトリトン 円山店 札幌",
-        "note": "暫以圓山店接續動線；先取號確認候位，再決定附近行程。星鰻列入想吃清單",
-        "stay": "60–90 分"
+        "ja": "回転寿しトリトン 円山店",
+        "map": "回転寿しトリトン 円山店 北海道札幌市中央区北4条西23丁目2-17",
+        "stay": "60–90 分",
+        "note": "用餐插在散步前或後，以候位為準；星鰻列入想吃清單。"
       },
       {
         "type": "spot",
-        "t": "傍晚候補",
+        "t": "傍晚／天氣好",
         "name": "藻岩山夜景",
-        "map": "もいわ山ロープウェイ 山麓駅 札幌",
         "ja": "もいわ山ロープウェイ",
-        "note": "依能見度決定；免費接駁車與纜車運行先查官方公告",
-        "stay": "90–120 分"
+        "map": "もいわ山ロープウェイ 山麓駅 札幌",
+        "stay": "90–120 分",
+        "note": "先查纜車運行與能見度，可直接前往，不必繞伏見稻荷神社。觀光自動車道 11/21 起冬季封閉，不拿自駕道路當纜車停駛備案。"
       }
     ],
-    "alert": "公園、神宮與動物園不必全走完；Toriton 候位與夜景依現場調整。",
+    "alert": "先取號再散步，但叫號優先，不一定能走完神宮整圈。纜車停駛或看不清夜景時改琴似購物；圓山動物園改為有空再去。",
     "optional": [
+      {
+        "name": "圓山裏參道",
+        "ja": "円山裏参道",
+        "map": "円山裏参道 札幌",
+        "note": "公園與神宮之後可逛小店，依 Toriton 候位調整。"
+      },
+      {
+        "name": "札幌伏見稻荷神社",
+        "map": "札幌伏見稲荷神社",
+        "note": "有空、路面安全才繞去；否則直接搭藻岩山纜車。"
+      },
+      {
+        "name": "琴似購物備案（AEON）",
+        "ja": "イオン札幌琴似店",
+        "map": "イオン札幌琴似店 北海道札幌市西区琴似2条4丁目2-2",
+        "note": "纜車取消備案；地下鐵琴似站旁 AEON 札幌琴似店，不是已閉店的舊伊藤洋華堂。"
+      },
+      {
+        "name": "圓山動物園",
+        "map": "札幌市円山動物園",
+        "note": "新版移為備案，不和神宮、茶屋、夜景全部塞進主行程。"
+      },
       {
         "name": "中島公園",
         "map": "中島公園 札幌",
@@ -1198,11 +1299,6 @@ const DAYS = [
         "name": "AOAO水族館",
         "map": "AOAO SAPPORO 札幌",
         "note": "天候不佳的室內備案"
-      },
-      {
-        "name": "札幌伏見稻荷神社",
-        "map": "札幌伏見稲荷神社",
-        "note": ""
       },
       {
         "name": "定山溪",
@@ -1528,7 +1624,7 @@ const GUIDE = [
         "source": "t-konno・CC BY-SA 3.0"
       }
     ],
-    "body": "第一晚先逛聖誕市集，再沿大通公園、Akapla 與站前通散步至札幌站南口。11/23 回札幌後也可再訪，與藻岩山夜景擇一。",
+    "body": "第一晚的恭平豬排訂位時間尚待確認；用餐前後沿大通公園、Akapla 與站前通散步至札幌站南口。11/23 回札幌較晚，只在體力與營業時間允許時再訪。",
     "img": "assets/guide/october/christmas-market.jpg",
     "source": "t-konno・CC BY-SA 3.0",
     "mapQuery": "ミュンヘン・クリスマス市 大通公園2丁目 札幌"
@@ -1592,13 +1688,13 @@ const GUIDE = [
     "day": "D3",
     "dayIndex": 2,
     "status": "主行程",
-    "stay": "3–4 小時",
+    "stay": "約 4–5 小時",
     "station": "小樽水族館巴士站",
     "walk": "下車後步行",
     "setting": "室內＋戶外",
     "best": "09:00–16:00",
     "winter": "11/23 最後入館 15:30；11/24–12/11 休館，保留當日安排",
-    "sub": "11/23 的固定主行程",
+    "sub": "鼠海豚＋戶外海獸公園優先",
     "map": "おたる水族館 北海道小樽市祝津3丁目303",
     "gallery": [
       {
@@ -1606,7 +1702,7 @@ const GUIDE = [
         "source": "NipponiaNippon・CC BY-SA 3.0"
       }
     ],
-    "body": "早餐後退房並將行李留在 OMO，搭巴士前往祝津的水族館。參觀後回 OMO 領行李，再搭 JR 回札幌。11/23 為日本國定假日，預留人潮與回程巴士候車時間。",
+    "body": "早餐是否包含先查 OMO 方案。退房寄物後優先看本館 1 樓鼠海豚與戶外海獸公園，11:00 起依序看海象、海豹、企鵝、北海獅，中午回室內取暖。魚類與迴游水槽穿插；之後依路況走祝津展望台看傍晚海景，青塚食堂用餐後回 OMO 拿行李，再搭 JR 回札幌入住。",
     "img": "assets/guide/october/otaru-aquarium.jpg",
     "source": "NipponiaNippon・CC BY-SA 3.0",
     "mapQuery": "おたる水族館 北海道小樽市祝津3丁目303"
@@ -1657,7 +1753,7 @@ const GUIDE = [
     "walk": "依出口與積雪",
     "setting": "戶外",
     "best": "白天",
-    "winter": "積雪時慢行；與動物園行程依體力調整",
+    "winter": "積雪時慢行；先確認 Toriton 叫號，動物園已改為備案",
     "sub": "與圓山公園一起走",
     "map": "北海道神宮 札幌",
     "gallery": [
@@ -1670,7 +1766,7 @@ const GUIDE = [
         "source": "danobrienmuzyka・CC BY-SA 2.0"
       }
     ],
-    "body": "11/24 將圓山公園、北海道神宮安排在同一區。動物園可視時間選擇入園，Toriton 先取號確認候位，傍晚藻岩山依能見度決定。",
+    "body": "11/24 先到 Toriton 圓山店確認取號，等待時間允許再走圓山公園站、圓山公園、北海道神宮及六花亭神宮茶屋店。用餐依叫號插在散步前後；裏參道、伏見稻荷神社與動物園都是彈性項目。",
     "img": "assets/plan-gallery/extras/hokkaido-jingu-1.jpg",
     "source": "Daigaku2051・CC BY-SA 3.0",
     "mapQuery": "北海道神宮 札幌"
@@ -1679,7 +1775,7 @@ const GUIDE = [
     "name": "藻岩山夜景",
     "ja": "もいわ山ロープウェイ",
     "city": "札幌",
-    "day": "D3–D4",
+    "day": "D4",
     "dayIndex": 3,
     "status": "彈性安排",
     "stay": "90–120 分",
@@ -1688,7 +1784,7 @@ const GUIDE = [
     "setting": "室內＋戶外",
     "best": "天氣晴朗的傍晚",
     "winter": "強風時可能停駛；查纜車、接駁車與能見度",
-    "sub": "11/23 或 11/24 擇一",
+    "sub": "11/24 天氣好再去，琴似購物備案",
     "map": "もいわ山ロープウェイ 山麓駅 札幌",
     "gallery": [
       {
@@ -1700,7 +1796,7 @@ const GUIDE = [
         "source": "Sorah Fukumori・CC BY 3.0"
       }
     ],
-    "body": "水族館回札幌若時間充裕，可以與聖誕市集二選一。若抵達較晚或能見度差，保留到隔天；天氣不好則改 JR Tower 室內展望。",
+    "body": "11/24 神宮與 Toriton 之後，能見度好才去藻岩山；可略過伏見稻荷神社直接搭纜車。纜車停駛或看不清夜景時，改地下鐵琴似站附近 AEON 購物。觀光自動車道 11/21 起冬季封閉，不把開車上山當停駛備案。",
     "img": "assets/plan-gallery/moiwa-night-1.jpg",
     "source": "Sorah Fukumori・CC BY 3.0",
     "mapQuery": "もいわ山ロープウェイ 山麓駅 札幌"
@@ -2053,49 +2149,106 @@ const ICON={flight:['fa-plane','bg-accent'],meal:['fa-utensils','bg-accent'],
   spot:['fa-location-dot','bg-accent'],go:['fa-person-walking-luggage','bg-accent'],move:['fa-train-subway','bg-sub']};
 const SPOT_STAYS={};
 
-const DAY_INFO=[
+const DAY_INFO = [
   {
     "pace": "抵達日・夜間散步",
     "transport": "JR＋地下鐵／步行",
-    "hotel": "the b sapporo"
+    "hotel": "the b sapporo",
+    "breakfast": {
+      "status": "outside",
+      "hotelIndex": null,
+      "label": "不在飯店・出發日",
+      "note": "出發前／機場自行安排，當天尚未入住旅程飯店。"
+    }
   },
   {
     "pace": "早出發・活動與街區",
     "transport": "JR＋步行",
-    "hotel": "OMO5 Otaru"
+    "hotel": "OMO5 Otaru",
+    "breakfast": {
+      "status": "unconfirmed",
+      "hotelIndex": 0,
+      "label": "飯店早餐・待確認",
+      "note": "the b 訂房方案是否含早餐尚未確認；不是已確認無早餐。"
+    }
   },
   {
-    "pace": "水族館主行程・下午移動",
+    "pace": "水族館・祝津夕景・晚間移動",
     "transport": "巴士／JR",
-    "hotel": "Comfort Hotel Sapporo Susukino"
+    "hotel": "Comfort Hotel Sapporo Susukino",
+    "breakfast": {
+      "status": "unconfirmed",
+      "hotelIndex": 1,
+      "label": "飯店早餐・待確認",
+      "note": "OMO5 小樽方案是否含早餐尚未確認；三角市場螃蟹餐是前一天午餐。"
+    }
   },
   {
-    "pace": "圓山半日・夜景彈性",
+    "pace": "先取號・神宮散步・夜景擇一",
     "transport": "地鐵／市電／步行",
-    "hotel": "Comfort Hotel Sapporo Susukino"
+    "hotel": "Comfort Hotel Sapporo Susukino",
+    "breakfast": {
+      "status": "hotel",
+      "hotelIndex": 2,
+      "label": "飯店早餐・已含",
+      "note": "Comfort 連住兩晚，今天在飯店吃早餐後出發。"
+    }
   },
   {
     "pace": "移動與泡湯優先",
     "transport": "JR＋道南巴士",
-    "hotel": "第一滝本館"
+    "hotel": "第一滝本館",
+    "breakfast": {
+      "status": "hotel",
+      "hotelIndex": 2,
+      "label": "飯店早餐・已含",
+      "note": "Comfort 早餐後退房，再前往登別。"
+    }
   },
   {
     "pace": "熊牧場・下午回札幌",
     "transport": "纜車／巴士／JR",
-    "hotel": "Nest Hotel alt Sapporo Odori"
+    "hotel": "Nest Hotel alt Sapporo Odori",
+    "breakfast": {
+      "status": "hotel",
+      "hotelIndex": 3,
+      "label": "飯店早餐・已含",
+      "note": "第一滝本館自助早餐；吃完退房寄物，再去熊牧場。"
+    }
   },
   {
     "pace": "換飯店・市區補逛",
     "transport": "地鐵／步行",
-    "hotel": "Hotel Forza Sapporo Station"
+    "hotel": "Hotel Forza Sapporo Station",
+    "breakfast": {
+      "status": "hotel",
+      "hotelIndex": 4,
+      "label": "飯店早餐・已含",
+      "note": "Nest 訂房已安排早餐；海鮮品項仍以方案與飯店當日供應為準。"
+    }
   },
   {
     "pace": "返程・預留機場時間",
     "transport": "JR 快速 Airport",
-    "hotel": "—"
+    "hotel": "—",
+    "breakfast": {
+      "status": "unconfirmed",
+      "hotelIndex": 5,
+      "label": "飯店早餐・待確認",
+      "note": "Forza 方案是否含早餐尚未確認；預留前往機場的時間。"
+    }
   }
 ];
 
+function breakfastSummary(index){
+ const b=DAY_INFO[index].breakfast;
+ return b.status==='hotel'?'飯店早餐・已含':b.status==='unconfirmed'?'飯店早餐・待確認':b.label;
+}
+function breakfastBanner(index){
+ const b=DAY_INFO[index].breakfast,h=Number.isInteger(b.hotelIndex)?HOTELS[b.hotelIndex]:null;
+ const icon=b.status==='hotel'?'fa-mug-hot':b.status==='unconfirmed'?'fa-circle-question':'fa-utensils';
+ return `<section class="breakfast-banner breakfast-${b.status}" data-breakfast-status="${b.status}" aria-label="當日早餐安排"><i class="fa-solid ${icon} text-xl pt-1" aria-hidden="true"></i><div><div class="text-[10px] font-bold mb-1">今日早餐</div><strong>${b.label}</strong>${h?`<div class="text-[12px] font-bold mt-1">${h.zh}</div>`:''}<p class="breakfast-note">${b.note}</p></div></section>`;
+}
 let curDay=0;
 function renderDayTabs(){
  document.getElementById('daytabs').innerHTML=DAYS.map((d,i)=>
@@ -2107,7 +2260,7 @@ function selDay(i){curDay=i;renderDayTabs();renderDay();}
 function goDay(i){selDay(i);document.querySelector('.navbtn[data-tab="plan"]').click();}
 function renderGlance(){
  document.getElementById('ovglance').innerHTML=DAYS.map((d,i)=>`
-  <button onclick="goDay(${i})" class="w-full flex items-center gap-3 text-left py-2 border-b border-line last:border-0"><span class="text-accent font-bold text-[13px] w-7 shrink-0">${d.key}</span><span class="text-[11px] text-sub w-11 shrink-0">${d.date.slice(0,5)}</span><span class="text-[13px] flex-1">${d.title}</span><i class="fa-solid fa-chevron-right text-sub text-[10px]"></i></button>`).join('');
+  <button onclick="goDay(${i})" class="w-full flex items-center gap-3 text-left py-2 border-b border-line last:border-0"><span class="text-accent font-bold text-[13px] w-7 shrink-0">${d.key}</span><span class="text-[11px] text-sub w-11 shrink-0">${d.date.slice(0,5)}</span><span class="text-[13px] flex-1 min-w-0"><span class="block">${d.title}</span><span class="block text-[10px] mt-1 text-sub"><i class="fa-solid fa-mug-hot mr-1" aria-hidden="true"></i>早餐：${breakfastSummary(i)}</span></span><i class="fa-solid fa-chevron-right text-sub text-[10px]"></i></button>`).join('');
 }
 
 function moveCard(s){
@@ -2174,6 +2327,12 @@ const PLAN_JA={
 };
 
 const PLAN_ADDRESS={
+  "恭平豬排（とんかつ恭平）": "〒060-0062 北海道札幌市中央区南2条西7丁目2 新生会ビル2F",
+  "三角市場吃螃蟹": "北海道小樽市稲穂3丁目10-16",
+  "青塚食堂": "〒047-0047 北海道小樽市祝津3丁目210",
+  "Toriton 圓山店・先取號": "〒064-0824 北海道札幌市中央区北4条西23丁目2-17",
+  "六花亭 神宮茶屋店": "北海道札幌市中央区宮ケ丘474-48",
+  "琴似購物備案（AEON）": "〒063-0812 北海道札幌市西区琴似2条4丁目2-2",
   "入住 the b sapporo": "〒060-0063 北海道札幌市中央区南3条西2丁目17-17",
   "慕尼黑聖誕市集": "北海道札幌市中央区大通西2丁目",
   "札幌電視塔": "〒060-0042 北海道札幌市中央区大通西1丁目",
@@ -2370,6 +2529,14 @@ const PLAN_MEDIA={
 };
 
 const PLAN_WEB={
+ '恭平豬排（とんかつ恭平）':'https://www.tablecheck.com/ja/shops/tonkatsu-kyohei/reserve',
+ '青塚食堂':'https://aotsuka.com/syoukai.html',
+ '祝津全景展望台・傍晚海景':'https://www.city.otaru.lg.jp/docs/2020100900664/',
+ 'Toriton 圓山店・先取號':'https://toriton-kita1.jp/shop/maruyama/',
+ 'Toriton':'https://toriton-kita1.jp/shop/maruyama/',
+ '六花亭 神宮茶屋店':'https://www.rokkatei.co.jp/shop/sapporo/',
+ '琴似購物備案（AEON）':'https://www.aeon-hokkaido.jp/aeon/shop/kotoni/',
+ '藻岩山夜景':'https://mt-moiwa.jp/guide/',
  '慕尼黑聖誕市集':'https://www.sapporo.travel/zh-tw/event/event-list/munich_christmas_market/',
  'OMO 朝の堺町通りさんぽ':'https://hoshinoresorts.com/ja/hotels/omo5otaru/activities/10799/',
  'Whisky Aroma Guide':'https://hoshinoresorts.com/en/hotels/omo5otaru/activities/15386/',
@@ -2379,6 +2546,11 @@ const PLAN_WEB={
  '登別熊牧場':'https://bearpark.jp/information/'
 };
 function planJapanese(s){return s.ja||PLAN_JA[s.name]||s.map||'';}
+function spotExtraInfo(s){
+ const details=s.details?.length?`<section class="mt-4 border-t border-line pt-3"><h4 class="text-sm font-bold">必看展區</h4>${s.details.map(d=>`<div class="py-3 border-b border-line"><h5 class="text-[13px] font-bold">${d.title}</h5><div class="text-[11px] text-accent mt-1">${d.where}・${d.stay}</div><p class="text-[12px] leading-relaxed mt-2">${d.body}</p></div>`).join('')}</section>`:'';
+ const showtimes=s.showtimes?.length?`<section class="mt-4"><h4 class="text-sm font-bold mb-2">海獸公園活動時段</h4><table class="showtime-table"><thead><tr><th scope="col">活動</th><th scope="col">上午</th><th scope="col">下午</th></tr></thead><tbody>${s.showtimes.map(t=>`<tr><th scope="row">${t.name}</th><td>${t.am}</td><td>${t.pm}</td></tr>`).join('')}</tbody></table><p class="text-[11px] text-sub leading-relaxed mt-2">${s.showtimeNote}</p><a href="https://otaru-aq.jp/events/showtime" target="_blank" rel="noopener" class="inline-block text-[12px] text-accent font-bold py-3"><i class="fa-solid fa-arrow-up-right-from-square mr-1"></i>官方活動時刻表</a></section>`:'';
+ return details+showtimes;
+}
 function openSpotSheet(index){
  const s=DAYS[curDay].seg[index],ja=planJapanese(s),duration=s.stay||SPOT_STAYS[s.name]||'依現場彈性安排',hasMap=!!s.map,address=PLAN_ADDRESS[s.name]||'',media=PLAN_MEDIA[s.name]||[];
  const walk=hasMap?`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(s.map)}&travelmode=walking`:'';
@@ -2387,6 +2559,7 @@ function openSpotSheet(index){
   ${gallery}
   <div class="grid grid-cols-2 gap-2 mt-4 text-[11px]"><div class="bg-paper border border-line rounded-xl px-3 py-2"><span class="text-sub">建議停留</span><b class="block mt-0.5">${duration}</b></div><div class="bg-paper border border-line rounded-xl px-3 py-2"><span class="text-sub">類型</span><b class="block mt-0.5">${s.type==='meal'?'餐飲':s.type==='flight'?'航班':hasMap?'景點／住宿':'彈性項目'}</b></div></div>
   ${s.note?`<div class="bg-snow/50 border border-line rounded-xl px-3 py-2.5 text-[12px] text-sub mt-3">${s.note}</div>`:''}
+  ${spotExtraInfo(s)}
   ${PLAN_WEB[s.name]?`<a href="${PLAN_WEB[s.name]}" target="_blank" rel="noopener" class="block mt-3 text-[12px] text-accent font-bold py-2"><i class="fa-solid fa-arrow-up-right-from-square mr-1"></i>官方活動／營業資訊</a>`:''}
   ${address?`<div class="bg-paper border border-line rounded-xl px-3 py-2.5 mt-3"><div class="text-[10px] text-sub">詳細地址（日文）</div><div class="text-[12px] font-bold leading-relaxed mt-1 select-all">${address}</div><button type="button" onclick="copySheetAddress(${index},this)" class="inline-flex items-center gap-1 text-[11px] text-accent font-bold mt-2"><i class="fa-regular fa-copy"></i><span>複製地址</span></button></div>`:hasMap?`<div class="bg-paper border border-line rounded-xl px-3 py-2.5 text-[11px] text-sub mt-3"><i class="fa-solid fa-circle-info text-accent mr-1"></i>此地點沒有單一固定門牌，請以 Google Maps 最新標示為準。</div>`:''}
   ${ja?`<div class="grid grid-cols-2 gap-2 mt-4"><button type="button" onclick="speakJapaneseText('${ja.replaceAll("'","\\'")}',this)" class="bg-accent text-white rounded-xl py-3 text-[12px] font-bold"><i class="fa-solid fa-volume-high mr-1"></i>播放日文</button><button type="button" onclick="copyPlanName(${index},this)" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold"><i class="fa-regular fa-copy mr-1"></i>複製日文</button></div>`:''}
@@ -2548,7 +2721,7 @@ function renderDay(){
      <span class="flex-1 h-[2px] bg-ink/80"></span>
      <span class="text-[12px] font-bold text-sub">${d.city}</span>
    </div>
-   <div class="text-base font-bold mb-3">${d.title}</div>${al}${summary}
+   <div class="text-base font-bold mb-3">${d.title}</div>${breakfastBanner(curDay)}${al}${summary}
    <div class="relative tl">${rows}</div>
    ${optionalList(d.optional)}
    ${sideList('餐飲',d.food,'fa-utensils','food')}
@@ -2990,6 +3163,7 @@ function openGuideSheet(index){
   ${address?`<div class="bg-paper border border-line rounded-xl px-3 py-2.5 mt-3"><div class="text-[10px] text-sub">詳細地址（日文）</div><div class="text-[12px] font-bold leading-relaxed mt-1 select-all">${address}</div><button type="button" onclick="copyQuickText('${address.replaceAll("'","\\'")}',this)" class="inline-flex items-center gap-1 text-[11px] text-accent font-bold mt-2"><i class="fa-regular fa-copy"></i><span>複製地址</span></button></div>`:''}
   <div class="grid grid-cols-2 gap-2 mt-4"><button type="button" onclick="speakJapaneseText('${g.ja.replaceAll("'","\\'")}',this)" class="bg-accent text-white rounded-xl py-3 text-[12px] font-bold"><i class="fa-solid fa-volume-high mr-1"></i>播放日文</button><button type="button" onclick="copyGuideName(${index},this)" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold"><i class="fa-regular fa-copy mr-1"></i>複製日文</button><a href="${G(g.mapQuery)}" target="_blank" rel="noopener" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold text-center"><i class="fa-solid fa-location-dot mr-1"></i>查看地點</a><a href="${walk}" target="_blank" rel="noopener" class="bg-paper border border-line text-accent rounded-xl py-3 text-[12px] font-bold text-center"><i class="fa-solid fa-location-arrow mr-1"></i>步行導航</a></div>
   <section class="border-t border-line mt-4 pt-3 pb-3"><div class="flex items-center text-[12px] font-bold mb-2"><i class="fa-solid fa-book-open text-accent mr-2"></i>景點故事與冷知識</div><p class="text-[13px] leading-relaxed text-ink">${g.body}</p></section>
+  ${spotExtraInfo(DAYS[g.dayIndex].seg.find(s=>s.name===g.name)||{})}
   <button type="button" onclick="closeAppSheet();goDay(${g.dayIndex})" class="w-full bg-snow/50 border border-line rounded-xl py-2.5 text-[11px] text-accent font-bold"><i class="fa-solid fa-route mr-1"></i>查看 ${g.day} 行程</button>`;
  document.getElementById('appSheet').classList.add('open');document.body.classList.add('modal-open');
 }
