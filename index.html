@@ -257,7 +257,7 @@ tailwind.config={theme:{extend:{
       <a href="tel:110" class="bg-paper rounded-xl px-3 py-3 border border-line"><div class="text-sub text-[11px]">警察</div><div class="font-bold text-lg">110</div></a>
       <a href="tel:119" class="bg-paper rounded-xl px-3 py-3 border border-line"><div class="text-sub text-[11px]">火警/救護</div><div class="font-bold text-lg">119</div></a>
       <a href="tel:+81112222930" class="col-span-2 bg-paper rounded-xl px-3 py-3 border border-line"><div class="text-sub text-[11px]">台北駐日經濟文化代表處・札幌分處</div><div class="font-bold">+81-11-222-2930</div></a>
-      <a href="tel:+81333807917" class="col-span-2 bg-paper rounded-xl px-3 py-3 border border-line"><div class="text-sub text-[11px]">旅外國人急難救助（24h）</div><div class="font-bold">+81-3-3280-7917 ／ 台灣撥 0800-085-095</div></a>
+      <a href="tel:+81332807917" class="col-span-2 bg-paper rounded-xl px-3 py-3 border border-line"><div class="text-sub text-[11px]">旅外國人急難救助（24h）</div><div class="font-bold">+81-3-3280-7917 ／ 台灣撥 0800-085-095</div></a>
     </div>
   </div>
 </section>
@@ -774,7 +774,7 @@ const DAYS = [
     "key": "D1",
     "date": "11/21 六",
     "city": "札幌",
-    "title": "抵達・恭平豬排與札幌燈飾",
+    "title": "抵達・狸小路・恭平豬排與聖誕市集",
     "seg": [
       {
         "type": "flight",
@@ -806,26 +806,42 @@ const DAYS = [
         "stay": "約 20 分"
       },
       {
+        "type": "spot",
+        "t": "放行李後",
+        "name": "狸小路商店街",
+        "map": "狸小路商店街 札幌",
+        "ja": "狸小路商店街",
+        "note": "放完行李先逛狸小路，離飯店、生蠔店與恭平豬排都近；依抵達飯店的時間決定逛多久。"
+      },
+      {
         "type": "meal",
-        "t": "訂位時間待確認",
+        "t": "17:30 前",
+        "name": "生蠔・カキ小屋ルンゴカーニバル",
+        "map": "カキ小屋ルンゴカーニバル 北海道札幌市中央区南3条西4丁目20-1",
+        "ja": "カキ小屋ルンゴカーニバル",
+        "note": "當作晚餐前的小點；17:30 要到恭平豬排，時間不夠就跳過。營業時間當天再確認。"
+      },
+      {
+        "type": "meal",
+        "t": "17:30",
         "name": "恭平豬排（とんかつ恭平）",
         "map": "とんかつ恭平 北海道札幌市中央区南2条西7丁目2 新生会ビル2F",
         "ja": "とんかつ恭平",
         "stay": "約 60 分",
-        "note": "列入 11/21 用餐計畫；訂位是否完成與時間待確認，網站沒有代為訂位。確認後再調整燈飾順序。"
+        "note": "17:30 已訂位，準時抵達；訂位確認資料先存在手機。"
       },
       {
         "type": "spot",
-        "t": "用餐前後／晚上",
+        "t": "晚餐後",
         "name": "慕尼黑聖誕市集",
         "map": "ミュンヘン・クリスマス市 大通公園2丁目 札幌",
         "ja": "ミュンヘン・クリスマス市",
-        "note": "2026/11/20–12/25；與恭平豬排錯開，以散步或小吃為主。",
+        "note": "2026/11/20–12/25；吃飽再逛，市集到 21:00。",
         "stay": "60–90 分"
       },
       {
         "type": "spot",
-        "t": "用餐前後／晚上",
+        "t": "聖誕市集後",
         "name": "大通 White Illumination",
         "map": "大通公園 札幌",
         "ja": "さっぽろホワイトイルミネーション",
@@ -834,7 +850,7 @@ const DAYS = [
       },
       {
         "type": "spot",
-        "t": "用餐前後／晚上",
+        "t": "聖誕市集後",
         "name": "北3條廣場 Akapla",
         "map": "札幌市北3条広場 アカプラ",
         "ja": "札幌市北3条広場",
@@ -843,7 +859,7 @@ const DAYS = [
       },
       {
         "type": "spot",
-        "t": "用餐前後／晚上",
+        "t": "聖誕市集後",
         "name": "札幌站前通 White Illumination",
         "map": "札幌駅前通 札幌",
         "ja": "札幌駅前通",
@@ -852,21 +868,22 @@ const DAYS = [
       },
       {
         "type": "spot",
-        "t": "用餐前後／晚上",
+        "t": "聖誕市集後",
         "name": "JR 札幌站南口",
         "map": "札幌駅 南口",
         "ja": "札幌駅 南口",
         "note": "看看南口燈飾後回飯店",
         "stay": "20–30 分"
+      },
+      {
+        "type": "go",
+        "t": "回飯店前",
+        "name": "買隔天早餐",
+        "note": "回飯店路上在便利商店或超市買好 11/22 的早餐；隔天一早退房去小樽。"
       }
     ],
-    "alert": "恭平豬排的訂位狀態與時間待確認；燈飾依用餐、入境與交通時間銜接，不視為已完成訂位。",
+    "alert": "恭平豬排 17:30 已訂位。14:05 落地後時間偏緊，狸小路與生蠔依抵達飯店的時間取捨；聖誕市集到 21:00，回飯店前買好隔天早餐。",
     "optional": [
-      {
-        "name": "狸小路商店街",
-        "map": "狸小路商店街 札幌",
-        "note": ""
-      },
       {
         "name": "札幌電視塔",
         "map": "さっぽろテレビ塔 札幌",
@@ -1624,7 +1641,7 @@ const GUIDE = [
         "source": "t-konno・CC BY-SA 3.0"
       }
     ],
-    "body": "第一晚的恭平豬排訂位時間尚待確認；用餐前後沿大通公園、Akapla 與站前通散步至札幌站南口。11/23 回札幌較晚，只在體力與營業時間允許時再訪。",
+    "body": "第一晚 17:30 在恭平豬排用餐後逛聖誕市集（到 21:00），再沿大通公園、Akapla 與站前通散步至札幌站南口。11/23 回札幌較晚，只在體力與營業時間允許時再訪。",
     "img": "assets/guide/october/christmas-market.jpg",
     "source": "t-konno・CC BY-SA 3.0",
     "mapQuery": "ミュンヘン・クリスマス市 大通公園2丁目 札幌"
@@ -2035,9 +2052,9 @@ const RESERVATION_CHECKS=[
     "day": 1
   },
   {
-    "id": "reserve-rinyu",
-    "title": "確認鱗友朝市／食堂營業",
-    "detail": "11/22 週日一般休市；三角市場備選",
+    "id": "reserve-sankaku",
+    "title": "確認三角市場螃蟹店家",
+    "detail": "11/22・OMO 導覽後午餐；先看蟹種、計價與候位",
     "day": 1
   },
   {
@@ -2168,8 +2185,8 @@ const DAY_INFO = [
     "breakfast": {
       "status": "unconfirmed",
       "hotelIndex": 0,
-      "label": "飯店早餐・待確認",
-      "note": "the b 訂房方案是否含早餐尚未確認；不是已確認無早餐。"
+      "label": "前一晚先買早餐",
+      "note": "11/21 晚上回飯店前先買好；the b 訂房方案是否含早餐未另外確認。"
     }
   },
   {
@@ -2327,6 +2344,7 @@ const PLAN_JA={
 };
 
 const PLAN_ADDRESS={
+  "生蠔・カキ小屋ルンゴカーニバル": "〒060-0063 北海道札幌市中央区南3条西4丁目20-1",
   "恭平豬排（とんかつ恭平）": "〒060-0062 北海道札幌市中央区南2条西7丁目2 新生会ビル2F",
   "三角市場吃螃蟹": "北海道小樽市稲穂3丁目10-16",
   "青塚食堂": "〒047-0047 北海道小樽市祝津3丁目210",
